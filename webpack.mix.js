@@ -1,5 +1,7 @@
 const mix = require('laravel-mix');
 
+require('laravel-mix-copy-watched');
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -11,5 +13,21 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css');
+mix.webpackConfig({
+    output: {
+        // Chunks in webpack
+        publicPath: '/',
+        chunkFilename: 'js/components/[name].js',
+    },
+});
+
+
+mix.js('resources/js/app.js', 'public/js');
+mix.sass('resources/sass/app.scss', 'public/css');
+
+mix.copyDirectoryWatched('resources/img/**/*', 'public/img', { base: 'resources/img' });
+mix.copyDirectoryWatched('resources/css/**/*', 'public/css', { base: 'resources/css' });
+
+if (mix.inProduction()) {
+    mix.version();
+}
