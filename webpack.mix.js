@@ -25,6 +25,10 @@ mix.webpackConfig({
 mix.js('resources/js/app.js', 'public/js');
 mix.sass('resources/sass/app.scss', 'public/css');
 
+mix.sass('resources/sass/crud-app.scss', 'public/css');
+mix.sass('resources/sass/main.scss', 'public/css');
+
+
 mix.copyDirectoryWatched('resources/img/**/*', 'public/img', { base: 'resources/img' });
 mix.copyDirectoryWatched('resources/css/**/*', 'public/css', { base: 'resources/css' });
 

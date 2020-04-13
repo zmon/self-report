@@ -20,3 +20,52 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+/**
+ * Routes for the invite system
+ * See https://laravel-news.com/user-invitation-system
+ */
+// {token} is a required parameter that will be exposed to us in the controller method
+Route::get('accept/{token}', 'InviteController@accept')->name('accept');
+Route::post('create_password', 'InviteController@createPassword')->name('create_password');
+Route::post('/password-strength', 'PasswordStrengthApi@calc');
+
+Route::group(['middleware' => 'auth'], function () {
+
+    Route::group(['prefix' => 'history'], function () {
+        Route::get('department/{department}', 'HistoryController@department');
+    });
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Invite Routes
+    ///////////////////////////////////////////////////////////////////////////////
+    //    Route::get('invite', 'InviteController@invite')->name('invite');
+    //    Route::post('invite', 'InviteController@process')->name('process');
+    Route::get('/invite/download', 'InviteController@download')->name('invite.download');
+    Route::get('/invite/print', 'InviteController@print')->name('invite.print');
+    Route::get('invite/{id}/resend', 'InviteController@resend')->name('invite.resend');
+    Route::resource('/invite', 'InviteController');
+    Route::get('/api-invite', 'InviteApi@index');
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Change Password Routes
+    ///////////////////////////////////////////////////////////////////////////////
+    Route::get('/change-password', 'ChangePasswordController@changePassword')->name('change_password');
+    Route::post('/update-password', 'ChangePasswordController@updatePassword');
+
+    Route::get('/api-user', 'UserApi@index');
+    Route::get('/api-user/role-options', 'UserApi@getRoleOptions');
+    Route::get('/api-user/options', 'UserApi@getOptions');
+    Route::get('/user/download', 'UserController@download')->name('user.download');
+    Route::get('/user/print', 'UserController@print')->name('user.print');
+    Route::resource('/user', 'UserController');
+
+    Route::get('/api-role', 'RoleApi@index');
+    Route::get('/api-role/options', 'RoleApi@getOptions');
+    Route::get('/role/download', 'RoleController@download')->name('role.download');
+    Route::get('/role/print', 'RoleController@print')->name('role.print');
+    Route::resource('/role', 'RoleController');
+
+});
+

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.crud-master')
 
 @section('content')
 <div class="container">
@@ -8,7 +8,7 @@
             <li><passport-authorized-clients></passport-authorized-clients>
             <li><passport-personal-access-tokens></passport-personal-access-tokens>
         </ul>
-    </d>
+    </div>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">

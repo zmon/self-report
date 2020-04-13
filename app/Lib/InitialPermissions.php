@@ -24,6 +24,30 @@ class InitialPermissions
 
         Role::findOrCreate('super-admin');
 
+        Permission::findOrCreate('invite index');
+        Permission::findOrCreate('invite view');
+        Permission::findOrCreate('invite export-pdf');
+        Permission::findOrCreate('invite export-excel');
+        Permission::findOrCreate('invite add');
+        Permission::findOrCreate('invite edit');
+        Permission::findOrCreate('invite delete');
+
+        Permission::findOrCreate('user index');
+        Permission::findOrCreate('user add');
+        Permission::findOrCreate('user edit');
+        Permission::findOrCreate('user view');
+        Permission::findOrCreate('user delete');
+        Permission::findOrCreate('user export-pdf');
+        Permission::findOrCreate('user export-excel');
+
+        Permission::findOrCreate('user_role index');
+        Permission::findOrCreate('user_role view');
+        Permission::findOrCreate('user_role export-pdf');
+        Permission::findOrCreate('user_role export-excel');
+        Permission::findOrCreate('user_role add');
+        Permission::findOrCreate('user_role edit');
+        Permission::findOrCreate('user_role delete');
+
 
         Permission::findOrCreate('always fail');
 
@@ -47,6 +71,29 @@ class InitialPermissions
 //        $role->update(['can_assign' => true]);
         $role->givePermissionTo([
 
+            'invite index',
+            'invite add',
+            'invite edit',
+            'invite view',
+            'invite delete',
+            'invite export-pdf',
+            'invite export-excel',
+
+            'user index',
+            'user add',
+            'user edit',
+            'user view',
+            'user delete',
+            'user export-pdf',
+            'user export-excel',
+
+            'user_role index',
+            'user_role add',
+            'user_role edit',
+            'user_role view',
+            'user_role delete',
+            'user_role export-pdf',
+            'user_role export-excel',
 
 
         ]);

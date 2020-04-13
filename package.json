@@ -24,7 +24,12 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^18.0.0",
+        "@ckeditor/ckeditor5-vue": "^1.0.1",
         "babel-plugin-syntax-dynamic-import": "^6.18.0",
-        "laravel-mix-copy-watched": "^2.2.3"
+        "laravel-mix-copy-watched": "^2.2.3",
+        "moment": "^2.24.0",
+        "vue-password": "^2.0.4",
+        "zxcvbn": "^4.4.2"
     }
 }
