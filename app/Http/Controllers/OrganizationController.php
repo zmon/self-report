@@ -32,7 +32,7 @@ class OrganizationController extends Controller
     {
 
         if (!Auth::user()->can('organization index')) {
-            \Session::flash('flash_error_message', 'You do not have access to organizations.');
+            \Session::flash('flash_error_message', 'You do not have access to Organizations.');
             return Redirect::route('home');
         }
 
@@ -62,7 +62,7 @@ class OrganizationController extends Controller
 	{
 
         if (!Auth::user()->can('organization add')) {  // TODO: add -> create
-            \Session::flash('flash_error_message', 'You do not have access to add a organizations.');
+            \Session::flash('flash_error_message', 'You do not have access to add a Organizations.');
             if (Auth::user()->can('organization index')) {
                 return Redirect::route('organization.index');
             } else {
@@ -93,7 +93,7 @@ class OrganizationController extends Controller
             ], 400);
         }
 
-        \Session::flash('flash_success_message', 'organizations ' . $organization->name . ' was added.');
+        \Session::flash('flash_success_message', 'Organizations ' . $organization->name . ' was added.');
 
         return response()->json([
             'message' => 'Added record'
@@ -111,7 +111,7 @@ class OrganizationController extends Controller
     {
 
         if (!Auth::user()->can('organization view')) {
-            \Session::flash('flash_error_message', 'You do not have access to view a organizations.');
+            \Session::flash('flash_error_message', 'You do not have access to view a Organizations.');
             if (Auth::user()->can('organization index')) {
                 return Redirect::route('organization.index');
             } else {
@@ -124,7 +124,7 @@ class OrganizationController extends Controller
             $can_delete = (Auth::user()->can('organization delete') && $organization->canDelete());
             return view('organization.show', compact('organization','can_edit', 'can_delete'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find organizations to display.');
+            \Session::flash('flash_error_message', 'Unable to find Organizations to display.');
             return Redirect::route('organization.index');
         }
     }
@@ -138,7 +138,7 @@ class OrganizationController extends Controller
     public function edit($id)
     {
         if (!Auth::user()->can('organization edit')) {
-            \Session::flash('flash_error_message', 'You do not have access to edit a organizations.');
+            \Session::flash('flash_error_message', 'You do not have access to edit a Organizations.');
             if (Auth::user()->can('organization index')) {
                 return Redirect::route('organization.index');
             } else {
@@ -149,7 +149,7 @@ class OrganizationController extends Controller
         if ($organization = $this->sanitizeAndFind($id)) {
             return view('organization.edit', compact('organization'));
         } else {
-            \Session::flash('flash_error_message', 'Unable to find organizations to edit.');
+            \Session::flash('flash_error_message', 'Unable to find Organizations to edit.');
             return Redirect::route('organization.index');
         }
 
@@ -165,7 +165,7 @@ class OrganizationController extends Controller
     {
 
 //        if (!Auth::user()->can('organization update')) {
-//            \Session::flash('flash_error_message', 'You do not have access to update a organizations.');
+//            \Session::flash('flash_error_message', 'You do not have access to update a Organizations.');
 //            if (!Auth::user()->can('organization index')) {
 //                return Redirect::route('organization.index');
 //            } else {
@@ -174,7 +174,7 @@ class OrganizationController extends Controller
 //        }
 
         if (!$organization = $this->sanitizeAndFind($id)) {
-       //     \Session::flash('flash_error_message', 'Unable to find organizations to edit.');
+       //     \Session::flash('flash_error_message', 'Unable to find Organizations to edit.');
             return response()->json([
                 'message' => 'Not Found'
             ], 404);
@@ -192,7 +192,7 @@ class OrganizationController extends Controller
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'organizations ' . $organization->name . ' was changed.');
+            \Session::flash('flash_success_message', 'Organizations ' . $organization->name . ' was changed.');
         } else {
             \Session::flash('flash_info_message', 'No changes were made.');
         }
@@ -211,7 +211,7 @@ class OrganizationController extends Controller
     {
 
         if (!Auth::user()->can('organization delete')) {
-            \Session::flash('flash_error_message', 'You do not have access to remove a organizations.');
+            \Session::flash('flash_error_message', 'You do not have access to remove a Organizations.');
             if (Auth::user()->can('organization index')) {
                  return Redirect::route('organization.index');
             } else {
@@ -231,9 +231,9 @@ class OrganizationController extends Controller
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'organizations ' . $organization->name . ' was removed.');
+            \Session::flash('flash_success_message', 'Organizations ' . $organization->name . ' was removed.');
         } else {
-            \Session::flash('flash_error_message', 'Unable to find organizations to delete.');
+            \Session::flash('flash_error_message', 'Unable to find Organizations to delete.');
 
         }
 
@@ -262,7 +262,7 @@ class OrganizationController extends Controller
     {
 
         if (!Auth::user()->can('organization excel')) {
-            \Session::flash('flash_error_message', 'You do not have access to download organizations.');
+            \Session::flash('flash_error_message', 'You do not have access to download Organizations.');
             if (Auth::user()->can('organization index')) {
                 return Redirect::route('organization.index');
             } else {
@@ -296,7 +296,7 @@ class OrganizationController extends Controller
         public function print()
 {
         if (!Auth::user()->can('organization export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
-            \Session::flash('flash_error_message', 'You do not have access to print organizations.');
+            \Session::flash('flash_error_message', 'You do not have access to print Organizations.');
             if (Auth::user()->can('organization index')) {
                 return Redirect::route('organization.index');
             } else {
@@ -315,6 +315,7 @@ class OrganizationController extends Controller
         // Get query data
         $columns = [
             'name',
+            'alias',
         ];
         $dataQuery = Organization::pdfDataQuery($column, $direction, $search, $columns);
         $data = $dataQuery->get();

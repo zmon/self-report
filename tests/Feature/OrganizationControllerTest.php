@@ -331,7 +331,7 @@ class OrganizationControllerTest extends TestCase
         // act as the user we got and request the create_new_article route
         $response = $this->actingAs($user)->get(route('organization.show',['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find organizations to display.');
+        $response->assertSessionHas('flash_error_message','Unable to find Organizations to display.');
 
     }
 
@@ -346,7 +346,7 @@ class OrganizationControllerTest extends TestCase
         // act as the user we got and request the create_new_article route
         $response = $this->actingAs($user)->get(route('organization.edit',['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find organizations to edit.');
+        $response->assertSessionHas('flash_error_message','Unable to find Organizations to edit.');
 
     }
 
@@ -381,6 +381,7 @@ class OrganizationControllerTest extends TestCase
         $data = [
             'id' => "",
             'name' => "",
+            'alias' => "",
         ];
 
         $totalNumberOfOrganizationsBefore = Organization::count();
@@ -408,6 +409,7 @@ class OrganizationControllerTest extends TestCase
         $data = [
             'id' => "",
             'name' => "a",
+            'alias' => "a",
         ];
 
         $totalNumberOfOrganizationsBefore = Organization::count();
@@ -437,6 +439,7 @@ class OrganizationControllerTest extends TestCase
 
         $data = [
           'name' => $faker->name,
+          'alias' => "",
         ];
 
         info('--  Organization  --');
@@ -462,6 +465,9 @@ class OrganizationControllerTest extends TestCase
         $this->assertEquals($lastInsertedInTheDB->name, $data['name'], "the name of the saved organization is different from the input data");
 
 
+        $this->assertEquals($lastInsertedInTheDB->alias, $data['alias'], "the alias of the saved organization is different from the input data");
+
+
     }
 
     /**
@@ -484,6 +490,7 @@ class OrganizationControllerTest extends TestCase
         $data = [
             'id' => "",
             'name' => $organization->name,
+            'alias' => "",
         ];
 
         $response = $this->actingAs($user)->post(route('organization.store'), $data);
@@ -548,6 +555,7 @@ class OrganizationControllerTest extends TestCase
         $organization_dup = [
 
             'name' => $faker->name,
+            'alias' => "",
         ];
 
         $response = $this->actingAs($user)->post(route('organization.store'), $organization_dup);

@@ -15,7 +15,6 @@ class ImportOrganization{
             "id" => ["name" => "id"],
             "name" => ["name" => "name"],
             "alias" => ["name" => "alias"],
-            "active" => ["name" => "active"],
     
 //        "created_at" => ["name" => "created_at"],
 //        "created_by" => ["name" => "created_by"],

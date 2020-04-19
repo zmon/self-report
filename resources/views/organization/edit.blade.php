@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.crud-master')
 @php $nav_path = ['organization']; @endphp
 @section('page-title')
     Edit {{$organization->name}}
@@ -10,7 +10,7 @@
 @section('page-header-breadcrumbs')
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('organization.index') }}">organizations</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('organization.index') }}">Organizations</a></li>
         <li class="breadcrumb-item active" aria-current="location">Edit {{$organization->name}}</li>
     </ol>
 @endsection

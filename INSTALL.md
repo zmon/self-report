@@ -1,4 +1,26 @@
-# JWS Password Grant - Now broswer does not need to know secret
+##
+Once you do all of this
+
+```
+vi .env
+composer install
+npm install
+php artisan migreate
+
+php artisan tinker
+        $user = \App\User::create([
+            'email' => 'paulb@savagesoft.com',
+            'name' => 'Paul Barham',
+            'password' => bcrypt('secret')
+        ]);
+
+php artisan app:set-initial-permissions
+php artisan app:set-user-roles
+
+
+``` 
+
+JWS Password Grant - Now broswer does not need to know secret
 
 ```
 git diff e3e0cd6 82ec158
@@ -1173,7 +1195,18 @@ Create the following directories
 
 ```
 mkdir -p Doc/CRUD app/Observers app/Lib/Import bin app/Exports
-mkdir -p 
+```
+
+Should beable to do the following to create organizations
+
+```
+php artisan make:crud organizations  --display-name="organizations" --grid-columns="name"   --force
+```
+
+Follow the instructions in DOC/CRUD/Organization.md
+
+
+
 
 The CRUD GENERATOR will make the needed changes to the Model.
 

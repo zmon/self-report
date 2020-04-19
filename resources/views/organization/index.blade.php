@@ -1,12 +1,12 @@
-@extends('layouts.master')
+@extends('layouts.crud-master')
 @php $nav_path = ['organization']; @endphp
-@section('page-title', 'organizations')
-@section('page-header-title', 'organizations')
+@section('page-title', 'Organizations')
+@section('page-header-title', 'Organizations')
 @section('page-help-link', '#TODO')
 @section('page-header-breadcrumbs')
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="location">organizations</li>
+        <li class="breadcrumb-item active" aria-current="location">Organizations</li>
     </ol>
 @endsection
 @section('content')

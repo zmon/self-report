@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.crud-master')
 @php $nav_path = ['organization']; @endphp
 @section('page-title')
 View {{$organization->name}}
@@ -9,7 +9,7 @@ View {{$organization->name}}
 @section('page-header-breadcrumbs')
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('organization.index') }}">organizations</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('organization.index') }}">Organizations</a></li>
     <li class="breadcrumb-item active" aria-current="location">View {{$organization->name}}</li>
 </ol>
 @endsection
@@ -22,7 +22,7 @@ View {{$organization->name}}
             <div class="row mt-4">
                 <div class="col-md-4">
                     @if ($can_edit)
-                        <a href="/organization/{{ $organization->id }}/edit" class="btn btn-primary">Edit organizations</a>
+                        <a href="/organization/{{ $organization->id }}/edit" class="btn btn-primary">Edit Organizations</a>
                     @endif
                 </div>
                 <div class="col-md-4 text-md-center mt-2 mt-md-0">
@@ -31,7 +31,7 @@ View {{$organization->name}}
                             <input type="hidden" name="_method" value="delete">
                             {{ csrf_field() }}
 
-                            <input class="btn btn-danger" Onclick="return ConfirmDelete();" type="submit" value="Delete organizations">
+                            <input class="btn btn-danger" Onclick="return ConfirmDelete();" type="submit" value="Delete Organizations">
 
                         </form>
                     @endif
@@ -47,7 +47,7 @@ View {{$organization->name}}
 @section('scripts')
 <script>
     function ConfirmDelete() {
-        var x = confirm("Are you sure you want to delete this organizations?");
+        var x = confirm("Are you sure you want to delete this Organizations?");
         if (x)
             return true;
         else

@@ -32,6 +32,14 @@ class InitialPermissions
         Permission::findOrCreate('invite edit');
         Permission::findOrCreate('invite delete');
 
+        Permission::findOrCreate('organization index');
+        Permission::findOrCreate('organization view');
+        Permission::findOrCreate('organization export-pdf');
+        Permission::findOrCreate('organization export-excel');
+        Permission::findOrCreate('organization add');
+        Permission::findOrCreate('organization edit');
+        Permission::findOrCreate('organization delete');
+
         Permission::findOrCreate('user index');
         Permission::findOrCreate('user add');
         Permission::findOrCreate('user edit');
@@ -79,6 +87,15 @@ class InitialPermissions
             'invite export-pdf',
             'invite export-excel',
 
+            'organization index',
+            'organization view',
+            'organization export-pdf',
+            'organization export-excel',
+            'organization add',
+            'organization edit',
+            'organization delete',
+
+
             'user index',
             'user add',
             'user edit',
@@ -102,7 +119,8 @@ class InitialPermissions
         $role = Role::findOrCreate('read-only');
 
         $role->givePermissionTo([
-
+            'organization index',
+            'organization view',
         ]);
 
 

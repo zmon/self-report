@@ -10,7 +10,7 @@
         <div class="grid-top row mb-0 align-items-center">
             <div class="col-lg-8 mb-2">
                 <form class="form-inline mb-0">
-                    <a v-if="params.CanAdd" href="#" @click.default="goToNew" class="btn btn-primary mb-3 mb-sm-2 mr-3">Add organizations</a>
+                    <a v-if="params.CanAdd" href="#" @click.default="goToNew" class="btn btn-primary mb-3 mb-sm-2 mr-3">Add Organizations</a>
                     <search-form-group
                             class="mb-0"
                             :errors="form_errors.keyword"
@@ -47,19 +47,29 @@
                         }">
                         Name
                     </ss-grid-column-header>
+                                        <ss-grid-column-header
+                            v-on:selectedSort="sortColumn"
+                            v-bind:selectedKey="sortKey"
+                            title="Sort by Alias"
+                            :params="{
+                            sortField: 'alias',
+                            InitialSortOrder: 'asc',
+                        }">
+                        Alias
+                    </ss-grid-column-header>
                                         <th style="width:20%;" class="text-lg-center">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-if="gridState == 'wait'">
-                    <td colspan="2" class="grid-alert">
+                    <td colspan="3" class="grid-alert">
                         <div class="alert alert-info"
                              role="alert">Please wait.
                         </div>
                     </td>
                 </tr>
                 <tr v-if="gridState == 'error'">
-                    <td colspan="2" class="grid-alert">
+                    <td colspan="3" class="grid-alert">
                         <div class="alert alert-warning"
                              role="alert">Error please try again.
                         </div>
@@ -67,7 +77,7 @@
                 </tr>
 
                 <tr v-if="gridState == 'good' && !gridData.length">
-                    <td colspan="2" class="grid-alert">
+                    <td colspan="3" class="grid-alert">
                         <div class="alert alert-warning"
                              role="alert">No matching records found.
                         </div>
@@ -84,7 +94,8 @@
                                         {{ row.name }}
                         </span>
                     </td>
-                                                                                <td data-title="Actions" class="text-lg-center text-nowrap">
+                                                                                                                        <td data-title="Alias">{{ row.alias }}</td>
+                                                            <td data-title="Actions" class="text-lg-center text-nowrap">
                         <a v-bind:href="'/organization/' + row.id + '/edit'"
                            v-if="(params.CanEdit)"
                            class="grid-action-item">

@@ -1,5 +1,22 @@
 # Organization - `organizations`
 
+## To create or replace missing CRUD
+
+```
+php artisan make:crud organizations  --display-name="Organizations" --grid-columns="name"   # --force --skip-append
+```
+
+You will want to adjust the grid-columns to add more columns  for example to add alias
+
+```
+--grid-columns="name:alias"
+```
+
+To replace one file, remove it and rerun the above command
+
+To replace all files, uncomment `--force`
+
+
 ## After running Crud Generator
 
 
@@ -39,26 +56,36 @@ From the bottom of the file, add these to read-only
 Then run the following to install the permissions
 
 ```
-php artisan lbv:set-initial-permissions
+php artisan app:set-initial-permissions
 ```
 
 ### Components
 
 In `resource/js/components`
 
-Remove
-
-```
-Vue.component('organization', require('./components/organization.vue').default);
-```
 
 Add
 
 ```
-Vue.component('organization', () => import(/* webpackChunkName:"organization" */ './components/organizations/organization.vue'));
-Vue.component('organization', () => import(/* webpackChunkName:"organization" */ './components/organizations/organization.vue'));
-Vue.component('organization', () => import(/* webpackChunkName:"organization" */ './components/organizations/organization.vue'));
+Vue.component('organization-grid', () => import(/* webpackChunkName:"organization-grid" */ './components/organizations/OrganizationGrid.vue'));
+Vue.component('organization-form', () => import(/* webpackChunkName:"organization-form" */ './components/organizations/OrganizationForm.vue'));
+Vue.component('organization-show', () => import(/* webpackChunkName:"organization-show" */ './components/organizations/OrganizationShow.vue'));
 
+```
+
+### Routes
+
+In `routes/web.php
+
+
+Add
+
+```
+Route::get('/api-organization', 'OrganizationApi@index');
+Route::get('/api-organization/options', 'OrganizationApi@getOptions');
+Route::get('/organization/download', 'OrganizationController@download')->name('organization.download');
+Route::get('/organization/print', 'OrganizationController@print')->name('organization.print');
+Route::resource('/organization', 'OrganizationController');
 ```
 
 #### Add to the menu in `resources/views/layouts/crud-nav.blade.php`
@@ -68,7 +95,7 @@ Vue.component('organization', () => import(/* webpackChunkName:"organization" */
 ```
 @can(['organization index'])
 <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'organization') echo 'active' @endphp">
-    <a class="nav-link" href="{{ route('organization.index') }}">organizations <span
+    <a class="nav-link" href="{{ route('organization.index') }}">Organizations <span
             class="sr-only">(current)</span></a>
 </li>
 @endcan
@@ -79,44 +106,14 @@ Vue.component('organization', () => import(/* webpackChunkName:"organization" */
 ```
 @can(['organization index'])
 <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'organization') echo 'active' @endphp"
-   href="/organization">organizations</a>
+   href="/organization">Organizations</a>
 @endcan
 ```
 
-#### Remove dead code
 
-```
-rm app/Queries/GridQueries/OrganizationQuery.php
-rm resources/js/components/OrganizationGrid.vue
-```
 
-###
+## Code Cleanup
 
-Remove from routes
-
-```
-Route::get('api/owner-all', '\\App\Queries\GridQueries\OwnerQuery@getAllForSelect');
-Route::get('api/owner-one', '\\App\Queries\GridQueries\OwnerQuery@selectOne');
-```
-
-vi app/Http/Controllers/ApiController.php
-
-Remove the Grid Method
-
-```
-// Begin Owner Api Data Grid Method
-
-public function ownerData(Request $request)
-{
-
-return GridQuery::sendData($request, 'OwnerQuery');
-
-}
-
-// End Owner Api Data Grid Method
-```
-
-#### Code Cleanup
 
 ```
 app/Exports/OrganizationExport.php
@@ -136,14 +133,45 @@ node_modules/.bin/prettier --write resources/js/components/organizations/" . [[m
 
 
 
-## Vue component example.
+## FORM Vue component example.
 ```
-<ui-select-pick-one
-    url="/api-organization/options"
-    v-model="organizationSelected"
-    :selected_id=organizationSelected"
-    name="organization">
-</ui-select-pick-one>
+<std-form-group
+    label="Organization"
+    label-for="organization_id"
+    :errors="form_errors.organization_id">
+    <ui-select-pick-one
+        url="/api-organization/options"
+        v-model="form_data.organization_id"
+        :selected_id="form_data.organization_id"
+        name="organization_id"
+        :blank_value="0">
+    </ui-select-pick-one>
+</std-form-group>
+
+
+import UiSelectPickOne from "../SS/UiSelectPickOne";
+
+components: { UiSelectPickOne },
+```
+
+## GRID Vue Component example
+
+```
+<search-form-group
+    class="mb-0"
+    label="Organization"
+    label-for="organization_id"
+    :errors="form_errors.organization_id">
+    <ui-select-pick-one
+        url="/api-organization/options"
+        v-model="form_data.organization_id"
+        :selected_id="form_data.organization_id"
+        name="organization_id"
+        blank_text="-- Select One --"
+        blank_value="0"
+        additional_classes="mb-2 grid-filter">
+    </ui-select-pick-one>
+</search-form-group>
 ```
 ## Blade component example.
 

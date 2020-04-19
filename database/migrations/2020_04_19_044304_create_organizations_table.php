@@ -17,7 +17,6 @@ class CreateOrganizationsTable extends Migration
             $table->id();
             $table->string('name', 60)->unique();
             $table->string('alias', 16)->nullable()->default('');
-            $table->boolean('active')->default(true);
             $table->timestamps();
             $table->integer('created_by')->default(0);
             $table->integer('modified_by')->default(0);

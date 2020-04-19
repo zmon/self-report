@@ -33,24 +33,12 @@
             </div>
         
 
-                            <div class="row">
-                <div class="col-md-12">
-                    <std-form-group label="Active" label-for="active" :errors="form_errors.active">
-                        <fld-input
-                                name="active"
-                                v-model="form_data.active"
-                        />
-                    </std-form-group>
-                </div>
-            </div>
-        
-
         <div class="form-group mt-4">
             <div class="row">
                 <div class="col-md-6">
                     <button type="submit" class="btn btn-primary" :disabled="processing">
-                        <span v-if="this.form_data.id">Change organizations</span>
-                        <span v-else="this.form_data.id">Add organizations</span>
+                        <span v-if="this.form_data.id">Change Organizations</span>
+                        <span v-else="this.form_data.id">Add Organizations</span>
                     </button>
                 </div>
                 <div class="col-md-6 text-md-right mt-2 mt-md-0">
@@ -84,13 +72,11 @@
                       id: 0,
                                   name: '',
                                 alias: '',
-                                  active: 0,
-                      },
+                        },
                 form_errors: {
                 id: false,
                 name: false,
                 alias: false,
-                active: false,
                 },
                 server_message: false,
                 try_logging_in: false,

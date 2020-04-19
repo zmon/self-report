@@ -16,7 +16,12 @@
             <?php /* Left (main) menu items: */ ?>
             <ul class="navbar-nav mr-auto">
 
-
+                @can(['organization index'])
+                    <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'organization') echo 'active' @endphp">
+                        <a class="nav-link" href="{{ route('organization.index') }}">organizations <span
+                                class="sr-only">(current)</span></a>
+                    </li>
+                @endcan
 
 
                 {{-- Admin Panel--}}

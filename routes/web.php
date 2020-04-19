@@ -67,11 +67,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/role/print', 'RoleController@print')->name('role.print');
     Route::resource('/role', 'RoleController');
 
+
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Application Routes
+    ///////////////////////////////////////////////////////////////////////////////
+
+    Route::get('/api-organization', 'OrganizationApi@index');
+    Route::get('/api-organization/options', 'OrganizationApi@getOptions');
+    Route::get('/organization/download', 'OrganizationController@download')->name('organization.download');
+    Route::get('/organization/print', 'OrganizationController@print')->name('organization.print');
+    Route::resource('/organization', 'OrganizationController');
+
+
 });
-
-
-// Route::get('/api-organization', 'OrganizationApi@index');
-// Route::get('/api-organization/options', 'OrganizationApi@getOptions');
-// Route::get('/organization/download', 'OrganizationController@download')->name('organization.download');
-// Route::get('/organization/print', 'OrganizationController@print')->name('organization.print');
-// Route::resource('/organization', 'OrganizationController');

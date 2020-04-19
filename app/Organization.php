@@ -3,14 +3,16 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+//use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\HistoryTrait;
 use App\Traits\RecordSignature;
 
 class Organization extends Model
 {
 
-    use SoftDeletes;
+//    use SoftDeletes;
     use RecordSignature;
+    use HistoryTrait;
 
     /**
      * fillable - attributes that can be mass-assigned
@@ -19,7 +21,6 @@ class Organization extends Model
             'id',
             'name',
             'alias',
-            'active',
         ];
 
     protected $hidden = [
@@ -71,6 +72,7 @@ class Organization extends Model
         return self::buildBaseGridQuery($column, $direction, $keyword,
             [ 'id',
                     'name',
+                    'alias',
             ])
         ->paginate($per_page);
     }

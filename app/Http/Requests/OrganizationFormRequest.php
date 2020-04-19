@@ -39,7 +39,6 @@ class OrganizationFormRequest extends FormRequest
 
             'id' => 'numeric',
             'alias' => 'nullable|string|max:16',
-            'active' => 'nullable|numeric',
 
         ];
 
