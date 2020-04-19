@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e850a4cc34654876701a6a42e93b4ea3",
+    "content-hash": "9d492b486b172482361249740bb55867",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -5022,6 +5022,50 @@
                 "php"
             ],
             "time": "2020-03-13T01:23:26+00:00"
+        },
+        {
+            "name": "zmon/crud-generator-mysql",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zmon/crud-generator-mysql.git",
+                "reference": "77ef0c860dae4631349f624779af355efc2d3078"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zmon/crud-generator-mysql/zipball/77ef0c860dae4631349f624779af355efc2d3078",
+                "reference": "77ef0c860dae4631349f624779af355efc2d3078",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": ">=5.0.0",
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CrudGenerator\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alfredo Aguirre",
+                    "email": "alfrednx@gmail.com"
+                },
+                {
+                    "name": "Paul Barham",
+                    "email": "paulb@savagesoft.com"
+                }
+            ],
+            "description": "php artisan command to generate fully working crud with grid paginated server side only by having database tables",
+            "support": {
+                "source": "https://github.com/zmon/crud-generator-mysql/tree/1.2.0",
+                "issues": "https://github.com/zmon/crud-generator-mysql/issues"
+            },
+            "time": "2020-02-01T00:33:19+00:00"
         }
     ],
     "packages-dev": [
@@ -7014,50 +7058,6 @@
                 "validate"
             ],
             "time": "2020-02-14T12:15:55+00:00"
-        },
-        {
-            "name": "zmon/crud-generator-mysql",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zmon/crud-generator-mysql.git",
-                "reference": "77ef0c860dae4631349f624779af355efc2d3078"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zmon/crud-generator-mysql/zipball/77ef0c860dae4631349f624779af355efc2d3078",
-                "reference": "77ef0c860dae4631349f624779af355efc2d3078",
-                "shasum": ""
-            },
-            "require": {
-                "laravel/framework": ">=5.0.0",
-                "php": ">=5.5.9"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "CrudGenerator\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Alfredo Aguirre",
-                    "email": "alfrednx@gmail.com"
-                },
-                {
-                    "name": "Paul Barham",
-                    "email": "paulb@savagesoft.com"
-                }
-            ],
-            "description": "php artisan command to generate fully working crud with grid paginated server side only by having database tables",
-            "support": {
-                "source": "https://github.com/zmon/crud-generator-mysql/tree/1.2.0",
-                "issues": "https://github.com/zmon/crud-generator-mysql/issues"
-            },
-            "time": "2020-02-01T00:33:19+00:00"
         }
     ],
     "aliases": [],

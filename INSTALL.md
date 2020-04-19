@@ -1163,6 +1163,17 @@ composer require zmon/crud-generator-mysql
     ],
 ```
 
+Add to config/app.php the following line to the 'providers' array:
+
+```
+CrudGenerator\CrudGeneratorServiceProvider::class,
+```
+
+Create the following directories
+
+```
+mkdir -p Doc/CRUD app/Observers app/Lib/Import bin app/Exports
+mkdir -p 
 
 The CRUD GENERATOR will make the needed changes to the Model.
 

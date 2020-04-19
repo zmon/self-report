@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         //
         'App\Console\Commands\SetInitialPermissions',
         'App\Console\Commands\SetUserRoles',
+        'App\Console\Commands\ImportProduction',
     ];
 
     /**

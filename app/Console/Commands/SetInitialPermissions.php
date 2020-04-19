@@ -13,7 +13,7 @@ class SetInitialPermissions extends Command
      *
      * @var string
      */
-    protected $signature = 'c4kc:set-initial-permissions';
+    protected $signature = 'app:set-initial-permissions';
 
     /**
      * The console command description.

@@ -14,7 +14,7 @@ class SetUserRoles extends Command
      *
      * @var string
      */
-    protected $signature = 'c4kc:set-user-roles';
+    protected $signature = 'app:set-user-roles';
 
     /**
      * The console command description.
