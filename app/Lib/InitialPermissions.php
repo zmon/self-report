@@ -40,6 +40,15 @@ class InitialPermissions
         Permission::findOrCreate('organization edit');
         Permission::findOrCreate('organization delete');
 
+        Permission::findOrCreate('self_report index');
+        Permission::findOrCreate('self_report view');
+        Permission::findOrCreate('self_report export-pdf');
+        Permission::findOrCreate('self_report export-excel');
+        Permission::findOrCreate('self_report add');
+        Permission::findOrCreate('self_report edit');
+        Permission::findOrCreate('self_report delete');
+
+
         Permission::findOrCreate('user index');
         Permission::findOrCreate('user add');
         Permission::findOrCreate('user edit');
@@ -95,6 +104,15 @@ class InitialPermissions
             'organization edit',
             'organization delete',
 
+            'self_report index',
+            'self_report view',
+            'self_report export-pdf',
+            'self_report export-excel',
+            'self_report add',
+            'self_report edit',
+            'self_report delete',
+
+
 
             'user index',
             'user add',
@@ -121,6 +139,9 @@ class InitialPermissions
         $role->givePermissionTo([
             'organization index',
             'organization view',
+
+            'self_report index',
+            'self_report view',
         ]);
 
 

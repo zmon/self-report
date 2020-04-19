@@ -79,5 +79,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/organization/print', 'OrganizationController@print')->name('organization.print');
     Route::resource('/organization', 'OrganizationController');
 
-
+    Route::get('/api-self-report', 'SelfReportApi@index');
+    Route::get('/api-self-report/options', 'SelfReportApi@getOptions');
+    Route::get('/self-report/download', 'SelfReportController@download')->name('self-report.download');
+    Route::get('/self-report/print', 'SelfReportController@print')->name('self-report.print');
+    Route::resource('/self-report', 'SelfReportController');
 });

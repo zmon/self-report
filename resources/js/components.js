@@ -182,3 +182,8 @@ Vue.component("search-form-group", () =>
 Vue.component('organization-grid', () => import(/* webpackChunkName:"organization-grid" */ './components/organizations/OrganizationGrid.vue'));
 Vue.component('organization-form', () => import(/* webpackChunkName:"organization-form" */ './components/organizations/OrganizationForm.vue'));
 Vue.component('organization-show', () => import(/* webpackChunkName:"organization-Show" */ './components/organizations/OrganizationShow.vue'));
+
+Vue.component('self-report-grid', () => import(/* webpackChunkName:"self-report-grid" */ './components/self_reports/SelfReportGrid.vue'));
+Vue.component('self-report-form', () => import(/* webpackChunkName:"self-report-form" */ './components/self_reports/SelfReportForm.vue'));
+Vue.component('self-report-show', () => import(/* webpackChunkName:"self-report-show" */ './components/self_reports/SelfReportShow.vue'));
+

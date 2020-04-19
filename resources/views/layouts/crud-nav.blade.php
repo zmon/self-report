@@ -23,6 +23,13 @@
                     </li>
                 @endcan
 
+                @can(['self_report index'])
+                    <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'self-report') echo 'active' @endphp">
+                        <a class="nav-link" href="{{ route('self-report.index') }}">Self Reports <span
+                                class="sr-only">(current)</span></a>
+                    </li>
+                @endcan
+
 
                 {{-- Admin Panel--}}
                 @canany(['invite index'])

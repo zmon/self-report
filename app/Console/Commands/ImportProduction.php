@@ -86,3 +86,6 @@ class ImportProduction extends Command
 
 //        $Organization = new \App\Lib\Import\ImportOrganization();
 //        $Organization->import('proddb', 'organizations');
+
+//        $SelfReport = new \App\Lib\Import\ImportSelfReport();
+//        $SelfReport->import('proddb', 'self_reports');

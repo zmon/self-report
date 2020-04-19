@@ -1,4 +1,4 @@
-##
+# Installing on a server
 Once you do all of this
 
 ```
@@ -16,9 +16,117 @@ php artisan tinker
 
 php artisan app:set-initial-permissions
 php artisan app:set-user-roles
+```
+
+## Setup Passport
+
+```
+php artisan passport:keys --force
+php artisan passport:install --force
+```
+
+### Save the Keys
+
+In your `.env` file put
+
+```
+PERSONAL_CLIENT_ID=1
+PERSONAL_CLIENT_SECRET=mR7k7ITv4f...
+PASSWORD_CLIENT_ID=2
+PASSWORD_CLIENT_SECRET=FJWQRS3PQj...
+
+```
+
+The `PASSWORD_CLIENT_ID`, andd `PASSWORD_CLIENT_SECRET` will be used by the client or its proxy 
+to authenticate
 
 
-``` 
+### Create accessToken for API
+  
+```
+  php artisan tinker
+  >>> $user = User::find(1)
+  >>> $token = $user->createToken('Hackerpair')->accessToken
+  => "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIs...Um1Py-KdjXfQ"
+```
+
+### Added token to .env for testing
+
+
+The keys are stored in storage/\*key
+
+
+### Test the Server to Server API
+
+
+In a empty directory
+
+```
+composer require guzzlehttp/guzzle
+```
+
+In index.php
+
+You will need to adjust the `base_uri`
+
+``````
+<?php
+  
+require "vendor/autoload.php";
+
+$accessToken = "eyJ0eXAiOiJKV1QiL...";
+
+$client = new GuzzleHttp\Client([
+    'base_uri' => 'https://cms.apskc.ldev/api/',
+    'verify' => false,  // ONLY FOR SELF SIGNED SSL CERT
+
+]);
+
+$response = $client->request('GET', 'user', [
+    'headers' => [
+        'Accept' => 'application/json',
+        'Authorization' => 'Bearer '.$accessToken,
+    ]
+  ]
+);
+echo $response->getBody();
+``````
+
+Now
+
+``````
+php index.php
+``````
+
+And you should see most of the first record from the users table.
+
+If you get an error that Guzzel Could not resolve the API server add 127.0.0.1 to your DNS, on apple
+System Preferences -> Network -> Advancced -> DNS
+
+
+
+### Test Logging in
+
+```
+curl -X POST http://covidselfreporting.test/oauth/token  -b cookies.txt -c cookies.txt -D headers.txt -H 'Content-Type: application/json' -d '{"username":"paulb@savagesoft.com","email":"paulb@savagesoft.com","password":"secret","grant_type":"password","scope":"*"}'
+```
+
+# Add more tables with CRUD
+
+## Create and Run Migration
+
+```
+php artisan make:migration create_self_reports_table
+php artisan migrate
+
+php artisan make:crud self_reports  --display-name="Self Reports" --grid-columns="name"   --force
+```
+
+Folow the instructions in Doc/CRUD/self_report.md
+
+# Building it yourself
+
+### Notes that need to be put someplace else.
 
 JWS Password Grant - Now broswer does not need to know secret
 
@@ -135,12 +243,15 @@ return [
 
 This should test it
 
+```
 curl -X POST http://dev-7.test/oauth/token  -b cookies.txt -c cookies.txt -D headers.txt -H 'Content-Type: application/json' -d '{"username":"paulb@savagesoft.com","email":"paulb@savagesoft.com","password":"secret","grant_type":"password","scope":"*"}'
+```
 
+## First Step Install Laravel
 
-## Install Laravel
-
+```
 composer create-project --prefer-dist laravel/laravel dev "6.*"
+```
 
 ### Create Git Repo
 
@@ -288,13 +399,13 @@ git commit -m 'Added Vue, Auth'
 ## Create first user
 In tinker
 
-````
+```
 php artisan tinker
-        $user = \App\User::create([
-            'email' => 'paulb@savagesoft.com',
-            'name' => 'Paul Barham',
-            'password' => bcrypt('secret')
-        ]);
+$user = \App\User::create([
+    'email' => 'paulb@savagesoft.com',
+    'name' => 'Paul Barham',
+    'password' => bcrypt('secret')
+]);
 ```
 
 
@@ -472,12 +583,12 @@ to authenticate
 
 ## Create accessToken for API
   
-````
+```
   php artisan tinker
   >>> $user = User::find(1)
   >>> $token = $user->createToken('Hackerpair')->accessToken
   => "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIs...Um1Py-KdjXfQ"
-````
+```
 
 ## Added token to .env for testing
 
@@ -966,8 +1077,8 @@ class InitialRoles
 See console command 
 
 ```
-php artisan c4kc:set-initial-permissions 
-php artisan c4kc:set-user-roles
+php artisan app:set-initial-permissions 
+php artisan app:set-user-roles
 ```
 
 ## Setup so super-admin role can do anything
