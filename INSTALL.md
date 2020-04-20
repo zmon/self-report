@@ -9,8 +9,8 @@ php artisan migreate
 
 php artisan tinker
         $user = \App\User::create([
-            'email' => 'paulb@savagesoft.com',
-            'name' => 'Paul Barham',
+            'email' => 'your-email@bigmail.com',
+            'name' => 'Your Name',
             'password' => bcrypt('secret')
         ]);
 
@@ -108,7 +108,7 @@ System Preferences -> Network -> Advancced -> DNS
 ### Test Logging in
 
 ```
-curl -X POST http://covidselfreporting.test/oauth/token  -b cookies.txt -c cookies.txt -D headers.txt -H 'Content-Type: application/json' -d '{"username":"paulb@savagesoft.com","email":"paulb@savagesoft.com","password":"secret","grant_type":"password","scope":"*"}'
+curl -X POST http://covidselfreporting.test/oauth/token  -b cookies.txt -c cookies.txt -D headers.txt -H 'Content-Type: application/json' -d '{"username":"your-email@bigmail.com","email":"your-email@bigmail.com","password":"secret","grant_type":"password","scope":"*"}'
 ```
 
 # Add more tables with CRUD
@@ -244,7 +244,7 @@ return [
 This should test it
 
 ```
-curl -X POST http://dev-7.test/oauth/token  -b cookies.txt -c cookies.txt -D headers.txt -H 'Content-Type: application/json' -d '{"username":"paulb@savagesoft.com","email":"paulb@savagesoft.com","password":"secret","grant_type":"password","scope":"*"}'
+curl -X POST http://dev-7.test/oauth/token  -b cookies.txt -c cookies.txt -D headers.txt -H 'Content-Type: application/json' -d '{"username":"your-email@bigmail.com","email":"your-email@bigmail.com","password":"secret","grant_type":"password","scope":"*"}'
 ```
 
 ## First Step Install Laravel
@@ -291,7 +291,7 @@ GRANT ALL PRIVILEGES ON my_db.* to 'my_db'@'localhost' WITH GRANT OPTION;
 ```
 APP_NAME="Covid Self Reporting 0.0" 
 APP_ENV=local
-APP_KEY=base64:MOflvfnUcXQhv5u+vcvQ1eXq0wAvVruNlzk3cI5fHO0=
+APP_KEY=base64:MOflvfnUcXQhv5u+vcv....Nlzk3cI5fHO0=
 APP_DEBUG=true
 APP_URL=http://localhost
 
@@ -342,7 +342,7 @@ MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
 ```
 APP_NAME="Covid Self Reporting Test 0.0"
 APP_ENV=local
-APP_KEY=base64:MOflvfnUcXQhv5u+vcvQ1eXq0wAvVruNlzk3cI5fHO0=
+APP_KEY=base64:MOflvfnUcXQhv5u+...VruNlzk3cI5fHO0=
 APP_DEBUG=true
 APP_URL=http://localhost
 
@@ -402,8 +402,8 @@ In tinker
 ```
 php artisan tinker
 $user = \App\User::create([
-    'email' => 'paulb@savagesoft.com',
-    'name' => 'Paul Barham',
+    'email' => 'your-email@bigmail.com',
+    'name' => 'Your Name',
     'password' => bcrypt('secret')
 ]);
 ```
@@ -908,7 +908,7 @@ Create app/Lib/InitialPermissions.php
 <?php
 /**
  * Created by PhpStorm.
- * User: paulb
+ * User: 
  * Date: 2019-05-31
  * Time: 23:49
  */
@@ -1039,7 +1039,7 @@ Add the following to Kernel.php
 <?php
 /**
  * Created by PhpStorm.
- * User: paulb
+ * User: 
  * Date: 2019-05-31
  * Time: 23:49
  */
@@ -1060,7 +1060,7 @@ class InitialRoles
 
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $this->setRole('paulb@savagesoft.com', 'super-admin');
+        $this->setRole('your-email@bigmail.com', 'super-admin');
 
     }
 

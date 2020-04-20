@@ -2,13 +2,6 @@
 
 @section('content')
 <div class="container">
-    <div class="row">
-        <ul>
-            <li><passport-clients></passport-clients>
-            <li><passport-authorized-clients></passport-authorized-clients>
-            <li><passport-personal-access-tokens></passport-personal-access-tokens>
-        </ul>
-    </div>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">

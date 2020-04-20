@@ -1,0 +1,81 @@
+(
+    [SendFields] => Array
+        (
+            [_exposed] => Yes
+            [_public_private_exposure] => Public (i.e. school, work, church, store, etc.)
+            [_state] => Missouri
+            [_kscounty] => 
+            [_city_kcmo] => Yes
+            [_zipcode] => 64110
+            [_selfreport_or_other] => Someone else
+            [_whose_symptoms] => Spouse/partner
+            [_sex] => Female
+            [_age] => 62
+            [_race_ethnicity] => Array
+                (
+                    [0] => White
+                    [1] => Black or African-American
+                    [2] => Hispanic or Latino
+                    [3] => Asian or Pacific Islander
+                    [4] => American Indian or Alaska Native
+                    [5] => Some other race
+                )
+
+            [_symptoms] => Array
+                (
+                    [0] => Headache
+                    [1] => Fever (greater than 100.4 degrees)
+                    [2] => Shortness of breath
+                    [3] => Chills / night sweats
+                    [4] => Muscle aches and pains
+                    [5] => Runny nose
+                    [6] => Sore throat
+                    [7] => Cough
+                    [8] => Lost sense of taste/smell
+                    [9] => Fatigue
+                    [10] => Sore throat
+                    [11] => Sneezing
+                    [12] => Diarrhea
+                    [13] => Nausea
+                    [14] => Rash
+                    [15] => None of the above
+                    [16] => Other symptoms
+                )
+
+            [_any_other_symptoms] => All and Rash
+            [_symptom_severity] => 6
+            [_preexisting_conditions] => Array
+                (
+                    [0] => High blood pressure / heart disease
+                    [1] => Diabetes
+                    [2] => Asthma
+                    [3] => Chronic lung disease
+                    [4] => Kidney failure
+                    [5] => Chronic liver disease
+                    [6] => Cancer
+                    [7] => None of the above
+                    [8] => Prefer not to answer
+                )
+
+            [_immunocompromised] => Yes
+            [_symptom_start_date] => 04/17/2020
+            [_followup_contact] => Yes
+            [_preferred_contact_method] => Phone call
+            [_is_voicemail_ok] => Yes
+            [_crowded_setting] => Yes
+            [_anything_else] => Nothing else you need to know.
+        )
+
+    [FormVersionId] => 9863
+    [FormId] => 6226
+    [FormVersionNumber] => 11
+    [ResponseReferenceId] => b44e26e8-3863-4077-93e9-b442152d0a98
+    [ExternalId] => 
+    [ExternalStatus] => 
+    [ExternalRespondentId] => 
+    [SourceType] => 0
+    [SourceElementId] => 9863
+    [DataConnectionId] => 66
+    [CallCounter] => 1
+)
+

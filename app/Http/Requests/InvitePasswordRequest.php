@@ -33,7 +33,7 @@ class InvitePasswordRequest extends FormRequest
                 'string',
                 function ($attribute, $value, $fail) {
                     $zxcvbn = new Zxcvbn();
-                    $strength = $zxcvbn->passwordStrength($value, ['paul', 'barham', 'paulb@savagesoft.com', 'paulb+box@savagesoft.com']);
+                    $strength = $zxcvbn->passwordStrength($value, []);
                     if (intval($strength['score']) < 3) {
                         $fail($attribute . ' is to weak.');
                     }

@@ -16,13 +16,6 @@
             <?php /* Left (main) menu items: */ ?>
             <ul class="navbar-nav mr-auto">
 
-                @can(['organization index'])
-                    <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'organization') echo 'active' @endphp">
-                        <a class="nav-link" href="{{ route('organization.index') }}">organizations <span
-                                class="sr-only">(current)</span></a>
-                    </li>
-                @endcan
-
                 @can(['self_report index'])
                     <li class="nav-item @php if(isset($nav_path[0]) && $nav_path[0] == 'self-report') echo 'active' @endphp">
                         <a class="nav-link" href="{{ route('self-report.index') }}">Self Reports <span
@@ -31,28 +24,12 @@
                 @endcan
 
 
-                {{-- Admin Panel--}}
-                @canany(['invite index'])
-                    <li class="nav-item dropdown @php if(isset($nav_path[0]) && $nav_path[0] == 'admin') echo 'active' @endphp">
-                        <a class="nav-link dropdown-toggle" href="#TODO" id="dropdown-admin" data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false">Admin</a>
-                        <div class="dropdown-menu" aria-labelledby="dropdown-admin">
-                            @can(['city_neighborhood index'])
-                                <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'city-neighborhood') echo 'active' @endphp"
-                                   href="/city-neighborhood">City Neighborhoods</a>
-                            @endcan
-
-                        </div>
-                    </li>
-                @endcanany
-
-
                 {{-- LBV Super Admin  Panel--}}
 
                 @canany(['invite index'])
                     <li class="nav-item dropdown @php if(isset($nav_path[0]) && $nav_path[0] == 'admin') echo 'active' @endphp">
                         <a class="nav-link dropdown-toggle" href="#TODO" id="dropdown-admin" data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false">C4KC</a>
+                           aria-haspopup="true" aria-expanded="false">Admin</a>
                         <div class="dropdown-menu" aria-labelledby="dropdown-admin">
 
                             @can(['invite index'])
