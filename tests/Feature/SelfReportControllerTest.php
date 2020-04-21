@@ -381,6 +381,10 @@ class SelfReportControllerTest extends TestCase
         $data = [
             'id' => "",
             'name' => "",
+            'exposed' => "",
+            'state' => "",
+            'zipcode' => "",
+            'symptom_start_date' => "",
         ];
 
         $totalNumberOfSelfReportsBefore = SelfReport::count();
@@ -408,6 +412,10 @@ class SelfReportControllerTest extends TestCase
         $data = [
             'id' => "",
             'name' => "a",
+            'exposed' => "a",
+            'state' => "a",
+            'zipcode' => "a",
+            'symptom_start_date' => "a",
         ];
 
         $totalNumberOfSelfReportsBefore = SelfReport::count();
@@ -437,6 +445,10 @@ class SelfReportControllerTest extends TestCase
 
         $data = [
           'name' => $faker->name,
+          'exposed' => "",
+          'state' => "",
+          'zipcode' => "",
+          'symptom_start_date' => "",
         ];
 
         info('--  SelfReport  --');
@@ -462,6 +474,18 @@ class SelfReportControllerTest extends TestCase
         $this->assertEquals($lastInsertedInTheDB->name, $data['name'], "the name of the saved self_report is different from the input data");
 
 
+        $this->assertEquals($lastInsertedInTheDB->exposed, $data['exposed'], "the exposed of the saved self_report is different from the input data");
+
+
+        $this->assertEquals($lastInsertedInTheDB->state, $data['state'], "the state of the saved self_report is different from the input data");
+
+
+        $this->assertEquals($lastInsertedInTheDB->zipcode, $data['zipcode'], "the zipcode of the saved self_report is different from the input data");
+
+
+        $this->assertEquals($lastInsertedInTheDB->symptom_start_date, $data['symptom_start_date'], "the symptom_start_date of the saved self_report is different from the input data");
+
+
     }
 
     /**
@@ -484,6 +508,10 @@ class SelfReportControllerTest extends TestCase
         $data = [
             'id' => "",
             'name' => $self_report->name,
+            'exposed' => "",
+            'state' => "",
+            'zipcode' => "",
+            'symptom_start_date' => "",
         ];
 
         $response = $this->actingAs($user)->post(route('self-report.store'), $data);
@@ -548,6 +576,10 @@ class SelfReportControllerTest extends TestCase
         $self_report_dup = [
 
             'name' => $faker->name,
+            'exposed' => "",
+            'state' => "",
+            'zipcode' => "",
+            'symptom_start_date' => "",
         ];
 
         $response = $this->actingAs($user)->post(route('self-report.store'), $self_report_dup);

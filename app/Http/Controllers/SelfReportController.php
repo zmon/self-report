@@ -315,6 +315,10 @@ class SelfReportController extends Controller
         // Get query data
         $columns = [
             'name',
+            'exposed',
+            'state',
+            'zipcode',
+            'symptom_start_date',
         ];
         $dataQuery = SelfReport::pdfDataQuery($column, $direction, $search, $columns);
         $data = $dataQuery->get();

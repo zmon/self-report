@@ -119,7 +119,7 @@ curl -X POST http://covidselfreporting.test/oauth/token  -b cookies.txt -c cooki
 php artisan make:migration create_self_reports_table
 php artisan migrate
 
-php artisan make:crud self_reports  --display-name="Self Reports" --grid-columns="name"   --force
+php artisan make:crud self_reports  --display-name="Self Reports" --grid-columns="created_at:symptom_start_date:exposed:state:zipcode:ResponseReferenceId"   --force
 ```
 
 Folow the instructions in Doc/CRUD/self_report.md

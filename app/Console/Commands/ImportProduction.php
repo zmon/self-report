@@ -89,3 +89,12 @@ class ImportProduction extends Command
 
 //        $SelfReport = new \App\Lib\Import\ImportSelfReport();
 //        $SelfReport->import('proddb', 'self_reports');
+
+//        $RaceEthnicity = new \App\Lib\Import\ImportRaceEthnicity();
+//        $RaceEthnicity->import('proddb', 'race_ethnicity');
+
+//        $PreexistingCondition = new \App\Lib\Import\ImportPreexistingCondition();
+//        $PreexistingCondition->import('proddb', 'preexisting_conditions');
+
+//        $Symptom = new \App\Lib\Import\ImportSymptom();
+//        $Symptom->import('proddb', 'symptoms');
