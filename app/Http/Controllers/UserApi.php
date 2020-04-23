@@ -6,7 +6,6 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserIndexRequest;
-use Illuminate\Http\Response;
 
 class UserApi extends Controller
 {
@@ -15,7 +14,7 @@ class UserApi extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function index(UserIndexRequest $request)
     {
@@ -45,27 +44,16 @@ class UserApi extends Controller
      * Returns "options" for HTML select
      * @return array
      */
-    public function getOptions()
-    {
+    public function getOptions() {
 
-        return User::getOptions(false, session('organization_id', 0));
-    }
-
-    /**
-     * Returns "options" from Sital permissions for HTML select
-     * @return array
-     */
-    public function getRoleOptions()
-    {
-
-        return User::getRoleOptions();
+        return User::getOptions();
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
-     * @return Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -75,8 +63,8 @@ class UserApi extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
-     * @return Response
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
@@ -86,9 +74,9 @@ class UserApi extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param int $id
-     * @return Response
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
@@ -98,8 +86,8 @@ class UserApi extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
-     * @return Response
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {

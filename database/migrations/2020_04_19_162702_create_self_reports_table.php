@@ -15,7 +15,9 @@ class CreateSelfReportsTable extends Migration
     {
         Schema::create('self_reports', function (Blueprint $table) {
             $table->bigIncrements('id');
-      //      $table->string('name', 60)->unique();
+            $table->bigInteger('organization_id')->default(0);
+
+            //      $table->string('name', 60)->unique();
 
 
             $table->string('name', 100)->default("");  // ResponseReferenceId

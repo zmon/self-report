@@ -6,6 +6,12 @@ import VuePassword from "vue-password";
 // Password strength library
 Vue.component("VuePassword", () => import("vue-password"));
 
+/*
+    Users
+ */
+Vue.component('user-grid', () => import(/* webpackChunkName:"user-grid" */ './components/users/UserGrid.vue'));
+Vue.component('user-form', () => import(/* webpackChunkName:"user-form" */ './components/users/UserForm.vue'));
+Vue.component('user-show', () => import(/* webpackChunkName:"user-show" */ './components/users/UserShow.vue'));
 
 /*
     Passport

@@ -34,6 +34,16 @@ class Organization extends Model
         'updated_at',
     ];
 
+    public function self_reports()
+    {
+        return $this->hasMany('App\SelfReport');
+    }
+
+    public function users()
+    {
+        return $this->hasMany('App\User');
+    }
+
     public function add($attributes)
     {
 

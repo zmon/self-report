@@ -8,11 +8,11 @@ npm install
 php artisan migreate
 
 php artisan tinker
-        $user = \App\User::create([
-            'email' => 'your-email@bigmail.com',
-            'name' => 'Your Name',
-            'password' => bcrypt('secret')
-        ]);
+$user = \App\User::create([
+'email'=>'paulb@savagesoft.com',
+'name'=>'Paul',
+'password'=>bcrypt('secret')
+]);
 
 php artisan app:set-initial-permissions
 php artisan app:set-user-roles

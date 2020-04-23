@@ -62,6 +62,11 @@ class SelfReport extends Model
         'updated_at',
     ];
 
+    public function organization()
+    {
+        return $this->belongsTo('App\Organization');
+    }
+
     public function preexisting_conditions()
     {
         return $this->belongsToMany('App\PreexistingCondition');
