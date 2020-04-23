@@ -98,3 +98,4 @@ class ImportProduction extends Command
 
 //        $Symptom = new \App\Lib\Import\ImportSymptom();
 //        $Symptom->import('proddb', 'symptoms');
+//        $RaceEthnicity->import('proddb', 'race_ethnicities');

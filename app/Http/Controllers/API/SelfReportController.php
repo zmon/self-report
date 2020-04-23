@@ -4,6 +4,10 @@ namespace App\Http\Controllers\API;
 
 
 use App\Http\Controllers\Controller;
+
+use App\PreexistingCondition;
+use App\RaceEthnicity;
+use App\Symptom;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +22,7 @@ class SelfReportController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(SelfReportApiRequest $request)
@@ -28,13 +32,12 @@ class SelfReportController extends Controller
 
         $incomming = $request->all();
 
-        info(print_r($incomming,true));
+        info(print_r($incomming, true));
 
         $data = $this->setFieldNames($incomming);
         $data2 = $this->setFieldNames($incomming['SendFields']);
 
-        $data = array_merge($data,$data2);
-
+        $data = array_merge($data, $data2);
 
 
         try {
@@ -46,7 +49,10 @@ class SelfReportController extends Controller
             ], 400);
         }
 
-        \Session::flash('flash_success_message', 'Self Reports ' . $self_report->name . ' was added.');
+        $this->addSymptoms($self_report, $incomming['SendFields']['_symptoms']);
+        $this->addPreexistingCondition($self_report, $incomming['SendFields']['_preexisting_conditions']);
+        $this->addRaceEthnicity($self_report, $incomming['SendFields']['_race_ethnicity']);
+
 
         return response()->json([
             'message' => 'Added record'
@@ -54,7 +60,32 @@ class SelfReportController extends Controller
 
     }
 
-    public function setFieldNames($a) {
+    private function addSymptoms($self_report, $records)
+    {
+        foreach ($records AS $i => $value) {
+            $symptom = Symptom::firstOrCreate(['name' => $value]);
+            $self_report->symptoms()->attach($symptom->id);
+        }
+    }
+
+    private function addPreexistingCondition($self_report, $records)
+    {
+        foreach ($records AS $i => $value) {
+            $symptom = PreexistingCondition::firstOrCreate(['name' => $value]);
+            $self_report->preexisting_conditions()->attach($symptom->id);
+        }
+    }
+
+    private function addRaceEthnicity($self_report, $records)
+    {
+        foreach ($records AS $i => $value) {
+            $symptom = RaceEthnicity::firstOrCreate(['name' => $value]);
+            $self_report->race_ethnicities()->attach($symptom->id);
+        }
+    }
+
+    public function setFieldNames($a)
+    {
 
         info(__METHOD__);
         $data = [];
@@ -68,7 +99,8 @@ class SelfReportController extends Controller
         return $data;
     }
 
-    public function lookupFieldName($name) {
+    public function lookupFieldName($name)
+    {
         $lookup = [
             "ResponseReferenceId" => "name",
             "_exposed" => "exposed",
@@ -104,7 +136,7 @@ class SelfReportController extends Controller
         ];
 
 
-        if ( array_key_exists($name,$lookup)) {
+        if (array_key_exists($name, $lookup)) {
             return $lookup[$name];
         }
 
