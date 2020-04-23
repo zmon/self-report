@@ -1,5 +1,5 @@
 @extends('layouts.crud-master')
-@php $nav_path = ['race-ethnicity']; @endphp
+@php $nav_path = ['race-ethnicity'] @endphp
 @section('page-title')
     Add New Rax Ethnicity
 @endsection

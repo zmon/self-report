@@ -1,6 +1,6 @@
 /** For text area =====================
 
-<dsp-dollar v-model="PostData.amount" />
+<dsp-dollar v-model="PostData.amount"/>
 
 */
 
@@ -9,12 +9,12 @@
 </template>
 
 <script>
-export default {
-    name: "dsp-dollar",
-    props: {
-        value: {
-            default: 0
+    export default {
+        name: "dsp-dollar",
+        props: {
+            value: {
+                default: 0
+            }
         }
-    }
-};
+    };
 </script>

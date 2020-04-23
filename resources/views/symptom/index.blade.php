@@ -1,5 +1,5 @@
 @extends('layouts.crud-master')
-@php $nav_path = ['symptom']; @endphp
+@php $nav_path = ['symptom'] @endphp
 @section('page-title', 'Symptoms')
 @section('page-header-title', 'Symptoms')
 @section('page-help-link', '#TODO')
@@ -11,14 +11,14 @@
 @endsection
 @section('content')
     <symptom-grid :params="{
-            Page: '{{ $page }}',
-            Search: '{{ $search }}',
-            sortOrder: '{{ $direction }}',
-            sortKey: '{{ $column }}',
-            CanAdd: '{{ $can_add }}',
-            CanEdit: '{{ $can_edit }}',
-            CanShow: '{{ $can_show }}',
-            CanDelete: '{{ $can_delete }}',
-            CanExcel: '{{ $can_excel }}'
+        Page: '{{ $page }}',
+        Search: '{{ $search }}',
+        sortOrder: '{{ $direction }}',
+        sortKey: '{{ $column }}',
+        CanAdd: '{{ $can_add }}',
+        CanEdit: '{{ $can_edit }}',
+        CanShow: '{{ $can_show }}',
+        CanDelete: '{{ $can_delete }}',
+        CanExcel: '{{ $can_excel }}'
         }"></symptom-grid>
 @endsection

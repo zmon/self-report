@@ -23,14 +23,14 @@
             }
         },
         mounted() {
-            let $this = this
+            let $this = this;
             $(this.$el).datepicker({
                 dateFormat: $this.format,
                 onClose: this.onClose,
-                minDate: this.minDate? this.moment(this.minDate).toDate() : null,
-                maxDate: this.maxDate? this.moment(this.maxDate).toDate() : null,
+                minDate: this.minDate ? this.moment(this.minDate).toDate() : null,
+                maxDate: this.maxDate ? this.moment(this.maxDate).toDate() : null,
                 onSelect: function (date) {
-                   $this.input(date)
+                    $this.input(date)
                 }
 
             })

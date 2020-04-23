@@ -33,9 +33,9 @@ class RaceEthnicityExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-                        'id',
-                        'name',
-                    ];
+            'id',
+            'name',
+        ];
     }
 
     // Map/format each field that's being exported
@@ -45,8 +45,8 @@ class RaceEthnicityExport implements FromQuery, WithHeadings, WithMapping
     {
         return [
 
-                        $race_ethnicity->id,
-                        $race_ethnicity->name,
-                    ];
+            $race_ethnicity->id,
+            $race_ethnicity->name,
+        ];
     }
 }

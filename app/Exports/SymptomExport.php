@@ -33,9 +33,9 @@ class SymptomExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-                        'id',
-                        'name',
-                    ];
+            'id',
+            'name',
+        ];
     }
 
     // Map/format each field that's being exported
@@ -45,8 +45,8 @@ class SymptomExport implements FromQuery, WithHeadings, WithMapping
     {
         return [
 
-                        $symptom->id,
-                        $symptom->name,
-                    ];
+            $symptom->id,
+            $symptom->name,
+        ];
     }
 }

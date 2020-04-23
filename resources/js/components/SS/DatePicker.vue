@@ -1,5 +1,5 @@
 <template>
-    <div >
+    <div>
         <input type="text" class="maskdate" size="10" maxlength="10" :placeholder="placeholder"
                :value="value"
                @input="input"
@@ -8,14 +8,14 @@
                @focus.prevent=""
                :disabled="disabled"
         />
-       <calendar-pop-up
-           ref="calendarPopUp"
-           v-if="doubleClicked"
-           :minDate="minDate"
-           :maxDate="maxDate"
-           @input="input"
-           :format="format"
-       ></calendar-pop-up>
+        <calendar-pop-up
+            ref="calendarPopUp"
+            v-if="doubleClicked"
+            :minDate="minDate"
+            :maxDate="maxDate"
+            @input="input"
+            :format="format"
+        ></calendar-pop-up>
     </div>
 
 
@@ -24,6 +24,7 @@
 <script>
 
     import CalendarPopUp from "./CalendarPopUp";
+
     export default {
         name: "DatePicker",
         components: {CalendarPopUp},
@@ -49,8 +50,8 @@
             },
             identifier: {
                 type: String,
-                default: Math.random().toString(Math.floor(Math.random()*40)).substring(2, 15) +
-                            Math.random().toString(Math.floor(Math.random()*40)).substring(2, 15),
+                default: Math.random().toString(Math.floor(Math.random() * 40)).substring(2, 15) +
+                    Math.random().toString(Math.floor(Math.random() * 40)).substring(2, 15),
             },
             format: {
                 default: 'mm/dd/yy',
@@ -58,24 +59,24 @@
             }
         },
         data() {
-          return {
-              doubleClicked: false,
-              showCalendar: false,
-          }
+            return {
+                doubleClicked: false,
+                showCalendar: false,
+            }
         },
         created() {
 
         },
         methods: {
             input(v) {
-                this.doubleClicked = false
+                this.doubleClicked = false;
                 this.$emit('input', v)
             },
             click(e) {
                 this.$emit('click', e)
             },
             dblClick(e) {
-                this.doubleClicked = true
+                this.doubleClicked = true;
                 this.$emit('dblClick', e)
             }
         },

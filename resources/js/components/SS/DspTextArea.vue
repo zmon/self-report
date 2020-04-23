@@ -1,6 +1,6 @@
 /** For text area =====================
 
-<dsp-textarea v-model="PostData.description" />
+<dsp-textarea v-model="PostData.description"/>
 
 */
 
@@ -9,12 +9,12 @@
 </template>
 
 <script>
-export default {
-    name: "dsp-textarea",
-    props: {
-        value: {
-            default: null
+    export default {
+        name: "dsp-textarea",
+        props: {
+            value: {
+                default: null
+            }
         }
-    }
-};
+    };
 </script>

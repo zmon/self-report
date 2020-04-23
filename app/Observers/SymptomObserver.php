@@ -17,7 +17,7 @@ class SymptomObserver
     /**
      * Handle the charge "created" event.
      *
-     * @param  Symptom  $model
+     * @param Symptom $model
      * @return void
      */
     public function created(Symptom $model)
@@ -28,7 +28,7 @@ class SymptomObserver
     /**
      * Handle the charge "updated" event.
      *
-     * @param  Symptom  $model
+     * @param Symptom $model
      * @return void
      */
     public function updated(Symptom $model)
@@ -39,7 +39,7 @@ class SymptomObserver
     /**
      * Handle the charge "deleted" event.
      *
-     * @param  Symptom  $model
+     * @param Symptom $model
      * @return void
      */
     public function deleting(Symptom $model)
@@ -58,7 +58,7 @@ class SymptomObserver
     /**
      * Handle the charge "deleted" event.
      *
-     * @param  Symptom  $model
+     * @param Symptom $model
      * @return void
      */
     public function deleted(Symptom $model)
@@ -69,7 +69,7 @@ class SymptomObserver
     /**
      * Handle the charge "restored" event.
      *
-     * @param  Symptom  $model
+     * @param Symptom $model
      * @return void
      */
     public function restored(Symptom $model)
@@ -80,7 +80,7 @@ class SymptomObserver
     /**
      * Handle the charge "force deleted" event.
      *
-     * @param  Symptom  $model
+     * @param Symptom $model
      * @return void
      */
     public function forceDeleted(Symptom $model)

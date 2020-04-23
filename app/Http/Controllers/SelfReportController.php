@@ -3,30 +3,34 @@
 namespace App\Http\Controllers;
 
 
-
+use App;
 use App\Http\Middleware\TrimStrings;
 use App\SelfReport;
+use DateTime;
+use DateTimeZone;
+use Exception;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\SelfReportFormRequest;
 use App\Http\Requests\SelfReportIndexRequest;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 use App\Exports\SelfReportExport;
 use Maatwebsite\Excel\Facades\Excel;
+
 //use PDF; // TCPDF, not currently in use
 
 class SelfReportController extends Controller
 {
 
 
-
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(SelfReportIndexRequest $request)
     {
@@ -56,10 +60,10 @@ class SelfReportController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-	public function create()
-	{
+    public function create()
+    {
 
         if (!Auth::user()->can('self_report add')) {  // TODO: add -> create
             \Session::flash('flash_error_message', 'You do not have access to add a Self Reports.');
@@ -70,24 +74,24 @@ class SelfReportController extends Controller
             }
         }
 
-	    return view('self-report.create');
-	}
+        return view('self-report.create');
+    }
 
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(SelfReportFormRequest $request)
     {
 
-        $self_report = new \App\SelfReport;
+        $self_report = new SelfReport;
 
         try {
             $self_report->add($request->validated());
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'message' => 'Unable to process request'
             ], 400);
@@ -104,8 +108,8 @@ class SelfReportController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  integer $id
-     * @return \Illuminate\Http\Response
+     * @param integer $id
+     * @return Response
      */
     public function show($id)
     {
@@ -120,9 +124,11 @@ class SelfReportController extends Controller
         }
 
         if ($self_report = $this->sanitizeAndFind($id)) {
+
+
             $can_edit = Auth::user()->can('self_report edit');
             $can_delete = (Auth::user()->can('self_report delete') && $self_report->canDelete());
-            return view('self-report.show', compact('self_report','can_edit', 'can_delete'));
+            return view('self-report.show', compact('self_report', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Self Reports to display.');
             return Redirect::route('self-report.index');
@@ -132,8 +138,8 @@ class SelfReportController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  integer $id
-     * @return \Illuminate\Http\Response
+     * @param integer $id
+     * @return Response
      */
     public function edit($id)
     {
@@ -158,8 +164,8 @@ class SelfReportController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\SelfReport $self_report     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param SelfReport $self_report * @return \Illuminate\Http\Response
      */
     public function update(SelfReportFormRequest $request, $id)
     {
@@ -174,7 +180,7 @@ class SelfReportController extends Controller
 //        }
 
         if (!$self_report = $this->sanitizeAndFind($id)) {
-       //     \Session::flash('flash_error_message', 'Unable to find Self Reports to edit.');
+            //     \Session::flash('flash_error_message', 'Unable to find Self Reports to edit.');
             return response()->json([
                 'message' => 'Not Found'
             ], 404);
@@ -186,7 +192,7 @@ class SelfReportController extends Controller
 
             try {
                 $self_report->save();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Unable to process request'
                 ], 400);
@@ -205,7 +211,7 @@ class SelfReportController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\SelfReport $self_report     * @return \Illuminate\Http\Response
+     * @param SelfReport $self_report * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
@@ -213,7 +219,7 @@ class SelfReportController extends Controller
         if (!Auth::user()->can('self_report delete')) {
             \Session::flash('flash_error_message', 'You do not have access to remove a Self Reports.');
             if (Auth::user()->can('self_report index')) {
-                 return Redirect::route('self-report.index');
+                return Redirect::route('self-report.index');
             } else {
                 return Redirect::route('home');
             }
@@ -221,11 +227,11 @@ class SelfReportController extends Controller
 
         $self_report = $this->sanitizeAndFind($id);
 
-        if ( $self_report  && $self_report->canDelete()) {
+        if ($self_report && $self_report->canDelete()) {
 
             try {
                 $self_report->delete();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Unable to process request.'
                 ], 400);
@@ -238,7 +244,7 @@ class SelfReportController extends Controller
         }
 
         if (Auth::user()->can('self_report index')) {
-             return Redirect::route('self-report.index');
+            return Redirect::route('self-report.index');
         } else {
             return Redirect::route('home');
         }
@@ -254,7 +260,9 @@ class SelfReportController extends Controller
      */
     private function sanitizeAndFind($id)
     {
-        return \App\SelfReport::find(intval($id));
+        return SelfReport::with('preexisting_conditions',
+            'race_ethnicities',
+            'symptoms')->find(intval($id));
     }
 
 
@@ -293,8 +301,8 @@ class SelfReportController extends Controller
     }
 
 
-        public function print()
-{
+    public function print()
+    {
         if (!Auth::user()->can('self_report export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
             \Session::flash('flash_error_message', 'You do not have access to print Self Reports.');
             if (Auth::user()->can('self_report index')) {
@@ -324,14 +332,14 @@ class SelfReportController extends Controller
         $data = $dataQuery->get();
 
         // Pass it to the view for html formatting:
-        $printHtml = view('self-report.print', compact( 'data' ) );
+        $printHtml = view('self-report.print', compact('data'));
 
         // Begin DOMPDF/laravel-dompdf
-        $pdf = \App::make('dompdf.wrapper');
+        $pdf = App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => TRUE]);
         $pdf->loadHTML($printHtml);
-        $currentDate = new \DateTime(null, new \DateTimeZone('America/Chicago'));
+        $currentDate = new DateTime(null, new DateTimeZone('America/Chicago'));
         return $pdf->stream('self-report-' . $currentDate->format('Ymd_Hi') . '.pdf');
 
         /*

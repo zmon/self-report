@@ -8,7 +8,9 @@ use App\Http\Controllers\Controller;
 use App\PreexistingCondition;
 use App\RaceEthnicity;
 use App\Symptom;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,13 +24,13 @@ class SelfReportController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(SelfReportApiRequest $request)
     {
 
-        $self_report = new \App\SelfReport;
+        $self_report = new SelfReport;
 
         $incomming = $request->all();
 
@@ -42,7 +44,7 @@ class SelfReportController extends Controller
 
         try {
             $self_report->add($data);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             info($e->getMessage());
             return response()->json([
                 'message' => 'Unable to process request'

@@ -1,4 +1,3 @@
-
 <!--
 Usage:
 <on-click-outside :do="handleClickOutside">

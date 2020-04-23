@@ -9,7 +9,7 @@
                             Name
                         </label>
                         <div class="col-md-8">
-                            <dsp-text v-model="record.name" />
+                            <dsp-text v-model="record.name"/>
                         </div>
                     </div>
                     <div class="form-group row mb-2 mb-md-0 text-only">
@@ -17,7 +17,7 @@
                             Can Assign
                         </label>
                         <div class="col-md-8">
-                            <dsp-text v-model="record.can_assign" />
+                            <dsp-text v-model="record.can_assign"/>
                         </div>
                     </div>
                     <div class="form-group row mb-2 mb-md-0 text-only">
@@ -25,7 +25,7 @@
                             Guard Name
                         </label>
                         <div class="col-md-8">
-                            <dsp-text v-model="record.guard_name" />
+                            <dsp-text v-model="record.guard_name"/>
                         </div>
                     </div>
                     <div class="form-group row mb-2 mb-md-0 text-only">
@@ -33,7 +33,7 @@
                             Deleted At
                         </label>
                         <div class="col-md-8">
-                            <dsp-text v-model="record.deleted_at" />
+                            <dsp-text v-model="record.deleted_at"/>
                         </div>
                     </div>
                 </div>
@@ -43,13 +43,13 @@
 </template>
 
 <script>
-export default {
-    name: "role-show",
-    props: {
-        record: {
-            type: [Boolean, Object],
-            default: false
+    export default {
+        name: "role-show",
+        props: {
+            record: {
+                type: [Boolean, Object],
+                default: false
+            }
         }
-    }
-};
+    };
 </script>

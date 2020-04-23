@@ -47,7 +47,7 @@
         bottom: 0;
         left: 0;
         z-index: 2000;
-        background-color: rgba(0,0,0,0.85);
+        background-color: rgba(0, 0, 0, 0.85);
     }
 
     #modal.show {

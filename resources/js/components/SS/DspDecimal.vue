@@ -1,6 +1,6 @@
 /** For text area =====================
 
-<dsp-decimal v-model="PostData.length_in_feet" />
+<dsp-decimal v-model="PostData.length_in_feet"/>
 
 */
 
@@ -9,12 +9,12 @@
 </template>
 
 <script>
-export default {
-    name: "dsp-decimal",
-    props: {
-        value: {
-            default: 0
+    export default {
+        name: "dsp-decimal",
+        props: {
+            value: {
+                default: 0
+            }
         }
-    }
-};
+    };
 </script>

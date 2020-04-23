@@ -1,5 +1,5 @@
 @extends('layouts.crud-master')
-@php $nav_path = ['self-report']; @endphp
+@php $nav_path = ['self-report'] @endphp
 @section('page-title')
     Edit {{$self_report->name}}
 @endsection

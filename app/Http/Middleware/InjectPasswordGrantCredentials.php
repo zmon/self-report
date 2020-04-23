@@ -8,6 +8,7 @@ namespace App\Http\Middleware;
 
 use DB;
 use Closure;
+use Illuminate\Http\Request;
 
 class InjectPasswordGrantCredentials
 {
@@ -15,15 +16,15 @@ class InjectPasswordGrantCredentials
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string|null  $guard
+     * @param Request $request
+     * @param Closure $next
+     * @param string|null $guard
      * @return mixed
      */
     public function handle($request, Closure $next, $guard = null)
     {
 
-        $password_client_id = data_get(config(),'passport.password_client_id',false);
+        $password_client_id = data_get(config(), 'passport.password_client_id', false);
 
         if ($request->grant_type == 'password') {
             $client = DB::table('oauth_clients')

@@ -1,57 +1,29 @@
 @extends('layouts.crud-master')
-@php $nav_path = ['self-report']; @endphp
+@php $nav_path = ['self-report'] @endphp
 @section('page-title')
-View {{$self_report->name}}
+    View {{$self_report->name}}
 @endsection
 @section('page-header-title')
-View {{$self_report->name}}
+    View {{$self_report->name}}
 @endsection
 @section('page-header-breadcrumbs')
-<ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('self-report.index') }}">Self Reports</a></li>
-    <li class="breadcrumb-item active" aria-current="location">View {{$self_report->name}}</li>
-</ol>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('self-report.index') }}">Self Reports</a></li>
+        <li class="breadcrumb-item active" aria-current="location">View {{$self_report->name}}</li>
+    </ol>
 @endsection
 @section('content')
 
     <self-report-show :record='@json($self_report)'></self-report-show>
 
     <div class="row">
-        <div class="col-md-12">
-            <div class="row mt-4">
-                <div class="col-md-4">
-                    @if ($can_edit)
-                        <a href="/self-report/{{ $self_report->id }}/edit" class="btn btn-primary">Edit Self Reports</a>
-                    @endif
-                </div>
-                <div class="col-md-4 text-md-center mt-2 mt-md-0">
-                    @if ($can_delete)
-                        <form class="form" role="form" method="POST" action="/self-report/{{ $self_report->id }}">
-                            <input type="hidden" name="_method" value="delete">
-                            {{ csrf_field() }}
+        <div class="col-md-12 text-md-center mt-2 mt-md-0">
 
-                            <input class="btn btn-danger" Onclick="return ConfirmDelete();" type="submit" value="Delete Self Reports">
+            <a href="{{ url('/self-report') }}" class="btn btn-default">Return to List</a>
 
-                        </form>
-                    @endif
-                </div>
-                <div class="col-md-4 text-md-right mt-2 mt-md-0">
-                    <a href="{{ url('/self-report') }}" class="btn btn-default">Return to List</a>
-                </div>
-            </div>
         </div>
+
     </div>
-</div>
 @endsection
-@section('scripts')
-<script>
-    function ConfirmDelete() {
-        var x = confirm("Are you sure you want to delete this Self Reports?");
-        if (x)
-            return true;
-        else
-            return false;
-    }
-</script>
-@endsection
+

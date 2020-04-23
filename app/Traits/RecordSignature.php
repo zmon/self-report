@@ -14,7 +14,7 @@ trait RecordSignature
         parent::boot();
 
         static::creating(function ($model) {
-            if(empty($model->created_by)) {
+            if (empty($model->created_by)) {
                 $model->fillable[] = 'created_by';
                 $user = Auth::User();
                 if ($user) {

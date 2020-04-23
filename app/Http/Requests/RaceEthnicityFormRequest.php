@@ -33,19 +33,19 @@ class RaceEthnicityFormRequest extends FormRequest
         $id = $this->route('race_ethnicity');
 
         $rules = [
-         //  Ignore duplicate email if it is this record
-         //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
+            //  Ignore duplicate email if it is this record
+            //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
 
 
             'id' => 'numeric',
 
         ];
 
-                if ($this->route('race_ethnicity')) {  // If ID we must be changing an existing record
-                    $rules['name'] = 'required|min:3|nullable|string|max:100|unique:race_ethnicities,name,' . $id;
-                } else {  // If not we must be adding one
-                    $rules['name'] = 'required|min:3|nullable|string|max:100|unique:race_ethnicities';
-                }
+        if ($this->route('race_ethnicity')) {  // If ID we must be changing an existing record
+            $rules['name'] = 'required|min:3|nullable|string|max:100|unique:race_ethnicities,name,' . $id;
+        } else {  // If not we must be adding one
+            $rules['name'] = 'required|min:3|nullable|string|max:100|unique:race_ethnicities';
+        }
 
         return $rules;
     }

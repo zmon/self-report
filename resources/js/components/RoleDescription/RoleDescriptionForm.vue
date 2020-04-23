@@ -17,7 +17,7 @@
                     :errors="form_errors.name"
                     :required="true"
                 >
-                    <fld-input name="name" v-model="form_data.name" required />
+                    <fld-input name="name" v-model="form_data.name" required/>
                     <template slot="help">
                         Name must be unique.
                     </template>
@@ -47,7 +47,7 @@
                     label-for="sequence"
                     :errors="form_errors.sequence"
                 >
-                    <fld-input name="sequence" v-model="form_data.sequence" />
+                    <fld-input name="sequence" v-model="form_data.sequence"/>
                 </std-form-group>
             </div>
         </div>
@@ -74,7 +74,7 @@
                     label-for="role_id"
                     :errors="form_errors.role_id"
                 >
-                    <fld-input name="role_id" v-model="form_data.role_id" />
+                    <fld-input name="role_id" v-model="form_data.role_id"/>
                 </std-form-group>
             </div>
 
@@ -84,7 +84,7 @@
                     label-for="role_name"
                     :errors="form_errors.role_name"
                 >
-                    <fld-input name="role_name" v-model="form_data.role_name" />
+                    <fld-input name="role_name" v-model="form_data.role_name"/>
                 </std-form-group>
             </div>
         </div>
@@ -98,16 +98,16 @@
                         :disabled="processing"
                     >
                         <span v-if="this.form_data.id"
-                            >Change Role Description</span
+                        >Change Role Description</span
                         >
                         <span v-else="this.form_data.id"
-                            >Add Role Description</span
+                        >Add Role Description</span
                         >
                     </button>
                 </div>
                 <div class="col-md-6 text-md-right mt-2 mt-md-0">
                     <a href="/role-description" class="btn btn-default"
-                        >Cancel</a
+                    >Cancel</a
                     >
                 </div>
             </div>
@@ -116,126 +116,126 @@
 </template>
 
 <script>
-import axios from "axios";
+    import axios from "axios";
 
-export default {
-    name: "role-description-form",
-    props: {
-        record: {
-            type: [Boolean, Object],
-            default: false
-        },
-        csrf_token: {
-            type: String,
-            default: ""
-        }
-    },
-    data() {
-        return {
-            form_data: {
-                // _method: 'patch',
-                _token: this.csrf_token,
-                id: 0,
-                role_id: 0,
-                role_name: "",
-                name: "",
-                description: "",
-                sequence: 0,
-                roles_that_can_assign: "",
-                deleted_at: ""
+    export default {
+        name: "role-description-form",
+        props: {
+            record: {
+                type: [Boolean, Object],
+                default: false
             },
-            form_errors: {
-                id: false,
-                role_id: false,
-                role_name: false,
-                name: false,
-                description: false,
-                sequence: false,
-                roles_that_can_assign: false,
-                deleted_at: false
-            },
-            server_message: false,
-            try_logging_in: false,
-            processing: false
-        };
-    },
-    mounted() {
-        if (this.record !== false) {
-            // this.form_data._method = 'patch';
-            Object.keys(this.record).forEach(i =>
-                this.$set(this.form_data, i, this.record[i])
-            );
-        } else {
-            // this.form_data._method = 'post';
-        }
-    },
-    methods: {
-        async handleSubmit() {
-            this.server_message = false;
-            this.processing = true;
-            let url = "";
-            let amethod = "";
-            if (this.form_data.id) {
-                url = "/role-description/" + this.form_data.id;
-                amethod = "put";
-            } else {
-                url = "/role-description";
-                amethod = "post";
+            csrf_token: {
+                type: String,
+                default: ""
             }
-            await axios({
-                method: amethod,
-                url: url,
-                data: this.form_data
-            })
-                .then(res => {
-                    if (res.status === 200) {
-                        window.location = "/role-description";
-                    } else {
-                        this.server_message = res.status;
-                    }
+        },
+        data() {
+            return {
+                form_data: {
+                    // _method: 'patch',
+                    _token: this.csrf_token,
+                    id: 0,
+                    role_id: 0,
+                    role_name: "",
+                    name: "",
+                    description: "",
+                    sequence: 0,
+                    roles_that_can_assign: "",
+                    deleted_at: ""
+                },
+                form_errors: {
+                    id: false,
+                    role_id: false,
+                    role_name: false,
+                    name: false,
+                    description: false,
+                    sequence: false,
+                    roles_that_can_assign: false,
+                    deleted_at: false
+                },
+                server_message: false,
+                try_logging_in: false,
+                processing: false
+            };
+        },
+        mounted() {
+            if (this.record !== false) {
+                // this.form_data._method = 'patch';
+                Object.keys(this.record).forEach(i =>
+                    this.$set(this.form_data, i, this.record[i])
+                );
+            } else {
+                // this.form_data._method = 'post';
+            }
+        },
+        methods: {
+            async handleSubmit() {
+                this.server_message = false;
+                this.processing = true;
+                let url = "";
+                let amethod = "";
+                if (this.form_data.id) {
+                    url = "/role-description/" + this.form_data.id;
+                    amethod = "put";
+                } else {
+                    url = "/role-description";
+                    amethod = "post";
+                }
+                await axios({
+                    method: amethod,
+                    url: url,
+                    data: this.form_data
                 })
-                .catch(error => {
-                    if (error.response) {
-                        if (error.response.status === 422) {
-                            // Clear errors out
-                            Object.keys(this.form_errors).forEach(i =>
-                                this.$set(this.form_errors, i, false)
-                            );
-                            // Set current errors
-                            Object.keys(error.response.data.errors).forEach(i =>
-                                this.$set(
-                                    this.form_errors,
-                                    i,
-                                    error.response.data.errors[i]
-                                )
-                            );
-                            this.server_message =
-                                "The given data was invalid. Please correct the fields in red below.";
-                        } else if (error.response.status === 404) {
-                            // Record not found
-                            this.server_message = "Record not found";
+                    .then(res => {
+                        if (res.status === 200) {
                             window.location = "/role-description";
-                        } else if (error.response.status === 419) {
-                            // Unknown status
-                            this.server_message =
-                                "Unknown Status, please try to ";
-                            this.try_logging_in = true;
-                        } else if (error.response.status === 500) {
-                            // Unknown status
-                            this.server_message =
-                                "Server Error, please try to ";
-                            this.try_logging_in = true;
                         } else {
-                            this.server_message = error.response.data.message;
+                            this.server_message = res.status;
                         }
-                    } else {
-                        console.log(error.response);
-                        this.server_message = error;
-                    }
-                    this.scrollToTop();
-                    this.processing = false;
-                });
+                    })
+                    .catch(error => {
+                        if (error.response) {
+                            if (error.response.status === 422) {
+                                // Clear errors out
+                                Object.keys(this.form_errors).forEach(i =>
+                                    this.$set(this.form_errors, i, false)
+                                );
+                                // Set current errors
+                                Object.keys(error.response.data.errors).forEach(i =>
+                                    this.$set(
+                                        this.form_errors,
+                                        i,
+                                        error.response.data.errors[i]
+                                    )
+                                );
+                                this.server_message =
+                                    "The given data was invalid. Please correct the fields in red below.";
+                            } else if (error.response.status === 404) {
+                                // Record not found
+                                this.server_message = "Record not found";
+                                window.location = "/role-description";
+                            } else if (error.response.status === 419) {
+                                // Unknown status
+                                this.server_message =
+                                    "Unknown Status, please try to ";
+                                this.try_logging_in = true;
+                            } else if (error.response.status === 500) {
+                                // Unknown status
+                                this.server_message =
+                                    "Server Error, please try to ";
+                                this.try_logging_in = true;
+                            } else {
+                                this.server_message = error.response.data.message;
+                            }
+                        } else {
+                            console.log(error.response);
+                            this.server_message = error;
+                        }
+                        this.scrollToTop();
+                        this.processing = false;
+                    });
+            }
         }
-    }
-};
+    };
 </script>

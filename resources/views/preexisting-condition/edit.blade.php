@@ -1,5 +1,5 @@
 @extends('layouts.crud-master')
-@php $nav_path = ['preexisting-condition']; @endphp
+@php $nav_path = ['preexisting-condition'] @endphp
 @section('page-title')
     Edit {{$preexisting_condition->name}}
 @endsection
@@ -15,5 +15,6 @@
     </ol>
 @endsection
 @section('content')
-    <preexisting-condition-form csrf_token="{{ csrf_token() }}" :record='@json($preexisting_condition)'></preexisting-condition-form>
+    <preexisting-condition-form csrf_token="{{ csrf_token() }}"
+                                :record='@json($preexisting_condition)'></preexisting-condition-form>
 @endsection

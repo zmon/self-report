@@ -1,17 +1,17 @@
 @extends('layouts.crud-master')
-@php $nav_path = ['symptom']; @endphp
+@php $nav_path = ['symptom'] @endphp
 @section('page-title')
-View {{$symptom->name}}
+    View {{$symptom->name}}
 @endsection
 @section('page-header-title')
-View {{$symptom->name}}
+    View {{$symptom->name}}
 @endsection
 @section('page-header-breadcrumbs')
-<ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('symptom.index') }}">Symptoms</a></li>
-    <li class="breadcrumb-item active" aria-current="location">View {{$symptom->name}}</li>
-</ol>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('symptom.index') }}">Symptoms</a></li>
+        <li class="breadcrumb-item active" aria-current="location">View {{$symptom->name}}</li>
+    </ol>
 @endsection
 @section('content')
 
@@ -31,7 +31,8 @@ View {{$symptom->name}}
                             <input type="hidden" name="_method" value="delete">
                             {{ csrf_field() }}
 
-                            <input class="btn btn-danger" Onclick="return ConfirmDelete();" type="submit" value="Delete Symptoms">
+                            <input class="btn btn-danger" Onclick="return ConfirmDelete();" type="submit"
+                                   value="Delete Symptoms">
 
                         </form>
                     @endif
@@ -42,16 +43,16 @@ View {{$symptom->name}}
             </div>
         </div>
     </div>
-</div>
+    </div>
 @endsection
 @section('scripts')
-<script>
-    function ConfirmDelete() {
-        var x = confirm("Are you sure you want to delete this Symptoms?");
-        if (x)
-            return true;
-        else
-            return false;
-    }
-</script>
+    <script>
+        function ConfirmDelete() {
+            var x = confirm("Are you sure you want to delete this Symptoms?");
+            if (x)
+                return true;
+            else
+                return false;
+        }
+    </script>
 @endsection

@@ -1,5 +1,5 @@
 @extends('layouts.crud-master')
-@php $nav_path = ['race-ethnicity']; @endphp
+@php $nav_path = ['race-ethnicity'] @endphp
 @section('page-title', 'Rax Ethnicities')
 @section('page-header-title', 'Rax Ethnicities')
 @section('page-help-link', '#TODO')
@@ -11,14 +11,14 @@
 @endsection
 @section('content')
     <race-ethnicity-grid :params="{
-            Page: '{{ $page }}',
-            Search: '{{ $search }}',
-            sortOrder: '{{ $direction }}',
-            sortKey: '{{ $column }}',
-            CanAdd: '{{ $can_add }}',
-            CanEdit: '{{ $can_edit }}',
-            CanShow: '{{ $can_show }}',
-            CanDelete: '{{ $can_delete }}',
-            CanExcel: '{{ $can_excel }}'
+        Page: '{{ $page }}',
+        Search: '{{ $search }}',
+        sortOrder: '{{ $direction }}',
+        sortKey: '{{ $column }}',
+        CanAdd: '{{ $can_add }}',
+        CanEdit: '{{ $can_edit }}',
+        CanShow: '{{ $can_show }}',
+        CanDelete: '{{ $can_delete }}',
+        CanExcel: '{{ $can_excel }}'
         }"></race-ethnicity-grid>
 @endsection

@@ -1,5 +1,5 @@
 @extends('layouts.crud-master')
-@php $nav_path = ['symptom']; @endphp
+@php $nav_path = ['symptom'] @endphp
 @section('page-title')
     Add New Symptoms
 @endsection

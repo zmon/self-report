@@ -2,24 +2,24 @@
     <form @submit.prevent="handleSubmit" class="form-horizontal">
 
         <div v-if="server_message !== false" class="alert alert-danger" role="alert">
-            {{ this.server_message}}  <a v-if="try_logging_in" href="/login">Login</a>
+            {{ this.server_message}} <a v-if="try_logging_in" href="/login">Login</a>
         </div>
 
-                    <div class="row">
-                <div class="col-md-12">
-                    <std-form-group label="Name" label-for="name" :errors="form_errors.name" :required="true">
-                        <fld-input
-                                name="name"
-                                v-model="form_data.name"
-                                required
-                        />
-                        <template slot="help">
-                            Name must be unique.
-                        </template>
-                    </std-form-group>
-                </div>
+        <div class="row">
+            <div class="col-md-12">
+                <std-form-group label="Name" label-for="name" :errors="form_errors.name" :required="true">
+                    <fld-input
+                        name="name"
+                        v-model="form_data.name"
+                        required
+                    />
+                    <template slot="help">
+                        Name must be unique.
+                    </template>
+                </std-form-group>
             </div>
-                
+        </div>
+
 
         <div class="form-group mt-4">
             <div class="row">
@@ -57,12 +57,12 @@
                 form_data: {
                     // _method: 'patch',
                     _token: this.csrf_token,
-                      id: 0,
-                                  name: '',
-                        },
+                    id: 0,
+                    name: '',
+                },
                 form_errors: {
-                id: false,
-                name: false,
+                    id: false,
+                    name: false,
                 },
                 server_message: false,
                 try_logging_in: false,
@@ -116,13 +116,13 @@
                                 Object.keys(error.response.data.errors).forEach(
                                     i => (this.$set(this.form_errors, i, error.response.data.errors[i]))
                                 );
-                            } else  if (error.response.status === 404) {  // Record not found
+                            } else if (error.response.status === 404) {  // Record not found
                                 this.server_message = 'Record not found';
                                 window.location = '/race-ethnicity';
-                            } else  if (error.response.status === 419) {  // Unknown status
+                            } else if (error.response.status === 419) {  // Unknown status
                                 this.server_message = 'Unknown Status, please try to ';
                                 this.try_logging_in = true;
-                            } else  if (error.response.status === 500) {  // Unknown status
+                            } else if (error.response.status === 500) {  // Unknown status
                                 this.server_message = 'Server Error, please try to ';
                                 this.try_logging_in = true;
                             } else {

@@ -1,5 +1,5 @@
 @extends('layouts.crud-master')
-@php $nav_path = ['preexisting-condition']; @endphp
+@php $nav_path = ['preexisting-condition'] @endphp
 @section('page-title')
     Add New Preexisting Conditions
 @endsection

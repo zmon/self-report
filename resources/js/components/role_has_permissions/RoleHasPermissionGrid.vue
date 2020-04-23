@@ -24,7 +24,7 @@
                         href="#"
                         @click.default="goToNew"
                         class="btn btn-primary mb-3 mb-sm-2 mr-3"
-                        >Add role_has_permissions</a
+                    >Add role_has_permissions</a
                     >
                     <search-form-group
                         class="mb-0"
@@ -52,52 +52,52 @@
         <div class="grid no-more-tables table-responsive mb-4">
             <table class="table table-striped table-hover mb-0">
                 <thead>
-                    <tr>
-                        <th style="width:20%;" class="text-lg-center">
-                            Actions
-                        </th>
-                    </tr>
+                <tr>
+                    <th style="width:20%;" class="text-lg-center">
+                        Actions
+                    </th>
+                </tr>
                 </thead>
                 <tbody>
-                    <tr v-if="gridState == 'wait'">
-                        <td colspan="1" class="grid-alert">
-                            <div class="alert alert-info" role="alert">
-                                Please wait.
-                            </div>
-                        </td>
-                    </tr>
-                    <tr v-if="gridState == 'error'">
-                        <td colspan="1" class="grid-alert">
-                            <div class="alert alert-warning" role="alert">
-                                Error please try again.
-                            </div>
-                        </td>
-                    </tr>
+                <tr v-if="gridState == 'wait'">
+                    <td colspan="1" class="grid-alert">
+                        <div class="alert alert-info" role="alert">
+                            Please wait.
+                        </div>
+                    </td>
+                </tr>
+                <tr v-if="gridState == 'error'">
+                    <td colspan="1" class="grid-alert">
+                        <div class="alert alert-warning" role="alert">
+                            Error please try again.
+                        </div>
+                    </td>
+                </tr>
 
-                    <tr v-if="gridState == 'good' && !gridData.length">
-                        <td colspan="1" class="grid-alert">
-                            <div class="alert alert-warning" role="alert">
-                                No matching records found.
-                            </div>
-                        </td>
-                    </tr>
+                <tr v-if="gridState == 'good' && !gridData.length">
+                    <td colspan="1" class="grid-alert">
+                        <div class="alert alert-warning" role="alert">
+                            No matching records found.
+                        </div>
+                    </td>
+                </tr>
 
-                    <tr v-else v-for="row in this.gridData" :key="row.id">
-                        <td
-                            data-title="Actions"
-                            class="text-lg-center text-nowrap"
-                        >
-                            <a
-                                v-bind:href="
+                <tr v-else v-for="row in this.gridData" :key="row.id">
+                    <td
+                        data-title="Actions"
+                        class="text-lg-center text-nowrap"
+                    >
+                        <a
+                            v-bind:href="
                                     '/role-has-permission/' + row.id + '/edit'
                                 "
-                                v-if="params.CanEdit"
-                                class="grid-action-item"
-                            >
-                                Edit
-                            </a>
-                        </td>
-                    </tr>
+                            v-if="params.CanEdit"
+                            class="grid-action-item"
+                        >
+                            Edit
+                        </a>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -109,12 +109,12 @@
                 <a
                     href="/role-has-permission/download"
                     class="btn btn-primary mb-2 mr-2"
-                    >Export to Excel</a
+                >Export to Excel</a
                 >
                 <a
                     href="/role-has-permission/print"
                     class="btn btn-primary mb-2 mr-2"
-                    >Print PDF</a
+                >Print PDF</a
                 >
             </div>
             <ss-grid-pagination
@@ -138,158 +138,159 @@
 </template>
 
 <script>
-import SsGridColumnHeader from "../SS/SsGridColumnHeader";
-import SsGridPagination from "../SS/SsGridPagination";
-import SsGridPaginationLocation from "../SS/SsPaginationLocation";
+    import SsGridColumnHeader from "../SS/SsGridColumnHeader";
+    import SsGridPagination from "../SS/SsGridPagination";
+    import SsGridPaginationLocation from "../SS/SsPaginationLocation";
 
-export default {
-    name: "role-has-permission-grid",
-    components: {
-        SsGridColumnHeader,
-        SsGridPaginationLocation,
-        SsGridPagination
-    },
-    props: {
-        params: {
-            type: Object,
-            default: function() {}
-        }
-    },
-
-    mounted: function() {
-        this.current_page = !isNaN(parseInt(this.params.Page))
-            ? parseInt(this.params.Page)
-            : 1;
-        this.query = this.params.Search;
-        this.getData(this.current_page);
-    },
-
-    data: function() {
-        return {
-            gridState: "wait",
-            query: this.params.Search,
-            gridData: [],
-            current_page: 1,
-            last_page: null,
-            total: null,
-
-            sortOrder: this.params.sortOrder,
-            sortKey: this.params.sortKey,
-
-            global_error_message: null,
-
-            form_errors: {
-                page: false,
-                keyword: false,
-                column: false,
-                direction: false
-            },
-            server_message: false,
-            try_logging_in: false
-        };
-    },
-
-    methods: {
-        goToNew: function() {
-            window.location.href = "/role-has-permission/create";
+    export default {
+        name: "role-has-permission-grid",
+        components: {
+            SsGridColumnHeader,
+            SsGridPaginationLocation,
+            SsGridPagination
         },
-
-        sortColumn: function(obj) {
-            this.sortKey = obj.sortField;
-            this.sortOrder = obj.sortOrder;
-            this.getData(1);
-        },
-
-        getData: function(new_page_number) {
-            this.global_error_message = null;
-
-            let getPage;
-
-            getPage =
-                this.getDataUrl(new_page_number) +
-                "&column=" +
-                this.sortKey +
-                "&direction=" +
-                this.sortOrder;
-
-            this.gridData = [];
-            this.gridState = "wait";
-
-            if (getPage != null) {
-                // We have a filter
-                axios
-                    .get(getPage)
-                    .then(response => {
-                        if (response.status === 200) {
-                            Object.keys(this.form_errors).forEach(
-                                i => (this.form_errors[i] = false)
-                            );
-                            this.gridData = response.data.data;
-                            this.total = response.data.total;
-                            this.current_page = response.data.current_page;
-                            this.last_page = response.data.last_page || 1;
-                        } else {
-                            this.server_message = res.status;
-                        }
-                        this.gridState = "good";
-                    })
-                    .catch(error => {
-                        if (error.response) {
-                            this.gridState = "error";
-                            if (error.response.status === 422) {
-                                // Clear errors out
-                                Object.keys(this.form_errors).forEach(
-                                    i => (this.form_errors[i] = false)
-                                );
-                                // Set current errors
-                                Object.keys(error.response.data.errors).forEach(
-                                    i =>
-                                        (this.form_errors[i] =
-                                            error.response.data.errors[i])
-                                );
-                            } else if (error.response.status === 404) {
-                                // Record not found
-                                this.server_message = "Record not found";
-                                window.location = "/role-has-permission";
-                            } else if (error.response.status === 419) {
-                                // Unknown status
-                                this.server_message =
-                                    "Unknown Status, please try to ";
-                                this.try_logging_in = true;
-                            } else if (error.response.status === 500) {
-                                // Unknown status
-                                this.server_message =
-                                    "Server Error, please try to ";
-                                this.try_logging_in = true;
-                            } else {
-                                this.server_message =
-                                    error.response.data.message;
-                            }
-                        } else {
-                            console.log(error.response);
-                            this.server_message = error;
-                        }
-                    });
+        props: {
+            params: {
+                type: Object,
+                default: function () {
+                }
             }
         },
 
-        getDataUrl: function(new_page_number) {
-            var url = "api-role-has-permission?";
-            var queryParams = [];
+        mounted: function () {
+            this.current_page = !isNaN(parseInt(this.params.Page))
+                ? parseInt(this.params.Page)
+                : 1;
+            this.query = this.params.Search;
+            this.getData(this.current_page);
+        },
 
-            queryParams.push("page=" + new_page_number);
+        data: function () {
+            return {
+                gridState: "wait",
+                query: this.params.Search,
+                gridData: [],
+                current_page: 1,
+                last_page: null,
+                total: null,
 
-            if (this.isDefined(this.query) && this.query.trim().length > 0)
-                queryParams.push("keyword=" + this.query);
+                sortOrder: this.params.sortOrder,
+                sortKey: this.params.sortKey,
 
-            //                if (this.isDefined(this.searchType)) queryParams.push('search_type=' + this.searchType);
-            //                if (this.isDefined(this.showFilter)) queryParams.push('show_filter=' + this.showFilter);
-            //                if (this.isDefined(this.contractorSelected)) queryParams.push('contractor_id=' + this.contractorSelected);
+                global_error_message: null,
 
-            if (queryParams.length > 0) url += queryParams.join("&");
+                form_errors: {
+                    page: false,
+                    keyword: false,
+                    column: false,
+                    direction: false
+                },
+                server_message: false,
+                try_logging_in: false
+            };
+        },
 
-            return url;
+        methods: {
+            goToNew: function () {
+                window.location.href = "/role-has-permission/create";
+            },
+
+            sortColumn: function (obj) {
+                this.sortKey = obj.sortField;
+                this.sortOrder = obj.sortOrder;
+                this.getData(1);
+            },
+
+            getData: function (new_page_number) {
+                this.global_error_message = null;
+
+                let getPage;
+
+                getPage =
+                    this.getDataUrl(new_page_number) +
+                    "&column=" +
+                    this.sortKey +
+                    "&direction=" +
+                    this.sortOrder;
+
+                this.gridData = [];
+                this.gridState = "wait";
+
+                if (getPage != null) {
+                    // We have a filter
+                    axios
+                        .get(getPage)
+                        .then(response => {
+                            if (response.status === 200) {
+                                Object.keys(this.form_errors).forEach(
+                                    i => (this.form_errors[i] = false)
+                                );
+                                this.gridData = response.data.data;
+                                this.total = response.data.total;
+                                this.current_page = response.data.current_page;
+                                this.last_page = response.data.last_page || 1;
+                            } else {
+                                this.server_message = res.status;
+                            }
+                            this.gridState = "good";
+                        })
+                        .catch(error => {
+                            if (error.response) {
+                                this.gridState = "error";
+                                if (error.response.status === 422) {
+                                    // Clear errors out
+                                    Object.keys(this.form_errors).forEach(
+                                        i => (this.form_errors[i] = false)
+                                    );
+                                    // Set current errors
+                                    Object.keys(error.response.data.errors).forEach(
+                                        i =>
+                                            (this.form_errors[i] =
+                                                error.response.data.errors[i])
+                                    );
+                                } else if (error.response.status === 404) {
+                                    // Record not found
+                                    this.server_message = "Record not found";
+                                    window.location = "/role-has-permission";
+                                } else if (error.response.status === 419) {
+                                    // Unknown status
+                                    this.server_message =
+                                        "Unknown Status, please try to ";
+                                    this.try_logging_in = true;
+                                } else if (error.response.status === 500) {
+                                    // Unknown status
+                                    this.server_message =
+                                        "Server Error, please try to ";
+                                    this.try_logging_in = true;
+                                } else {
+                                    this.server_message =
+                                        error.response.data.message;
+                                }
+                            } else {
+                                console.log(error.response);
+                                this.server_message = error;
+                            }
+                        });
+                }
+            },
+
+            getDataUrl: function (new_page_number) {
+                var url = "api-role-has-permission?";
+                var queryParams = [];
+
+                queryParams.push("page=" + new_page_number);
+
+                if (this.isDefined(this.query) && this.query.trim().length > 0)
+                    queryParams.push("keyword=" + this.query);
+
+                //                if (this.isDefined(this.searchType)) queryParams.push('search_type=' + this.searchType);
+                //                if (this.isDefined(this.showFilter)) queryParams.push('show_filter=' + this.showFilter);
+                //                if (this.isDefined(this.contractorSelected)) queryParams.push('contractor_id=' + this.contractorSelected);
+
+                if (queryParams.length > 0) url += queryParams.join("&");
+
+                return url;
+            }
         }
-    }
-};
+    };
 </script>

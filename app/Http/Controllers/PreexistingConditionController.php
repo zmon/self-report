@@ -3,30 +3,34 @@
 namespace App\Http\Controllers;
 
 
-
+use App;
 use App\Http\Middleware\TrimStrings;
 use App\PreexistingCondition;
+use DateTime;
+use DateTimeZone;
+use Exception;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\PreexistingConditionFormRequest;
 use App\Http\Requests\PreexistingConditionIndexRequest;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 use App\Exports\PreexistingConditionExport;
 use Maatwebsite\Excel\Facades\Excel;
+
 //use PDF; // TCPDF, not currently in use
 
 class PreexistingConditionController extends Controller
 {
 
 
-
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(PreexistingConditionIndexRequest $request)
     {
@@ -56,10 +60,10 @@ class PreexistingConditionController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-	public function create()
-	{
+    public function create()
+    {
 
         if (!Auth::user()->can('preexisting_condition add')) {  // TODO: add -> create
             \Session::flash('flash_error_message', 'You do not have access to add a Preexisting Conditions.');
@@ -70,24 +74,24 @@ class PreexistingConditionController extends Controller
             }
         }
 
-	    return view('preexisting-condition.create');
-	}
+        return view('preexisting-condition.create');
+    }
 
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(PreexistingConditionFormRequest $request)
     {
 
-        $preexisting_condition = new \App\PreexistingCondition;
+        $preexisting_condition = new PreexistingCondition;
 
         try {
             $preexisting_condition->add($request->validated());
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'message' => 'Unable to process request'
             ], 400);
@@ -104,8 +108,8 @@ class PreexistingConditionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  integer $id
-     * @return \Illuminate\Http\Response
+     * @param integer $id
+     * @return Response
      */
     public function show($id)
     {
@@ -122,7 +126,7 @@ class PreexistingConditionController extends Controller
         if ($preexisting_condition = $this->sanitizeAndFind($id)) {
             $can_edit = Auth::user()->can('preexisting_condition edit');
             $can_delete = (Auth::user()->can('preexisting_condition delete') && $preexisting_condition->canDelete());
-            return view('preexisting-condition.show', compact('preexisting_condition','can_edit', 'can_delete'));
+            return view('preexisting-condition.show', compact('preexisting_condition', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Preexisting Conditions to display.');
             return Redirect::route('preexisting-condition.index');
@@ -132,8 +136,8 @@ class PreexistingConditionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  integer $id
-     * @return \Illuminate\Http\Response
+     * @param integer $id
+     * @return Response
      */
     public function edit($id)
     {
@@ -158,8 +162,8 @@ class PreexistingConditionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\PreexistingCondition $preexisting_condition     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param PreexistingCondition $preexisting_condition * @return \Illuminate\Http\Response
      */
     public function update(PreexistingConditionFormRequest $request, $id)
     {
@@ -174,7 +178,7 @@ class PreexistingConditionController extends Controller
 //        }
 
         if (!$preexisting_condition = $this->sanitizeAndFind($id)) {
-       //     \Session::flash('flash_error_message', 'Unable to find Preexisting Conditions to edit.');
+            //     \Session::flash('flash_error_message', 'Unable to find Preexisting Conditions to edit.');
             return response()->json([
                 'message' => 'Not Found'
             ], 404);
@@ -186,7 +190,7 @@ class PreexistingConditionController extends Controller
 
             try {
                 $preexisting_condition->save();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Unable to process request'
                 ], 400);
@@ -205,7 +209,7 @@ class PreexistingConditionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\PreexistingCondition $preexisting_condition     * @return \Illuminate\Http\Response
+     * @param PreexistingCondition $preexisting_condition * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
@@ -213,7 +217,7 @@ class PreexistingConditionController extends Controller
         if (!Auth::user()->can('preexisting_condition delete')) {
             \Session::flash('flash_error_message', 'You do not have access to remove a Preexisting Conditions.');
             if (Auth::user()->can('preexisting_condition index')) {
-                 return Redirect::route('preexisting-condition.index');
+                return Redirect::route('preexisting-condition.index');
             } else {
                 return Redirect::route('home');
             }
@@ -221,11 +225,11 @@ class PreexistingConditionController extends Controller
 
         $preexisting_condition = $this->sanitizeAndFind($id);
 
-        if ( $preexisting_condition  && $preexisting_condition->canDelete()) {
+        if ($preexisting_condition && $preexisting_condition->canDelete()) {
 
             try {
                 $preexisting_condition->delete();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Unable to process request.'
                 ], 400);
@@ -238,7 +242,7 @@ class PreexistingConditionController extends Controller
         }
 
         if (Auth::user()->can('preexisting_condition index')) {
-             return Redirect::route('preexisting-condition.index');
+            return Redirect::route('preexisting-condition.index');
         } else {
             return Redirect::route('home');
         }
@@ -254,7 +258,7 @@ class PreexistingConditionController extends Controller
      */
     private function sanitizeAndFind($id)
     {
-        return \App\PreexistingCondition::find(intval($id));
+        return PreexistingCondition::find(intval($id));
     }
 
 
@@ -293,8 +297,8 @@ class PreexistingConditionController extends Controller
     }
 
 
-        public function print()
-{
+    public function print()
+    {
         if (!Auth::user()->can('preexisting_condition export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
             \Session::flash('flash_error_message', 'You do not have access to print Preexisting Conditions.');
             if (Auth::user()->can('preexisting_condition index')) {
@@ -320,14 +324,14 @@ class PreexistingConditionController extends Controller
         $data = $dataQuery->get();
 
         // Pass it to the view for html formatting:
-        $printHtml = view('preexisting-condition.print', compact( 'data' ) );
+        $printHtml = view('preexisting-condition.print', compact('data'));
 
         // Begin DOMPDF/laravel-dompdf
-        $pdf = \App::make('dompdf.wrapper');
+        $pdf = App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => TRUE]);
         $pdf->loadHTML($printHtml);
-        $currentDate = new \DateTime(null, new \DateTimeZone('America/Chicago'));
+        $currentDate = new DateTime(null, new DateTimeZone('America/Chicago'));
         return $pdf->stream('preexisting-condition-' . $currentDate->format('Ymd_Hi') . '.pdf');
 
         /*

@@ -6,6 +6,7 @@ use App\RaceEthnicity;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RaceEthnicityIndexRequest;
+use Illuminate\Http\Response;
 
 class RaceEthnicityApi extends Controller
 {
@@ -14,7 +15,7 @@ class RaceEthnicityApi extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(RaceEthnicityIndexRequest $request)
     {
@@ -44,7 +45,8 @@ class RaceEthnicityApi extends Controller
      * Returns "options" for HTML select
      * @return array
      */
-    public function getOptions() {
+    public function getOptions()
+    {
 
         return RaceEthnicity::getOptions();
     }
@@ -52,8 +54,8 @@ class RaceEthnicityApi extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -63,8 +65,8 @@ class RaceEthnicityApi extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function show($id)
     {
@@ -74,9 +76,9 @@ class RaceEthnicityApi extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int $id
+     * @return Response
      */
     public function update(Request $request, $id)
     {
@@ -86,8 +88,8 @@ class RaceEthnicityApi extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function destroy($id)
     {

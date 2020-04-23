@@ -1,6 +1,6 @@
 /**
 
-<dsp-date v-model="PostData.created_on" />
+<dsp-date v-model="PostData.created_on"/>
 
 */
 
@@ -9,23 +9,24 @@
 </template>
 
 <script>
-import moment from "moment";
-export default {
-    name: "dsp-date",
-    props: {
-        value: {
-            default: null
-        },
+    import moment from "moment";
 
-    },
-    computed: {
-        display_date: function() {
-            if (this.value) {
-                return moment(String(this.value)).format("MM/DD/YYYY");
-            } else {
-                return "";
+    export default {
+        name: "dsp-date",
+        props: {
+            value: {
+                default: null
+            },
+
+        },
+        computed: {
+            display_date: function () {
+                if (this.value) {
+                    return moment(String(this.value)).format("MM/DD/YYYY");
+                } else {
+                    return "";
+                }
             }
         }
-    }
-};
+    };
 </script>

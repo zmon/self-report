@@ -24,9 +24,9 @@
 </template>
 
 <script>
-export default {
-    name: "ss-grid"
-};
+    export default {
+        name: "ss-grid"
+    };
 </script>
 
 <style scoped></style>

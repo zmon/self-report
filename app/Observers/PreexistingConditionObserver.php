@@ -17,7 +17,7 @@ class PreexistingConditionObserver
     /**
      * Handle the charge "created" event.
      *
-     * @param  PreexistingCondition  $model
+     * @param PreexistingCondition $model
      * @return void
      */
     public function created(PreexistingCondition $model)
@@ -28,7 +28,7 @@ class PreexistingConditionObserver
     /**
      * Handle the charge "updated" event.
      *
-     * @param  PreexistingCondition  $model
+     * @param PreexistingCondition $model
      * @return void
      */
     public function updated(PreexistingCondition $model)
@@ -39,7 +39,7 @@ class PreexistingConditionObserver
     /**
      * Handle the charge "deleted" event.
      *
-     * @param  PreexistingCondition  $model
+     * @param PreexistingCondition $model
      * @return void
      */
     public function deleting(PreexistingCondition $model)
@@ -58,7 +58,7 @@ class PreexistingConditionObserver
     /**
      * Handle the charge "deleted" event.
      *
-     * @param  PreexistingCondition  $model
+     * @param PreexistingCondition $model
      * @return void
      */
     public function deleted(PreexistingCondition $model)
@@ -69,7 +69,7 @@ class PreexistingConditionObserver
     /**
      * Handle the charge "restored" event.
      *
-     * @param  PreexistingCondition  $model
+     * @param PreexistingCondition $model
      * @return void
      */
     public function restored(PreexistingCondition $model)
@@ -80,7 +80,7 @@ class PreexistingConditionObserver
     /**
      * Handle the charge "force deleted" event.
      *
-     * @param  PreexistingCondition  $model
+     * @param PreexistingCondition $model
      * @return void
      */
     public function forceDeleted(PreexistingCondition $model)

@@ -33,10 +33,10 @@ class OrganizationExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-                        'id',
-                        'name',
-                        'alias',
-                    ];
+            'id',
+            'name',
+            'alias',
+        ];
     }
 
     // Map/format each field that's being exported
@@ -46,9 +46,9 @@ class OrganizationExport implements FromQuery, WithHeadings, WithMapping
     {
         return [
 
-                        $organization->id,
-                        $organization->name,
-                        $organization->alias,
-                    ];
+            $organization->id,
+            $organization->name,
+            $organization->alias,
+        ];
     }
 }

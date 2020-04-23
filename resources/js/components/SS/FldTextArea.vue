@@ -1,6 +1,6 @@
 /** For text area Example usage: =====================
 
-<fld-text-editor name="description" v-model="form_data.description" required />
+<fld-text-editor name="description" v-model="form_data.description" required/>
 
 */
 
@@ -16,20 +16,21 @@
 </template>
 
 <script>
-export default {
-    name: "fld-text-area",
-    props: {
-        params: {
-            type: Object,
-            default: function() {}
-        },
-        value: {
-            default: null
-        },
-        name: {
-            type: String,
-            default: ""
+    export default {
+        name: "fld-text-area",
+        props: {
+            params: {
+                type: Object,
+                default: function () {
+                }
+            },
+            value: {
+                default: null
+            },
+            name: {
+                type: String,
+                default: ""
+            }
         }
-    }
-};
+    };
 </script>

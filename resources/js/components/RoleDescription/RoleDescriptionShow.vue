@@ -9,7 +9,7 @@
                             Role Id
                         </label>
                         <div class="col-md-8">
-                            <dsp-text v-model="record.role_id" />
+                            <dsp-text v-model="record.role_id"/>
                         </div>
                     </div>
                     <div class="form-group row mb-2 mb-md-0 text-only">
@@ -17,7 +17,7 @@
                             Role Name
                         </label>
                         <div class="col-md-8">
-                            <dsp-text v-model="record.role_name" />
+                            <dsp-text v-model="record.role_name"/>
                         </div>
                     </div>
                     <div class="form-group row mb-2 mb-md-0 text-only">
@@ -25,7 +25,7 @@
                             Name
                         </label>
                         <div class="col-md-8">
-                            <dsp-text v-model="record.name" />
+                            <dsp-text v-model="record.name"/>
                         </div>
                     </div>
                     <div class="form-group row mb-2 mb-md-0 text-only">
@@ -33,7 +33,7 @@
                             Description
                         </label>
                         <div class="col-md-8">
-                            <dsp-text v-model="record.description" />
+                            <dsp-text v-model="record.description"/>
                         </div>
                     </div>
                     <div class="form-group row mb-2 mb-md-0 text-only">
@@ -41,7 +41,7 @@
                             Sequence
                         </label>
                         <div class="col-md-8">
-                            <dsp-text v-model="record.sequence" />
+                            <dsp-text v-model="record.sequence"/>
                         </div>
                     </div>
                     <div class="form-group row mb-2 mb-md-0 text-only">
@@ -49,7 +49,7 @@
                             Roles That Can Assign
                         </label>
                         <div class="col-md-8">
-                            <dsp-text v-model="record.roles_that_can_assign" />
+                            <dsp-text v-model="record.roles_that_can_assign"/>
                         </div>
                     </div>
                     <div class="form-group row mb-2 mb-md-0 text-only">
@@ -57,7 +57,7 @@
                             Deleted At
                         </label>
                         <div class="col-md-8">
-                            <dsp-text v-model="record.deleted_at" />
+                            <dsp-text v-model="record.deleted_at"/>
                         </div>
                     </div>
                 </div>
@@ -67,13 +67,13 @@
 </template>
 
 <script>
-export default {
-    name: "role-description-show",
-    props: {
-        record: {
-            type: [Boolean, Object],
-            default: false
+    export default {
+        name: "role-description-show",
+        props: {
+            record: {
+                type: [Boolean, Object],
+                default: false
+            }
         }
-    }
-};
+    };
 </script>

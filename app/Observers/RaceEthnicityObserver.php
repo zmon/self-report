@@ -17,7 +17,7 @@ class RaceEthnicityObserver
     /**
      * Handle the charge "created" event.
      *
-     * @param  RaceEthnicity  $model
+     * @param RaceEthnicity $model
      * @return void
      */
     public function created(RaceEthnicity $model)
@@ -28,7 +28,7 @@ class RaceEthnicityObserver
     /**
      * Handle the charge "updated" event.
      *
-     * @param  RaceEthnicity  $model
+     * @param RaceEthnicity $model
      * @return void
      */
     public function updated(RaceEthnicity $model)
@@ -39,7 +39,7 @@ class RaceEthnicityObserver
     /**
      * Handle the charge "deleted" event.
      *
-     * @param  RaceEthnicity  $model
+     * @param RaceEthnicity $model
      * @return void
      */
     public function deleting(RaceEthnicity $model)
@@ -58,7 +58,7 @@ class RaceEthnicityObserver
     /**
      * Handle the charge "deleted" event.
      *
-     * @param  RaceEthnicity  $model
+     * @param RaceEthnicity $model
      * @return void
      */
     public function deleted(RaceEthnicity $model)
@@ -69,7 +69,7 @@ class RaceEthnicityObserver
     /**
      * Handle the charge "restored" event.
      *
-     * @param  RaceEthnicity  $model
+     * @param RaceEthnicity $model
      * @return void
      */
     public function restored(RaceEthnicity $model)
@@ -80,7 +80,7 @@ class RaceEthnicityObserver
     /**
      * Handle the charge "force deleted" event.
      *
-     * @param  RaceEthnicity  $model
+     * @param RaceEthnicity $model
      * @return void
      */
     public function forceDeleted(RaceEthnicity $model)

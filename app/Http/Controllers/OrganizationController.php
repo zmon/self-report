@@ -3,30 +3,34 @@
 namespace App\Http\Controllers;
 
 
-
+use App;
 use App\Http\Middleware\TrimStrings;
 use App\Organization;
+use DateTime;
+use DateTimeZone;
+use Exception;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\OrganizationFormRequest;
 use App\Http\Requests\OrganizationIndexRequest;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 use App\Exports\OrganizationExport;
 use Maatwebsite\Excel\Facades\Excel;
+
 //use PDF; // TCPDF, not currently in use
 
 class OrganizationController extends Controller
 {
 
 
-
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(OrganizationIndexRequest $request)
     {
@@ -56,10 +60,10 @@ class OrganizationController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-	public function create()
-	{
+    public function create()
+    {
 
         if (!Auth::user()->can('organization add')) {  // TODO: add -> create
             \Session::flash('flash_error_message', 'You do not have access to add a Organizations.');
@@ -70,24 +74,24 @@ class OrganizationController extends Controller
             }
         }
 
-	    return view('organization.create');
-	}
+        return view('organization.create');
+    }
 
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(OrganizationFormRequest $request)
     {
 
-        $organization = new \App\Organization;
+        $organization = new Organization;
 
         try {
             $organization->add($request->validated());
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'message' => 'Unable to process request'
             ], 400);
@@ -104,8 +108,8 @@ class OrganizationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  integer $id
-     * @return \Illuminate\Http\Response
+     * @param integer $id
+     * @return Response
      */
     public function show($id)
     {
@@ -122,7 +126,7 @@ class OrganizationController extends Controller
         if ($organization = $this->sanitizeAndFind($id)) {
             $can_edit = Auth::user()->can('organization edit');
             $can_delete = (Auth::user()->can('organization delete') && $organization->canDelete());
-            return view('organization.show', compact('organization','can_edit', 'can_delete'));
+            return view('organization.show', compact('organization', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Organizations to display.');
             return Redirect::route('organization.index');
@@ -132,8 +136,8 @@ class OrganizationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  integer $id
-     * @return \Illuminate\Http\Response
+     * @param integer $id
+     * @return Response
      */
     public function edit($id)
     {
@@ -158,8 +162,8 @@ class OrganizationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Organization $organization     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Organization $organization * @return \Illuminate\Http\Response
      */
     public function update(OrganizationFormRequest $request, $id)
     {
@@ -174,7 +178,7 @@ class OrganizationController extends Controller
 //        }
 
         if (!$organization = $this->sanitizeAndFind($id)) {
-       //     \Session::flash('flash_error_message', 'Unable to find Organizations to edit.');
+            //     \Session::flash('flash_error_message', 'Unable to find Organizations to edit.');
             return response()->json([
                 'message' => 'Not Found'
             ], 404);
@@ -186,7 +190,7 @@ class OrganizationController extends Controller
 
             try {
                 $organization->save();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Unable to process request'
                 ], 400);
@@ -205,7 +209,7 @@ class OrganizationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Organization $organization     * @return \Illuminate\Http\Response
+     * @param Organization $organization * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
@@ -213,7 +217,7 @@ class OrganizationController extends Controller
         if (!Auth::user()->can('organization delete')) {
             \Session::flash('flash_error_message', 'You do not have access to remove a Organizations.');
             if (Auth::user()->can('organization index')) {
-                 return Redirect::route('organization.index');
+                return Redirect::route('organization.index');
             } else {
                 return Redirect::route('home');
             }
@@ -221,11 +225,11 @@ class OrganizationController extends Controller
 
         $organization = $this->sanitizeAndFind($id);
 
-        if ( $organization  && $organization->canDelete()) {
+        if ($organization && $organization->canDelete()) {
 
             try {
                 $organization->delete();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Unable to process request.'
                 ], 400);
@@ -238,7 +242,7 @@ class OrganizationController extends Controller
         }
 
         if (Auth::user()->can('organization index')) {
-             return Redirect::route('organization.index');
+            return Redirect::route('organization.index');
         } else {
             return Redirect::route('home');
         }
@@ -254,7 +258,7 @@ class OrganizationController extends Controller
      */
     private function sanitizeAndFind($id)
     {
-        return \App\Organization::find(intval($id));
+        return Organization::find(intval($id));
     }
 
 
@@ -293,8 +297,8 @@ class OrganizationController extends Controller
     }
 
 
-        public function print()
-{
+    public function print()
+    {
         if (!Auth::user()->can('organization export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
             \Session::flash('flash_error_message', 'You do not have access to print Organizations.');
             if (Auth::user()->can('organization index')) {
@@ -321,14 +325,14 @@ class OrganizationController extends Controller
         $data = $dataQuery->get();
 
         // Pass it to the view for html formatting:
-        $printHtml = view('organization.print', compact( 'data' ) );
+        $printHtml = view('organization.print', compact('data'));
 
         // Begin DOMPDF/laravel-dompdf
-        $pdf = \App::make('dompdf.wrapper');
+        $pdf = App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => TRUE]);
         $pdf->loadHTML($printHtml);
-        $currentDate = new \DateTime(null, new \DateTimeZone('America/Chicago'));
+        $currentDate = new DateTime(null, new DateTimeZone('America/Chicago'));
         return $pdf->stream('organization-' . $currentDate->format('Ymd_Hi') . '.pdf');
 
         /*

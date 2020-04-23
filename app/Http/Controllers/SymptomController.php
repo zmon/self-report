@@ -3,30 +3,34 @@
 namespace App\Http\Controllers;
 
 
-
+use App;
 use App\Http\Middleware\TrimStrings;
 use App\Symptom;
+use DateTime;
+use DateTimeZone;
+use Exception;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\SymptomFormRequest;
 use App\Http\Requests\SymptomIndexRequest;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 use App\Exports\SymptomExport;
 use Maatwebsite\Excel\Facades\Excel;
+
 //use PDF; // TCPDF, not currently in use
 
 class SymptomController extends Controller
 {
 
 
-
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(SymptomIndexRequest $request)
     {
@@ -56,10 +60,10 @@ class SymptomController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-	public function create()
-	{
+    public function create()
+    {
 
         if (!Auth::user()->can('symptom add')) {  // TODO: add -> create
             \Session::flash('flash_error_message', 'You do not have access to add a Symptoms.');
@@ -70,24 +74,24 @@ class SymptomController extends Controller
             }
         }
 
-	    return view('symptom.create');
-	}
+        return view('symptom.create');
+    }
 
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(SymptomFormRequest $request)
     {
 
-        $symptom = new \App\Symptom;
+        $symptom = new Symptom;
 
         try {
             $symptom->add($request->validated());
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'message' => 'Unable to process request'
             ], 400);
@@ -104,8 +108,8 @@ class SymptomController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  integer $id
-     * @return \Illuminate\Http\Response
+     * @param integer $id
+     * @return Response
      */
     public function show($id)
     {
@@ -122,7 +126,7 @@ class SymptomController extends Controller
         if ($symptom = $this->sanitizeAndFind($id)) {
             $can_edit = Auth::user()->can('symptom edit');
             $can_delete = (Auth::user()->can('symptom delete') && $symptom->canDelete());
-            return view('symptom.show', compact('symptom','can_edit', 'can_delete'));
+            return view('symptom.show', compact('symptom', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Symptoms to display.');
             return Redirect::route('symptom.index');
@@ -132,8 +136,8 @@ class SymptomController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  integer $id
-     * @return \Illuminate\Http\Response
+     * @param integer $id
+     * @return Response
      */
     public function edit($id)
     {
@@ -158,8 +162,8 @@ class SymptomController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Symptom $symptom     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Symptom $symptom * @return \Illuminate\Http\Response
      */
     public function update(SymptomFormRequest $request, $id)
     {
@@ -174,7 +178,7 @@ class SymptomController extends Controller
 //        }
 
         if (!$symptom = $this->sanitizeAndFind($id)) {
-       //     \Session::flash('flash_error_message', 'Unable to find Symptoms to edit.');
+            //     \Session::flash('flash_error_message', 'Unable to find Symptoms to edit.');
             return response()->json([
                 'message' => 'Not Found'
             ], 404);
@@ -186,7 +190,7 @@ class SymptomController extends Controller
 
             try {
                 $symptom->save();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Unable to process request'
                 ], 400);
@@ -205,7 +209,7 @@ class SymptomController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Symptom $symptom     * @return \Illuminate\Http\Response
+     * @param Symptom $symptom * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
@@ -213,7 +217,7 @@ class SymptomController extends Controller
         if (!Auth::user()->can('symptom delete')) {
             \Session::flash('flash_error_message', 'You do not have access to remove a Symptoms.');
             if (Auth::user()->can('symptom index')) {
-                 return Redirect::route('symptom.index');
+                return Redirect::route('symptom.index');
             } else {
                 return Redirect::route('home');
             }
@@ -221,11 +225,11 @@ class SymptomController extends Controller
 
         $symptom = $this->sanitizeAndFind($id);
 
-        if ( $symptom  && $symptom->canDelete()) {
+        if ($symptom && $symptom->canDelete()) {
 
             try {
                 $symptom->delete();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Unable to process request.'
                 ], 400);
@@ -238,7 +242,7 @@ class SymptomController extends Controller
         }
 
         if (Auth::user()->can('symptom index')) {
-             return Redirect::route('symptom.index');
+            return Redirect::route('symptom.index');
         } else {
             return Redirect::route('home');
         }
@@ -254,7 +258,7 @@ class SymptomController extends Controller
      */
     private function sanitizeAndFind($id)
     {
-        return \App\Symptom::find(intval($id));
+        return Symptom::find(intval($id));
     }
 
 
@@ -293,8 +297,8 @@ class SymptomController extends Controller
     }
 
 
-        public function print()
-{
+    public function print()
+    {
         if (!Auth::user()->can('symptom export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
             \Session::flash('flash_error_message', 'You do not have access to print Symptoms.');
             if (Auth::user()->can('symptom index')) {
@@ -320,14 +324,14 @@ class SymptomController extends Controller
         $data = $dataQuery->get();
 
         // Pass it to the view for html formatting:
-        $printHtml = view('symptom.print', compact( 'data' ) );
+        $printHtml = view('symptom.print', compact('data'));
 
         // Begin DOMPDF/laravel-dompdf
-        $pdf = \App::make('dompdf.wrapper');
+        $pdf = App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
         $pdf->setOptions(['isPhpEnabled' => TRUE]);
         $pdf->loadHTML($printHtml);
-        $currentDate = new \DateTime(null, new \DateTimeZone('America/Chicago'));
+        $currentDate = new DateTime(null, new DateTimeZone('America/Chicago'));
         return $pdf->stream('symptom-' . $currentDate->format('Ymd_Hi') . '.pdf');
 
         /*

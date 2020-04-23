@@ -1,5 +1,5 @@
 @extends('layouts.crud-master')
-@php $nav_path = ['self-report']; @endphp
+@php $nav_path = ['self-report'] @endphp
 @section('page-title')
     Add New Self Reports
 @endsection

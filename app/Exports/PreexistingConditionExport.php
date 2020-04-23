@@ -33,9 +33,9 @@ class PreexistingConditionExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-                        'id',
-                        'name',
-                    ];
+            'id',
+            'name',
+        ];
     }
 
     // Map/format each field that's being exported
@@ -45,8 +45,8 @@ class PreexistingConditionExport implements FromQuery, WithHeadings, WithMapping
     {
         return [
 
-                        $preexisting_condition->id,
-                        $preexisting_condition->name,
-                    ];
+            $preexisting_condition->id,
+            $preexisting_condition->name,
+        ];
     }
 }

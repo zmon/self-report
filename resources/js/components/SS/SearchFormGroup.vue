@@ -6,7 +6,7 @@
         <label
             :class="'mb-2 mr-2 pt-2 pt-sm-0 ' + this.additionalLabelClasses"
             :for="this.labelFor != '' ? 'field_' + this.labelFor : false"
-            >{{ label }}</label
+        >{{ label }}</label
         >
         <div>
             <div class="help-block" v-if="this.errors !== false">
@@ -18,30 +18,30 @@
 </template>
 
 <script>
-export default {
-    name: "search-form-group",
-    props: {
-        label: {
-            type: String,
-            default: ""
+    export default {
+        name: "search-form-group",
+        props: {
+            label: {
+                type: String,
+                default: ""
+            },
+            labelFor: {
+                type: String,
+                default: ""
+            },
+            errors: {
+                type: [Array, Boolean],
+                default: false
+            },
+            additionalLabelClasses: {
+                type: String,
+                default: ""
+            }
         },
-        labelFor: {
-            type: String,
-            default: ""
-        },
-        errors: {
-            type: [Array, Boolean],
-            default: false
-        },
-        additionalLabelClasses: {
-            type: String,
-            default: ""
+        data() {
+            return {
+                has_errors: false
+            };
         }
-    },
-    data() {
-        return {
-            has_errors: false
-        };
-    }
-};
+    };
 </script>

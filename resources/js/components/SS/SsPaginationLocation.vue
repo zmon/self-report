@@ -8,12 +8,12 @@
 </template>
 
 <script>
-export default {
-    name: "ss-pagination-location",
-    props: {
-        current_page: [String, Number],
-        last_page: [String, Number],
-        total: [String, Number]
-    }
-};
+    export default {
+        name: "ss-pagination-location",
+        props: {
+            current_page: [String, Number],
+            last_page: [String, Number],
+            total: [String, Number]
+        }
+    };
 </script>

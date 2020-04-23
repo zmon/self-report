@@ -11,10 +11,6 @@
 @endsection
 @section('content')
 
-    <h1>Use Employee</h1>
-    <h1>DO NOT USE</h1>
-    <h1>DO NOT USE</h1>
-
     <invite-grid :params="{
         Page: '{{ $page }}',
         Search: '{{ $search }}',

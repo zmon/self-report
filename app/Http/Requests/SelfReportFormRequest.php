@@ -33,8 +33,8 @@ class SelfReportFormRequest extends FormRequest
         $id = $this->route('self_report');
 
         $rules = [
-         //  Ignore duplicate email if it is this record
-         //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
+            //  Ignore duplicate email if it is this record
+            //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
 
 
             'id' => 'numeric',
@@ -70,11 +70,11 @@ class SelfReportFormRequest extends FormRequest
 
         ];
 
-                if ($this->route('self_report')) {  // If ID we must be changing an existing record
-                    $rules['name'] = 'required|min:3|nullable|string|max:100|unique:self_reports,name,' . $id;
-                } else {  // If not we must be adding one
-                    $rules['name'] = 'required|min:3|nullable|string|max:100|unique:self_reports';
-                }
+        if ($this->route('self_report')) {  // If ID we must be changing an existing record
+            $rules['name'] = 'required|min:3|nullable|string|max:100|unique:self_reports,name,' . $id;
+        } else {  // If not we must be adding one
+            $rules['name'] = 'required|min:3|nullable|string|max:100|unique:self_reports';
+        }
 
         return $rules;
     }
