@@ -40,6 +40,24 @@ class InitialPermissions
         Permission::findOrCreate('organization edit');
         Permission::findOrCreate('organization delete');
 
+        Permission::findOrCreate('preexisting_condition index');
+        Permission::findOrCreate('preexisting_condition view');
+        Permission::findOrCreate('preexisting_condition export-pdf');
+        Permission::findOrCreate('preexisting_condition export-excel');
+        Permission::findOrCreate('preexisting_condition add');
+        Permission::findOrCreate('preexisting_condition edit');
+        Permission::findOrCreate('preexisting_condition delete');
+
+        Permission::findOrCreate('race_ethnicity index');
+        Permission::findOrCreate('race_ethnicity view');
+        Permission::findOrCreate('race_ethnicity export-pdf');
+        Permission::findOrCreate('race_ethnicity export-excel');
+        Permission::findOrCreate('race_ethnicity add');
+        Permission::findOrCreate('race_ethnicity edit');
+        Permission::findOrCreate('race_ethnicity delete');
+
+
+
         Permission::findOrCreate('self_report index');
         Permission::findOrCreate('self_report view');
         Permission::findOrCreate('self_report export-pdf');
@@ -48,6 +66,13 @@ class InitialPermissions
         Permission::findOrCreate('self_report edit');
         Permission::findOrCreate('self_report delete');
 
+        Permission::findOrCreate('symptom index');
+        Permission::findOrCreate('symptom view');
+        Permission::findOrCreate('symptom export-pdf');
+        Permission::findOrCreate('symptom export-excel');
+        Permission::findOrCreate('symptom add');
+        Permission::findOrCreate('symptom edit');
+        Permission::findOrCreate('symptom delete');
 
         Permission::findOrCreate('user index');
         Permission::findOrCreate('user add');
@@ -104,13 +129,24 @@ class InitialPermissions
             'organization edit',
             'organization delete',
 
+            'preexisting_condition index',
+            'preexisting_condition view',
+            'preexisting_condition export-pdf',
+            'preexisting_condition export-excel',
+
+            'race_ethnicity index',
+            'race_ethnicity view',
+            'race_ethnicity export-pdf',
+            'race_ethnicity export-excel',
+
             'self_report index',
             'self_report view',
             'self_report export-pdf',
-            'self_report export-excel',
-            'self_report add',
-            'self_report edit',
-            'self_report delete',
+
+            'symptom index',
+            'symptom view',
+            'symptom export-pdf',
+            'symptom export-excel',
 
 
 
@@ -133,6 +169,18 @@ class InitialPermissions
 
         ]);
 
+        $role = Role::findOrCreate('Health Athority');
+//        $role->update(['can_assign' => true]);
+        $role->givePermissionTo([
+
+            'self_report index',
+            'self_report view',
+            'self_report export-pdf',
+            'self_report export-excel',
+
+        ]);
+
+
 
         $role = Role::findOrCreate('read-only');
 
@@ -140,8 +188,17 @@ class InitialPermissions
             'organization index',
             'organization view',
 
+            'preexisting_condition index',
+            'preexisting_condition view',
+
+            'race_ethnicity index',
+            'race_ethnicity view',
+
             'self_report index',
             'self_report view',
+
+            'symptom index',
+            'symptom view',
         ]);
 
 
