@@ -6,7 +6,6 @@ use App\Organization;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OrganizationIndexRequest;
-use Illuminate\Http\Response;
 
 class OrganizationApi extends Controller
 {
@@ -15,7 +14,7 @@ class OrganizationApi extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function index(OrganizationIndexRequest $request)
     {
@@ -38,15 +37,16 @@ class OrganizationApi extends Controller
         $keyword = $keyword != 'null' ? $keyword : '';
         $column = $column ? mb_strtolower($column) : 'name';
 
-        return Organization::indexData(10, $column, $direction, $keyword);
+        $data = Organization::indexData(10, $column, $direction, $keyword);
+        info(print_r($data,true));
+        return $data;
     }
 
     /**
      * Returns "options" for HTML select
      * @return array
      */
-    public function getOptions()
-    {
+    public function getOptions() {
 
         return Organization::getOptions();
     }
@@ -54,8 +54,8 @@ class OrganizationApi extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
-     * @return Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -65,8 +65,8 @@ class OrganizationApi extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
-     * @return Response
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
@@ -76,9 +76,9 @@ class OrganizationApi extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param int $id
-     * @return Response
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
@@ -88,8 +88,8 @@ class OrganizationApi extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
-     * @return Response
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {

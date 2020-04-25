@@ -32,6 +32,11 @@
                            aria-haspopup="true" aria-expanded="false">Admin</a>
                         <div class="dropdown-menu" aria-labelledby="dropdown-admin">
 
+                            @can(['organization index'])
+                                <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'organization') echo 'active' @endphp"
+                                   href="/organization">Organizations</a>
+                            @endcan
+                            
                             @can(['invite index'])
                                 <a class="dropdown-item @php if(isset($nav_path[1]) && $nav_path[1] == 'invite') echo 'active' @endphp"
                                    href="/invite">Invite Users</a>

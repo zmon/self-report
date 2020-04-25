@@ -1,17 +1,17 @@
 @extends('layouts.crud-master')
-@php $nav_path = ['self-report'] @endphp
+@php $nav_path = ['self-report']; @endphp
 @section('page-title')
-    Add New Self Reports
+    Add New SelfReports
 @endsection
 @section('page-header-title')
-    Add New Self Reports
+    Add New SelfReports
 @endsection
 @section('page-help-link', '#TODO')
 @section('page-header-breadcrumbs')
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('self-report.index') }}">Self Reports</a></li>
-        <li class="breadcrumb-item active" aria-current="location">Add New Self Reports</li>
+        <li class="breadcrumb-item"><a href="{{ route('self-report.index') }}">SelfReports</a></li>
+        <li class="breadcrumb-item active" aria-current="location">Add New SelfReports</li>
     </ol>
 @endsection
 @section('content')

@@ -14,7 +14,7 @@
                         required
                     />
                     <template slot="help">
-                        Name must be unique.
+                        Name must be unique and 120 characters or less.
                     </template>
                 </std-form-group>
             </div>
@@ -22,11 +22,96 @@
 
 
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-3">
                 <std-form-group label="Alias" label-for="alias" :errors="form_errors.alias">
                     <fld-input
                         name="alias"
                         v-model="form_data.alias"
+                    />
+                    <template slot="help">
+                        Alias must be unique and 16 characters or less.
+                    </template>
+                </std-form-group>
+            </div>
+
+            <div class="col-md-3">
+                <std-form-group label="Url Code" label-for="url_code" :errors="form_errors.url_code">
+                    <fld-input
+                        name="url_code"
+                        v-model="form_data.url_code"
+                    />
+                    <template slot="help">
+                        Alias must be unique and 16 characters or less.
+                    </template>
+                </std-form-group>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-6">
+                <std-form-group label="Contact Name" label-for="contact_name" :errors="form_errors.contact_name">
+                    <fld-input
+                        name="contact_name"
+                        v-model="form_data.contact_name"
+                    />
+                </std-form-group>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-6">
+                <std-form-group label="Title" label-for="title" :errors="form_errors.title">
+                    <fld-input
+                        name="title"
+                        v-model="form_data.title"
+                    />
+                </std-form-group>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-4">
+                <std-form-group label="Phone 1" label-for="phone_1" :errors="form_errors.phone_1">
+                    <fld-input
+                        name="phone_1"
+                        v-model="form_data.phone_1"
+                    />
+                </std-form-group>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-4">
+                <std-form-group label="Email" label-for="email" :errors="form_errors.email">
+                    <fld-input
+                        name="email"
+                        v-model="form_data.email"
+                    />
+                </std-form-group>
+            </div>
+        </div>
+
+
+<!--        <div class="row">-->
+<!--            <div class="col-md-6">-->
+<!--                <std-form-group label="Notes" label-for="notes" :errors="form_errors.notes">-->
+<!--                    <fld-text-editor name="notes" v-model="form_data.notes" required/>-->
+<!--                </std-form-group>-->
+<!--            </div>-->
+<!--        </div>-->
+
+
+        <div class="row">
+            {{ form_data.active }}
+            <div class="col-md-12">
+                <std-form-group label="Active" label-for="active" :errors="form_errors.active">
+                    <fld-checkbox
+                        name="active"
+                        v-model="form_data.active"
                     />
                 </std-form-group>
             </div>
@@ -72,11 +157,25 @@
                     id: 0,
                     name: '',
                     alias: '',
+                    url_code: '',
+                    contact_name: '',
+                    title: '',
+                    phone_1: '',
+                    email: '',
+                    notes: '',
+                    active: 0,
                 },
                 form_errors: {
                     id: false,
                     name: false,
                     alias: false,
+                    url_code: false,
+                    contact_name: false,
+                    title: false,
+                    phone_1: false,
+                    email: false,
+                    notes: false,
+                    active: false,
                 },
                 server_message: false,
                 try_logging_in: false,

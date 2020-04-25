@@ -20,38 +20,42 @@ class SelfReport extends Model
      * fillable - attributes that can be mass-assigned
      */
     protected $fillable = [
-        'id',
-        'name',
-        'exposed',
-        'public_private_exposure',
-        'state',
-        'kscounty',
-        'city_kcmo',
-        'zipcode',
-        'selfreport_or_other',
-        'whose_symptoms',
-        'sex',
-        'age',
-        'any_other_symptoms',
-        'symptom_severity',
-        'immunocompromised',
-        'symptom_start_date',
-        'followup_contact',
-        'preferred_contact_method',
-        'is_voicemail_ok',
-        'crowded_setting',
-        'anything_else',
-        'FormVersionId',
-        'FormId',
-        'FormVersionNumber',
-        'ExternalId',
-        'ExternalStatus',
-        'ExternalRespondentId',
-        'SourceType',
-        'SourceElementId',
-        'DataConnectionId',
-        'CallCounter',
-    ];
+            'id',
+            'organization_id',
+            'name',
+            'exposed',
+            'public_private_exposure',
+            'state',
+            'kscounty',
+            'mocounty',
+            'city_kcmo',
+            'zipcode',
+            'selfreport_or_other',
+            'whose_symptoms',
+            'sex',
+            'age',
+            'any_other_symptoms',
+            'symptom_severity',
+            'immunocompromised',
+            'symptom_start_date',
+            'followup_contact',
+            'preferred_contact_method',
+            'is_voicemail_ok',
+            'crowded_setting',
+            'anything_else',
+            'FormVersionId',
+            'FormId',
+            'FormVersionNumber',
+            'ExternalId',
+            'ExternalStatus',
+            'ExternalRespondentId',
+            'SourceType',
+            'SourceElementId',
+            'DataConnectionId',
+            'CallCounter',
+            'county_calc',
+            'form_received_at',
+        ];
 
     protected $hidden = [
         'active',
@@ -62,7 +66,7 @@ class SelfReport extends Model
         'updated_at',
     ];
 
-    public function organization()
+    public function organizations()
     {
         return $this->belongsTo('App\Organization');
     }
@@ -87,12 +91,12 @@ class SelfReport extends Model
 
         try {
             $this->fill($attributes)->save();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
-            throw new Exception($e->getMessage());
-        } catch (QueryException $e) {
+            throw new \Exception($e->getMessage());
+        } catch (\Illuminate\Database\QueryException $e) {
             info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
-            throw new Exception($e->getMessage());
+            throw new \Exception($e->getMessage());
         }
 
         return true;
@@ -119,16 +123,20 @@ class SelfReport extends Model
         $direction,
         $keyword = '')
     {
-        return self::buildBaseGridQuery($column, $direction, $keyword,
-            ['id',
-                'name',
-                'exposed',
-                'state',
-                'zipcode',
-                'symptom_start_date',
-            ])
-            ->paginate($per_page);
+        return  self::buildBaseGridQuery($column, $direction, $keyword,
+            [ 'self_reports.id',
+                    'organizations.alias',
+                    'organization_id',
+                    'self_reports.name',
+                    'state',
+                    'zipcode',
+                    'symptom_start_date',
+                    'county_calc',
+                    'form_received_at',
+            ])->paginate($per_page);
     }
+
+
 
 
     /**
@@ -164,7 +172,8 @@ class SelfReport extends Model
         }
 
         $query = SelfReport::select($columns)
-            ->orderBy($column, $direction);
+            ->leftJoin('organizations','self_reports.organization_id', '=', 'organizations.id')
+        ->orderBy($column, $direction);
 
         if ($keyword) {
             $query->where('name', 'like', '%' . $keyword . '%');
@@ -172,15 +181,15 @@ class SelfReport extends Model
         return $query;
     }
 
-    /**
-     * Get export/Excel/download data query to send to Excel download library
-     *
-     * @param $per_page
-     * @param $column
-     * @param $direction
-     * @param string $keyword
-     * @return mixed
-     */
+        /**
+         * Get export/Excel/download data query to send to Excel download library
+         *
+         * @param $per_page
+         * @param $column
+         * @param $direction
+         * @param string $keyword
+         * @return mixed
+         */
 
     static function exportDataQuery(
         $column,
@@ -195,18 +204,18 @@ class SelfReport extends Model
 
     }
 
-    static function pdfDataQuery(
-        $column,
-        $direction,
-        $keyword = '',
-        $columns = '*')
-    {
+        static function pdfDataQuery(
+            $column,
+            $direction,
+            $keyword = '',
+            $columns = '*')
+        {
 
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+            info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
-        return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
+            return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
 
-    }
+        }
 
 
     /**

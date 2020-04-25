@@ -85,3 +85,9 @@ class ImportProduction extends Command
 
 //        $User = new \App\Lib\Import\ImportUser();
 //        $User->import('proddb', 'users');
+
+//        $Organization = new \App\Lib\Import\ImportOrganization();
+//        $Organization->import('proddb', 'organizations');
+
+//        $SelfReport = new \App\Lib\Import\ImportSelfReport();
+//        $SelfReport->import('proddb', 'self_reports');

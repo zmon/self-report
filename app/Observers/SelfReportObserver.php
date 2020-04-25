@@ -17,7 +17,7 @@ class SelfReportObserver
     /**
      * Handle the charge "created" event.
      *
-     * @param SelfReport $model
+     * @param  SelfReport  $model
      * @return void
      */
     public function created(SelfReport $model)
@@ -28,7 +28,7 @@ class SelfReportObserver
     /**
      * Handle the charge "updated" event.
      *
-     * @param SelfReport $model
+     * @param  SelfReport  $model
      * @return void
      */
     public function updated(SelfReport $model)
@@ -39,7 +39,7 @@ class SelfReportObserver
     /**
      * Handle the charge "deleted" event.
      *
-     * @param SelfReport $model
+     * @param  SelfReport  $model
      * @return void
      */
     public function deleting(SelfReport $model)
@@ -58,7 +58,7 @@ class SelfReportObserver
     /**
      * Handle the charge "deleted" event.
      *
-     * @param SelfReport $model
+     * @param  SelfReport  $model
      * @return void
      */
     public function deleted(SelfReport $model)
@@ -69,7 +69,7 @@ class SelfReportObserver
     /**
      * Handle the charge "restored" event.
      *
-     * @param SelfReport $model
+     * @param  SelfReport  $model
      * @return void
      */
     public function restored(SelfReport $model)
@@ -80,7 +80,7 @@ class SelfReportObserver
     /**
      * Handle the charge "force deleted" event.
      *
-     * @param SelfReport $model
+     * @param  SelfReport  $model
      * @return void
      */
     public function forceDeleted(SelfReport $model)

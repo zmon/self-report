@@ -11,18 +11,18 @@
             <div class="col-lg-8 mb-2">
                 <form class="form-inline mb-0">
                     <search-form-group
-                        class="mb-0"
-                        :errors="form_errors.keyword"
-                        label="Name"
-                        labelFor="keyword">
+                            class="mb-0"
+                            :errors="form_errors.keyword"
+                            label="Name"
+                            labelFor="keyword">
                         <input
-                            name="keyword"
-                            id="field_keyword"
-                            v-model="query"
-                            @keyup="getData(1)"
-                            class="form-control mb-2"
-                            type="text"
-                            placeholder="Filter by name">
+                                name="keyword"
+                                id="field_keyword"
+                                v-model="query"
+                                @keyup="getData(1)"
+                                class="form-control mb-2"
+                                type="text"
+                                placeholder="Filter by name">
                     </search-form-group>
                 </form>
             </div>
@@ -36,49 +36,80 @@
             <table class="table table-striped table-hover mb-0">
                 <thead>
                 <tr>
-                    <ss-grid-column-header
-                        v-on:selectedSort="sortColumn"
-                        v-bind:selectedKey="sortKey"
-                        title="Sort by Name"
-                        :params="{
-                            sortField: 'name',
+                                        <ss-grid-column-header
+                            v-on:selectedSort="sortColumn"
+                            v-bind:selectedKey="sortKey"
+                            title="Sort by Organization"
+                            :params="{
+                            sortField: 'alias',
                             InitialSortOrder: 'asc',
                         }">
-                        Name
+                        Organization
                     </ss-grid-column-header>
-                    <ss-grid-column-header
-                        v-on:selectedSort="sortColumn"
-                        v-bind:selectedKey="sortKey"
-                        title="Sort by State"
-                        :params="{
+
+                                        <ss-grid-column-header
+                            v-on:selectedSort="sortColumn"
+                            v-bind:selectedKey="sortKey"
+                            title="Sort by State"
+                            :params="{
                             sortField: 'state',
                             InitialSortOrder: 'asc',
                         }">
                         State
                     </ss-grid-column-header>
-                    <ss-grid-column-header
-                        v-on:selectedSort="sortColumn"
-                        v-bind:selectedKey="sortKey"
-                        title="Sort by Zipcode"
-                        :params="{
+                                        <ss-grid-column-header
+                            v-on:selectedSort="sortColumn"
+                            v-bind:selectedKey="sortKey"
+                            title="Sort by Zipcode"
+                            :params="{
                             sortField: 'zipcode',
                             InitialSortOrder: 'asc',
                         }">
                         Zipcode
                     </ss-grid-column-header>
-                    <th style="width:20%;" class="text-lg-center">Actions</th>
+                                        <ss-grid-column-header
+                            v-on:selectedSort="sortColumn"
+                            v-bind:selectedKey="sortKey"
+                            title="Sort by Symptom Start Date"
+                            :params="{
+                            sortField: 'symptom_start_date',
+                            InitialSortOrder: 'asc',
+                        }">
+                        Symptom Start Date
+                    </ss-grid-column-header>
+                                        <ss-grid-column-header
+                            v-on:selectedSort="sortColumn"
+                            v-bind:selectedKey="sortKey"
+                            title="Sort by County Calc"
+                            :params="{
+                            sortField: 'county_calc',
+                            InitialSortOrder: 'asc',
+                        }">
+                        County Calc
+                    </ss-grid-column-header>
+                                        <ss-grid-column-header
+                            v-on:selectedSort="sortColumn"
+                            v-bind:selectedKey="sortKey"
+                            title="Sort by Form Received At"
+                            :params="{
+                            sortField: 'form_received_at',
+                            InitialSortOrder: 'asc',
+                        }">
+                        Form Received At
+                    </ss-grid-column-header>
+                                        <th style="width:20%;" class="text-lg-center">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-if="gridState == 'wait'">
-                    <td colspan="4" class="grid-alert">
+                    <td colspan="8" class="grid-alert">
                         <div class="alert alert-info"
                              role="alert">Please wait.
                         </div>
                     </td>
                 </tr>
                 <tr v-if="gridState == 'error'">
-                    <td colspan="4" class="grid-alert">
+                    <td colspan="8" class="grid-alert">
                         <div class="alert alert-warning"
                              role="alert">Error please try again.
                         </div>
@@ -86,7 +117,7 @@
                 </tr>
 
                 <tr v-if="gridState == 'good' && !gridData.length">
-                    <td colspan="4" class="grid-alert">
+                    <td colspan="8" class="grid-alert">
                         <div class="alert alert-warning"
                              role="alert">No matching records found.
                         </div>
@@ -94,20 +125,16 @@
                 </tr>
 
                 <tr v-else v-for="row in this.gridData" :key="row.id">
-                    <td data-title="Name">
+                                                                                <td data-title="Organization Id">{{ row.alias }}</td>
+
+                                                                                                                        <td data-title="State">{{ row.state }}</td>
+                                                                                                    <td data-title="Zipcode">{{ row.zipcode }}</td>
+                                                                                                    <td data-title="Symptom Start Date">{{ row.symptom_start_date }}</td>
+                                                                                                    <td data-title="County Calc">{{ row.county_calc }}</td>
+                                                                                                    <td data-title="Form Received At">{{ row.form_received_at }}</td>
+                                                            <td data-title="Actions" class="text-lg-center text-nowrap">
                         <a v-bind:href="'/self-report/' + row.id"
-                           v-if="(params.CanShow == '1')">
-                            {{ row.name }}
-                        </a>
-                        <span v-if="(params.CanShow != '1')">
-                                        {{ row.name }}
-                        </span>
-                    </td>
-                    <td data-title="State">{{ row.state }}</td>
-                    <td data-title="Zipcode">{{ row.zipcode }}</td>
-                    <td data-title="Actions" class="text-lg-center text-nowrap">
-                        <a v-bind:href="'/self-report/' + row.id"
-                           v-if="(params.CanShow || false)"
+                           v-if="(params.CanShow == '1')"
                            class="grid-action-item">
                             View
                         </a>
@@ -228,29 +255,29 @@
                             }
                             this.gridState = 'good';
                         }).catch(error => {
-                        if (error.response) {
-                            this.gridState = 'error';
-                            if (error.response.status === 422) {
-                                // Clear errors out
-                                Object.keys(this.form_errors).forEach(i => this.form_errors[i] = false);
-                                // Set current errors
-                                Object.keys(error.response.data.errors).forEach(i => this.form_errors[i] = error.response.data.errors[i]);
-                            } else if (error.response.status === 404) {  // Record not found
-                                this.server_message = 'Record not found';
-                                window.location = '/self-report';
-                            } else if (error.response.status === 419) {  // Unknown status
-                                this.server_message = 'Unknown Status, please try to ';
-                                this.try_logging_in = true;
-                            } else if (error.response.status === 500) {  // Unknown status
-                                this.server_message = 'Server Error, please try to ';
-                                this.try_logging_in = true;
+                            if (error.response) {
+                                this.gridState = 'error';
+                                if (error.response.status === 422) {
+                                    // Clear errors out
+                                    Object.keys(this.form_errors).forEach(i => this.form_errors[i] = false);
+                                    // Set current errors
+                                    Object.keys(error.response.data.errors).forEach(i => this.form_errors[i] = error.response.data.errors[i]);
+                                } else if (error.response.status === 404) {  // Record not found
+                                    this.server_message = 'Record not found';
+                                    window.location = '/self-report';
+                                } else if (error.response.status === 419) {  // Unknown status
+                                    this.server_message = 'Unknown Status, please try to ';
+                                    this.try_logging_in = true;
+                                } else if (error.response.status === 500) {  // Unknown status
+                                    this.server_message = 'Server Error, please try to ';
+                                    this.try_logging_in = true;
+                                } else {
+                                    this.server_message = error.response.data.message;
+                                }
                             } else {
-                                this.server_message = error.response.data.message;
+                                console.log(error.response);
+                                this.server_message = error;
                             }
-                        } else {
-                            console.log(error.response);
-                            this.server_message = error;
-                        }
                     });
                 }
             },

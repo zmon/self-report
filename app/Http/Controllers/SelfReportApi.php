@@ -6,7 +6,6 @@ use App\SelfReport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SelfReportIndexRequest;
-use Illuminate\Http\Response;
 
 class SelfReportApi extends Controller
 {
@@ -15,7 +14,7 @@ class SelfReportApi extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function index(SelfReportIndexRequest $request)
     {
@@ -45,8 +44,7 @@ class SelfReportApi extends Controller
      * Returns "options" for HTML select
      * @return array
      */
-    public function getOptions()
-    {
+    public function getOptions() {
 
         return SelfReport::getOptions();
     }
@@ -54,8 +52,8 @@ class SelfReportApi extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
-     * @return Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -65,8 +63,8 @@ class SelfReportApi extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
-     * @return Response
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
@@ -76,9 +74,9 @@ class SelfReportApi extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param int $id
-     * @return Response
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
@@ -88,8 +86,8 @@ class SelfReportApi extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
-     * @return Response
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {

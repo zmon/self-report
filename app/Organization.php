@@ -2,12 +2,10 @@
 
 namespace App;
 
-use Exception;
 use Illuminate\Database\Eloquent\Model;
 //use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\HistoryTrait;
 use App\Traits\RecordSignature;
-use Illuminate\Database\QueryException;
 
 class Organization extends Model
 {
@@ -20,10 +18,17 @@ class Organization extends Model
      * fillable - attributes that can be mass-assigned
      */
     protected $fillable = [
-        'id',
-        'name',
-        'alias',
-    ];
+            'id',
+            'name',
+            'alias',
+            'url_code',
+            'contact_name',
+            'title',
+            'phone_1',
+            'email',
+            'notes',
+            'active',
+        ];
 
     protected $hidden = [
         'active',
@@ -49,12 +54,12 @@ class Organization extends Model
 
         try {
             $this->fill($attributes)->save();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
-            throw new Exception($e->getMessage());
-        } catch (QueryException $e) {
+            throw new \Exception($e->getMessage());
+        } catch (\Illuminate\Database\QueryException $e) {
             info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
-            throw new Exception($e->getMessage());
+            throw new \Exception($e->getMessage());
         }
 
         return true;
@@ -82,12 +87,16 @@ class Organization extends Model
         $keyword = '')
     {
         return self::buildBaseGridQuery($column, $direction, $keyword,
-            ['id',
-                'name',
-                'alias',
+            [ 'id',
+                    'name',
+                    'contact_name',
+                    'email',
+                    'active',
             ])
-            ->paginate($per_page);
+        ->paginate($per_page);
     }
+
+
 
 
     /**
@@ -123,23 +132,24 @@ class Organization extends Model
         }
 
         $query = Organization::select($columns)
-            ->orderBy($column, $direction);
+        ->orderBy($column, $direction);
 
         if ($keyword) {
             $query->where('name', 'like', '%' . $keyword . '%');
         }
+
         return $query;
     }
 
-    /**
-     * Get export/Excel/download data query to send to Excel download library
-     *
-     * @param $per_page
-     * @param $column
-     * @param $direction
-     * @param string $keyword
-     * @return mixed
-     */
+        /**
+         * Get export/Excel/download data query to send to Excel download library
+         *
+         * @param $per_page
+         * @param $column
+         * @param $direction
+         * @param string $keyword
+         * @return mixed
+         */
 
     static function exportDataQuery(
         $column,
@@ -154,18 +164,18 @@ class Organization extends Model
 
     }
 
-    static function pdfDataQuery(
-        $column,
-        $direction,
-        $keyword = '',
-        $columns = '*')
-    {
+        static function pdfDataQuery(
+            $column,
+            $direction,
+            $keyword = '',
+            $columns = '*')
+        {
 
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+            info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
-        return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
+            return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
 
-    }
+        }
 
 
     /**

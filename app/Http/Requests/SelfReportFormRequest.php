@@ -33,15 +33,17 @@ class SelfReportFormRequest extends FormRequest
         $id = $this->route('self_report');
 
         $rules = [
-            //  Ignore duplicate email if it is this record
-            //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
+         //  Ignore duplicate email if it is this record
+         //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
 
 
             'id' => 'numeric',
+            'organization_id' => 'nullable|numeric',
             'exposed' => 'nullable|string|max:20',
             'public_private_exposure' => 'nullable|string|max:60',
             'state' => 'nullable|string|max:60',
             'kscounty' => 'nullable|string|max:60',
+            'mocounty' => 'nullable|string|max:60',
             'city_kcmo' => 'nullable|string|max:60',
             'zipcode' => 'nullable|string|max:60',
             'selfreport_or_other' => 'nullable|string|max:60',
@@ -67,14 +69,16 @@ class SelfReportFormRequest extends FormRequest
             'SourceElementId' => 'nullable|string|max:20',
             'DataConnectionId' => 'nullable|string|max:20',
             'CallCounter' => 'nullable|string|max:20',
+            'county_calc' => 'nullable|string|max:40',
+            'form_received_at' => 'nullable|string',
 
         ];
 
-        if ($this->route('self_report')) {  // If ID we must be changing an existing record
-            $rules['name'] = 'required|min:3|nullable|string|max:100|unique:self_reports,name,' . $id;
-        } else {  // If not we must be adding one
-            $rules['name'] = 'required|min:3|nullable|string|max:100|unique:self_reports';
-        }
+                if ($this->route('self_report')) {  // If ID we must be changing an existing record
+                    $rules['name'] = 'required|min:3|nullable|string|max:100|unique:self_reports,name,' . $id;
+                } else {  // If not we must be adding one
+                    $rules['name'] = 'required|min:3|nullable|string|max:100|unique:self_reports';
+                }
 
         return $rules;
     }

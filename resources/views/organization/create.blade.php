@@ -1,5 +1,5 @@
 @extends('layouts.crud-master')
-@php $nav_path = ['organization'] @endphp
+@php $nav_path = ['organization']; @endphp
 @section('page-title')
     Add New Organizations
 @endsection

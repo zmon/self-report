@@ -51,26 +51,46 @@
                     <ss-grid-column-header
                         v-on:selectedSort="sortColumn"
                         v-bind:selectedKey="sortKey"
-                        title="Sort by Alias"
+                        title="Sort by Contact Name"
                         :params="{
-                            sortField: 'alias',
+                            sortField: 'contact_name',
                             InitialSortOrder: 'asc',
                         }">
-                        Alias
+                        Contact Name
+                    </ss-grid-column-header>
+                    <ss-grid-column-header
+                        v-on:selectedSort="sortColumn"
+                        v-bind:selectedKey="sortKey"
+                        title="Sort by Email"
+                        :params="{
+                            sortField: 'email',
+                            InitialSortOrder: 'asc',
+                        }">
+                        Email
+                    </ss-grid-column-header>
+                    <ss-grid-column-header
+                        v-on:selectedSort="sortColumn"
+                        v-bind:selectedKey="sortKey"
+                        title="Sort by Active"
+                        :params="{
+                            sortField: 'active',
+                            InitialSortOrder: 'asc',
+                        }">
+                        Active
                     </ss-grid-column-header>
                     <th style="width:20%;" class="text-lg-center">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-if="gridState == 'wait'">
-                    <td colspan="3" class="grid-alert">
+                    <td colspan="5" class="grid-alert">
                         <div class="alert alert-info"
                              role="alert">Please wait.
                         </div>
                     </td>
                 </tr>
                 <tr v-if="gridState == 'error'">
-                    <td colspan="3" class="grid-alert">
+                    <td colspan="5" class="grid-alert">
                         <div class="alert alert-warning"
                              role="alert">Error please try again.
                         </div>
@@ -78,7 +98,7 @@
                 </tr>
 
                 <tr v-if="gridState == 'good' && !gridData.length">
-                    <td colspan="3" class="grid-alert">
+                    <td colspan="5" class="grid-alert">
                         <div class="alert alert-warning"
                              role="alert">No matching records found.
                         </div>
@@ -95,7 +115,14 @@
                                         {{ row.name }}
                         </span>
                     </td>
-                    <td data-title="Alias">{{ row.alias }}</td>
+                    <td data-title="Contact Name">{{ row.contact_name }}</td>
+                    <td data-title="Email">{{ row.email }}</td>
+                    <td data-title="Active">
+                            <span v-if="row.active">
+                                Yes
+                            </span>
+                    </td>
+
                     <td data-title="Actions" class="text-lg-center text-nowrap">
                         <a v-bind:href="'/organization/' + row.id + '/edit'"
                            v-if="(params.CanEdit)"

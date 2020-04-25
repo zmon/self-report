@@ -1,5 +1,5 @@
 @extends('layouts.crud-master')
-@php $nav_path = ['organization'] @endphp
+@php $nav_path = ['organization']; @endphp
 @section('page-title', 'Organizations')
 @section('page-header-title', 'Organizations')
 @section('page-help-link', '#TODO')
@@ -11,14 +11,14 @@
 @endsection
 @section('content')
     <organization-grid :params="{
-        Page: '{{ $page }}',
-        Search: '{{ $search }}',
-        sortOrder: '{{ $direction }}',
-        sortKey: '{{ $column }}',
-        CanAdd: '{{ $can_add }}',
-        CanEdit: '{{ $can_edit }}',
-        CanShow: '{{ $can_show }}',
-        CanDelete: '{{ $can_delete }}',
-        CanExcel: '{{ $can_excel }}'
+            Page: '{{ $page }}',
+            Search: '{{ $search }}',
+            sortOrder: '{{ $direction }}',
+            sortKey: '{{ $column }}',
+            CanAdd: '{{ $can_add }}',
+            CanEdit: '{{ $can_edit }}',
+            CanShow: '{{ $can_show }}',
+            CanDelete: '{{ $can_delete }}',
+            CanExcel: '{{ $can_excel }}'
         }"></organization-grid>
 @endsection

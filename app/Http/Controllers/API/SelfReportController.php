@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 
+use App\Organization;
 use App\PreexistingCondition;
 use App\RaceEthnicity;
 use App\Symptom;
@@ -41,6 +42,20 @@ class SelfReportController extends Controller
 
         $data = array_merge($data, $data2);
 
+        $organization_id = Organization::where('url_code', $incomming['org'])->first()->id;
+
+        $data['organization_id'] = $organization_id;
+
+        // Lets have one county field
+        $kscounty = data_get($data,'kscounty');
+        $mocounty = data_get($data,'mocounty');
+
+        info("|$kscounty|$mocounty|");
+
+        $data['county_calc'] = !empty($kscounty) ? $kscounty : (!empty($mocounty) ? $mocounty : '--');
+
+        // We will want to know when the form was submitted, which may not be the created_at time.
+        $data['form_received_at'] = date('Y-m-d H:i:s');
 
         try {
             $self_report->add($data);
@@ -54,7 +69,6 @@ class SelfReportController extends Controller
         $this->addSymptoms($self_report, $incomming['SendFields']['_symptoms']);
         $this->addPreexistingCondition($self_report, $incomming['SendFields']['_preexisting_conditions']);
         $this->addRaceEthnicity($self_report, $incomming['SendFields']['_race_ethnicity']);
-
 
         return response()->json([
             'message' => 'Added record'
@@ -109,6 +123,7 @@ class SelfReportController extends Controller
             "_public_private_exposure" => "public_private_exposure",
             "_state" => "state",
             "_kscounty" => "kscounty",
+            "_mocounty" => "mocounty",
             "_city_kcmo" => "city_kcmo",
             "_zipcode" => "zipcode",
             "_selfreport_or_other" => "selfreport_or_other",

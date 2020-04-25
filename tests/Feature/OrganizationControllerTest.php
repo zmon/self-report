@@ -381,7 +381,9 @@ class OrganizationControllerTest extends TestCase
         $data = [
             'id' => "",
             'name' => "",
-            'alias' => "",
+            'contact_name' => "",
+            'email' => "",
+            'active' => "",
         ];
 
         $totalNumberOfOrganizationsBefore = Organization::count();
@@ -409,7 +411,9 @@ class OrganizationControllerTest extends TestCase
         $data = [
             'id' => "",
             'name' => "a",
-            'alias' => "a",
+            'contact_name' => "a",
+            'email' => "a",
+            'active' => "a",
         ];
 
         $totalNumberOfOrganizationsBefore = Organization::count();
@@ -439,7 +443,9 @@ class OrganizationControllerTest extends TestCase
 
         $data = [
           'name' => $faker->name,
-          'alias' => "",
+          'contact_name' => "",
+          'email' => "",
+          'active' => "",
         ];
 
         info('--  Organization  --');
@@ -465,7 +471,13 @@ class OrganizationControllerTest extends TestCase
         $this->assertEquals($lastInsertedInTheDB->name, $data['name'], "the name of the saved organization is different from the input data");
 
 
-        $this->assertEquals($lastInsertedInTheDB->alias, $data['alias'], "the alias of the saved organization is different from the input data");
+        $this->assertEquals($lastInsertedInTheDB->contact_name, $data['contact_name'], "the contact_name of the saved organization is different from the input data");
+
+
+        $this->assertEquals($lastInsertedInTheDB->email, $data['email'], "the email of the saved organization is different from the input data");
+
+
+        $this->assertEquals($lastInsertedInTheDB->active, $data['active'], "the active of the saved organization is different from the input data");
 
 
     }
@@ -490,7 +502,9 @@ class OrganizationControllerTest extends TestCase
         $data = [
             'id' => "",
             'name' => $organization->name,
-            'alias' => "",
+            'contact_name' => "",
+            'email' => "",
+            'active' => "",
         ];
 
         $response = $this->actingAs($user)->post(route('organization.store'), $data);
@@ -555,7 +569,9 @@ class OrganizationControllerTest extends TestCase
         $organization_dup = [
 
             'name' => $faker->name,
-            'alias' => "",
+            'contact_name' => "",
+            'email' => "",
+            'active' => "",
         ];
 
         $response = $this->actingAs($user)->post(route('organization.store'), $organization_dup);

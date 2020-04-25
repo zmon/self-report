@@ -194,3 +194,46 @@ $organization_options = \App\Organization::getOptions();
 @endcomponent
 ```
 
+## Old Stuff that can be ignored
+
+#### Components
+ 
+ In `resource/js/components`
+ 
+Remove
+
+```
+Vue.component('organization', require('./components/organization.vue').default);
+```
+
+#### Remove dead code
+
+```
+rm app/Queries/GridQueries/OrganizationQuery.php
+rm resources/js/components/OrganizationGrid.vue
+```
+
+
+#### Remove from routes
+
+```
+Route::get('api/owner-all', '\\App\Queries\GridQueries\OwnerQuery@getAllForSelect');
+Route::get('api/owner-one', '\\App\Queries\GridQueries\OwnerQuery@selectOne');
+```
+
+#### Remove the Grid Method
+vi app/Http/Controllers/ApiController.php
+
+
+```
+// Begin Owner Api Data Grid Method
+
+public function ownerData(Request $request)
+{
+
+return GridQuery::sendData($request, 'OwnerQuery');
+ 
+}
+ 
+// End Owner Api Data Grid Method
+```

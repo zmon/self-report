@@ -17,7 +17,7 @@ class OrganizationObserver
     /**
      * Handle the charge "created" event.
      *
-     * @param Organization $model
+     * @param  Organization  $model
      * @return void
      */
     public function created(Organization $model)
@@ -28,7 +28,7 @@ class OrganizationObserver
     /**
      * Handle the charge "updated" event.
      *
-     * @param Organization $model
+     * @param  Organization  $model
      * @return void
      */
     public function updated(Organization $model)
@@ -39,7 +39,7 @@ class OrganizationObserver
     /**
      * Handle the charge "deleted" event.
      *
-     * @param Organization $model
+     * @param  Organization  $model
      * @return void
      */
     public function deleting(Organization $model)
@@ -58,7 +58,7 @@ class OrganizationObserver
     /**
      * Handle the charge "deleted" event.
      *
-     * @param Organization $model
+     * @param  Organization  $model
      * @return void
      */
     public function deleted(Organization $model)
@@ -69,7 +69,7 @@ class OrganizationObserver
     /**
      * Handle the charge "restored" event.
      *
-     * @param Organization $model
+     * @param  Organization  $model
      * @return void
      */
     public function restored(Organization $model)
@@ -80,7 +80,7 @@ class OrganizationObserver
     /**
      * Handle the charge "force deleted" event.
      *
-     * @param Organization $model
+     * @param  Organization  $model
      * @return void
      */
     public function forceDeleted(Organization $model)

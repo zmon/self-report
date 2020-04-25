@@ -331,7 +331,7 @@ class SelfReportControllerTest extends TestCase
         // act as the user we got and request the create_new_article route
         $response = $this->actingAs($user)->get(route('self-report.show',['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find Self Reports to display.');
+        $response->assertSessionHas('flash_error_message','Unable to find SelfReports to display.');
 
     }
 
@@ -346,7 +346,7 @@ class SelfReportControllerTest extends TestCase
         // act as the user we got and request the create_new_article route
         $response = $this->actingAs($user)->get(route('self-report.edit',['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find Self Reports to edit.');
+        $response->assertSessionHas('flash_error_message','Unable to find SelfReports to edit.');
 
     }
 
@@ -380,11 +380,13 @@ class SelfReportControllerTest extends TestCase
 
         $data = [
             'id' => "",
+            'organization_id' => "",
             'name' => "",
-            'exposed' => "",
             'state' => "",
             'zipcode' => "",
             'symptom_start_date' => "",
+            'county_calc' => "",
+            'form_received_at' => "",
         ];
 
         $totalNumberOfSelfReportsBefore = SelfReport::count();
@@ -411,11 +413,13 @@ class SelfReportControllerTest extends TestCase
 
         $data = [
             'id' => "",
+            'organization_id' => "a",
             'name' => "a",
-            'exposed' => "a",
             'state' => "a",
             'zipcode' => "a",
             'symptom_start_date' => "a",
+            'county_calc' => "a",
+            'form_received_at' => "a",
         ];
 
         $totalNumberOfSelfReportsBefore = SelfReport::count();
@@ -444,11 +448,13 @@ class SelfReportControllerTest extends TestCase
         $user = $this->getRandomUser('super-admin');
 
         $data = [
+          'organization_id' => "",
           'name' => $faker->name,
-          'exposed' => "",
           'state' => "",
           'zipcode' => "",
           'symptom_start_date' => "",
+          'county_calc' => "",
+          'form_received_at' => "",
         ];
 
         info('--  SelfReport  --');
@@ -471,10 +477,10 @@ class SelfReportControllerTest extends TestCase
         $lastInsertedInTheDB = SelfReport::orderBy('id', 'desc')->first();
 
 
+        $this->assertEquals($lastInsertedInTheDB->organization_id, $data['organization_id'], "the organization_id of the saved self_report is different from the input data");
+
+
         $this->assertEquals($lastInsertedInTheDB->name, $data['name'], "the name of the saved self_report is different from the input data");
-
-
-        $this->assertEquals($lastInsertedInTheDB->exposed, $data['exposed'], "the exposed of the saved self_report is different from the input data");
 
 
         $this->assertEquals($lastInsertedInTheDB->state, $data['state'], "the state of the saved self_report is different from the input data");
@@ -484,6 +490,12 @@ class SelfReportControllerTest extends TestCase
 
 
         $this->assertEquals($lastInsertedInTheDB->symptom_start_date, $data['symptom_start_date'], "the symptom_start_date of the saved self_report is different from the input data");
+
+
+        $this->assertEquals($lastInsertedInTheDB->county_calc, $data['county_calc'], "the county_calc of the saved self_report is different from the input data");
+
+
+        $this->assertEquals($lastInsertedInTheDB->form_received_at, $data['form_received_at'], "the form_received_at of the saved self_report is different from the input data");
 
 
     }
@@ -507,11 +519,13 @@ class SelfReportControllerTest extends TestCase
         $self_report = SelfReport::get()->random();
         $data = [
             'id' => "",
+            'organization_id' => "",
             'name' => $self_report->name,
-            'exposed' => "",
             'state' => "",
             'zipcode' => "",
             'symptom_start_date' => "",
+            'county_calc' => "",
+            'form_received_at' => "",
         ];
 
         $response = $this->actingAs($user)->post(route('self-report.store'), $data);
@@ -575,11 +589,13 @@ class SelfReportControllerTest extends TestCase
         // Create one that we can duplicate the name for, at this point we only have one self_report record
         $self_report_dup = [
 
+            'organization_id' => "",
             'name' => $faker->name,
-            'exposed' => "",
             'state' => "",
             'zipcode' => "",
             'symptom_start_date' => "",
+            'county_calc' => "",
+            'form_received_at' => "",
         ];
 
         $response = $this->actingAs($user)->post(route('self-report.store'), $self_report_dup);

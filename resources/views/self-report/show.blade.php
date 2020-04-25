@@ -1,17 +1,17 @@
 @extends('layouts.crud-master')
-@php $nav_path = ['self-report'] @endphp
+@php $nav_path = ['self-report']; @endphp
 @section('page-title')
-    View {{$self_report->name}}
+View {{$self_report->name}}
 @endsection
 @section('page-header-title')
-    View {{$self_report->name}}
+View
 @endsection
 @section('page-header-breadcrumbs')
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('self-report.index') }}">Self Reports</a></li>
-        <li class="breadcrumb-item active" aria-current="location">View {{$self_report->name}}</li>
-    </ol>
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('self-report.index') }}">SelfReports</a></li>
+    <li class="breadcrumb-item active" aria-current="location">View </li>
+</ol>
 @endsection
 @section('content')
 
@@ -20,10 +20,9 @@
     <div class="row">
         <div class="col-md-12 text-md-center mt-2 mt-md-0">
 
-            <a href="{{ url('/self-report') }}" class="btn btn-default">Return to List</a>
+                    <a href="{{ url('/self-report') }}" class="btn btn-default">Return to List</a>
+                </div>
+            </div>
 
-        </div>
 
-    </div>
 @endsection
-

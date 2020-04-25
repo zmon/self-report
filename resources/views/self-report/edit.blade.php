@@ -1,5 +1,5 @@
 @extends('layouts.crud-master')
-@php $nav_path = ['self-report'] @endphp
+@php $nav_path = ['self-report']; @endphp
 @section('page-title')
     Edit {{$self_report->name}}
 @endsection
@@ -10,7 +10,7 @@
 @section('page-header-breadcrumbs')
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('self-report.index') }}">Self Reports</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('self-report.index') }}">SelfReports</a></li>
         <li class="breadcrumb-item active" aria-current="location">Edit {{$self_report->name}}</li>
     </ol>
 @endsection
