@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
 Route::post('/self-reports','API\SelfReportController@store')->name('self-reports.store');
+
 
 //Route::apiResource('self-reports', 'API\SelfReportController');
