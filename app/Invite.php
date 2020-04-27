@@ -26,6 +26,7 @@ class Invite extends Model
     protected
         $fillable = [
         'id',
+        'organization_id',
         'email',
         'name',
         'role',
@@ -115,11 +116,14 @@ class Invite extends Model
                 break;
         }
 
-        $query = Invite::select($columns, DB::raw("CASE WHEN expires_at < now() THEN 'Expired' ELSE '' END AS has_expired"))
+        $query = Invite::select(['invites.*','organizations.id AS organization_id','organizations.alias AS organization_alias','roles.name AS role_name'],
+            DB::raw("CASE WHEN expires_at < now() THEN 'Expired' ELSE '' END AS has_expired"))
+            ->leftJoin('organizations', 'organizations.id', '=', 'invites.organization_id')
+            ->leftJoin('roles', 'roles.id', '=', 'invites.role')
             ->orderBy($column, $direction);
 
         if ($keyword) {
-            $query->where('name', 'like', '%' . $keyword . '%');
+            $query->where('invites.name', 'like', '%' . $keyword . '%');
         }
         return $query;
     }

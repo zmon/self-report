@@ -115,8 +115,16 @@ class InviteController extends Controller
         }
 
         $role_options = $this->getRoleOptions();
+        $organization_options = App\Organization::getOptions(true);
 
-        return view('invite.create', compact('role_options'));
+        $organization_options = array_merge([
+                -2 => ['id' => -2, 'name' => 'Assign Organizations for User'],
+                -1 => ['id' => 0, 'name' => 'All Organizations']
+            ]
+            , $organization_options);
+        $organization_id = -2;
+
+        return view('invite.create', compact('role_options', 'organization_options', 'organization_id'));
     }
 
 
@@ -147,6 +155,7 @@ class InviteController extends Controller
 
         //create a new invite record
         $invite = Invite::create([
+            'organization_id' => $request->get('organiztion_id'),
             'email' => $request->get('email'),
             'name' => $request->get('name'),
             'role' => $request->get('role'),  //FIX  Roles on Invite screen are not valid roles #242
@@ -310,7 +319,13 @@ class InviteController extends Controller
 
         if ($invite = $this->find($id)) {
             $role_options = $this->getRoleOptions();
-            return view('invite.edit', compact('invite', 'role_options'));
+            $organization_options = App\Organization::getOptions(true);
+            $organization_options = array_merge([
+                    -2 => ['id' => -2, 'name' => 'Assign Organizations for User'],
+                    -1 => ['id' => 0, 'name' => 'All Organizations']
+                ]
+                , $organization_options);
+            return view('invite.edit', compact('invite', 'role_options', 'organization_options'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find the invitation to edit');
             return Redirect::route('invite.index');

@@ -19,8 +19,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-
 
 /**
  * Routes for the invite system
@@ -32,6 +30,10 @@ Route::post('create_password', 'InviteController@createPassword')->name('create_
 Route::post('/password-strength', 'PasswordStrengthApi@calc');
 
 Route::group(['middleware' => 'auth'], function () {
+
+
+    Route::get('/home', 'HomeController@index')->name('home');
+
 
     Route::group(['prefix' => 'history'], function () {
         Route::get('department/{department}', 'HistoryController@department');

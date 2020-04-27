@@ -19,6 +19,7 @@
             CanEdit: '{{ $can_edit }}',
             CanShow: '{{ $can_show }}',
             CanDelete: '{{ $can_delete }}',
-            CanExcel: '{{ $can_excel }}'
+            CanExcel: '{{ $can_excel }}',
+            Access: '{{ $access }}'
         }"></self-report-grid>
 @endsection

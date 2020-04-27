@@ -31,6 +31,7 @@ class InviteEditRequest extends FormRequest
             //   'email' => 'required|unique:members,email,' . $id . ',id|max:255',
 
             'id' => 'numeric',
+            'organization_id' => 'required|numeric|exists_or_null:organizations,id',
             'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
             'name' => 'required|string|max:191',
             'role' => 'required|string|max:42|not_in:0',

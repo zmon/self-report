@@ -38,6 +38,7 @@ class InviteFormRequest extends FormRequest
 
 
             'id' => 'numeric',
+            'organization_id' => 'required|numeric|exists_or_null:organizations,id',
             'email' => 'nullable|string',
             'role' => 'nullable|string',
             'expires_at' => 'nullable|string',

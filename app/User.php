@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 //use Illuminate\Database\Eloquent\SoftDeletes;
@@ -140,11 +141,12 @@ class User extends Authenticatable
                 break;
         }
 
-        $query = User::select($columns)
+        $query = User::select(['users.*','organizations.id AS organization_id','organizations.alias AS organization_alias'])
+            ->leftJoin('organizations', 'organizations.id', '=', 'users.organization_id')
         ->orderBy($column, $direction);
 
         if ($keyword) {
-            $query->where('name', 'like', '%' . $keyword . '%');
+            $query->where('users.name', 'like', '%' . $keyword . '%');
         }
         return $query;
     }
@@ -209,6 +211,47 @@ class User extends Authenticatable
 
             foreach ($records AS $rec) {
                 $data[] = ['id' => $rec['id'], 'name' => $rec['name']];
+            }
+
+            return $data;
+        }
+
+    }
+
+    /**
+     * Get "options" for HTML select tag
+     *
+     * If flat return an array.
+     * Otherwise, return an array of records.  Helps keep in proper order durring ajax calls to Chrome
+     */
+    static public function getRoleOptions($flat = false)
+    {
+
+        $thisModel = new static;
+
+        $query = Role::select('id',
+            'name')
+            ->orderBy('name');
+
+        if (!Auth::user()->hasRole('super-admin')) {
+            $query->where('can_assign', 1);
+        }
+
+        $records = $query->get();
+
+        if (!$flat) {
+            $data = [];
+
+            foreach ($records AS $rec) {
+                $data[] = ['id' => $rec['name'], 'name' => $rec['name']];
+            }
+
+            return $data;
+        } else {
+            $data = [];
+
+            foreach ($records AS $rec) {
+                $data[] = ['id' => $rec['name'], 'name' => $rec['name']];
             }
 
             return $data;

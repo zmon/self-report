@@ -49,7 +49,7 @@
                         v-bind:selectedKey="sortKey"
                         title="Sort by Name"
                         :params="{
-                                sortField: 'name',
+                                sortField: 'invites.name',
                                 InitialSortOrder: 'asc'
                             }"
                     >
@@ -65,6 +65,28 @@
                             }"
                     >
                         Email
+                    </ss-grid-column-header>
+                    <ss-grid-column-header
+                        v-on:selectedSort="sortColumn"
+                        v-bind:selectedKey="sortKey"
+                        title="Role"
+                        :params="{
+                                sortField: 'role',
+                                InitialSortOrder: 'asc'
+                            }"
+                    >
+                        Role
+                    </ss-grid-column-header>
+                    <ss-grid-column-header
+                        v-on:selectedSort="sortColumn"
+                        v-bind:selectedKey="sortKey"
+                        title="Access"
+                        :params="{
+                                sortField: 'organizations.alias',
+                                InitialSortOrder: 'asc'
+                            }"
+                    >
+                        Access
                     </ss-grid-column-header>
                     <th style="width:20%;" class="text-center">Status</th>
                     <th style="width:20%;" class="text-center">Actions</th>
@@ -115,6 +137,11 @@
                             </span>
                     </td>
                     <td data-title="Email">{{ row.email }}</td>
+                    <td data-title="Role">{{ row.role_name }}</td>
+                    <td data-title="Access">
+                        <span v-if="row.organization_id">{{ row.organization_alias }}</span>
+                        <span v-else>All Organizations</span>
+                    </td>
                     <td
                         data-title="Status"
                         class="text-lg-center text-nowrap"

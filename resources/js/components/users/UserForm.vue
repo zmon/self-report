@@ -2,84 +2,77 @@
     <form @submit.prevent="handleSubmit" class="form-horizontal">
 
         <div v-if="server_message !== false" class="alert alert-danger" role="alert">
-            {{ this.server_message}}  <a v-if="try_logging_in" href="/login">Login</a>
+            {{ this.server_message}} <a v-if="try_logging_in" href="/login">Login</a>
         </div>
 
-                    <div class="row">
-                <div class="col-md-12">
-                    <std-form-group label="Name" label-for="name" :errors="form_errors.name" :required="true">
-                        <fld-input
-                                name="name"
-                                v-model="form_data.name"
-                                required
-                        />
-                        <template slot="help">
-                            Name must be unique.
-                        </template>
-                    </std-form-group>
-                </div>
+        <div class="row">
+            <div class="col-md-12">
+                <std-form-group label="Name" label-for="name" :errors="form_errors.name" :required="true">
+                    <fld-input
+                        name="name"
+                        v-model="form_data.name"
+                        required
+                    />
+                    <template slot="help">
+                        Name must be unique.
+                    </template>
+                </std-form-group>
             </div>
-                
+        </div>
 
-                            <div class="row">
-                <div class="col-md-12">
-                    <std-form-group label="Email" label-for="email" :errors="form_errors.email">
-                        <fld-input
-                                name="email"
-                                v-model="form_data.email"
-                        />
-                    </std-form-group>
-                </div>
-            </div>
-        
 
-                            <div class="row">
-                <div class="col-md-12">
-                    <std-form-group label="Active" label-for="active" :errors="form_errors.active">
-                        <fld-input
-                                name="active"
-                                v-model="form_data.active"
-                        />
-                    </std-form-group>
-                </div>
+        <div class="row">
+            <div class="col-md-12">
+                <std-form-group label="Email" label-for="email" :errors="form_errors.email">
+                    <fld-input
+                        name="email"
+                        v-model="form_data.email"
+                    />
+                </std-form-group>
             </div>
-        
+        </div>
 
-                            <div class="row">
-                <div class="col-md-12">
-                    <std-form-group label="Email Verified At" label-for="email_verified_at" :errors="form_errors.email_verified_at">
-                        <fld-input
-                                name="email_verified_at"
-                                v-model="form_data.email_verified_at"
-                        />
-                    </std-form-group>
-                </div>
+        <div class="row">
+            <div class="col-md-12">
+                <std-form-group
+                    display="inline"
+                    label="Role"
+                    label-for="role"
+                    :errors="form_errors.role"
+                >
+                    <ui-pick-roles
+                        url="/api-user/role-options"
+                        v-model="form_data.selected_roles"
+                        :selected_roles="roles"
+                        name="user"
+                    >
+                    </ui-pick-roles>
+                </std-form-group>
             </div>
-        
+        </div>
 
-                            <div class="row">
-                <div class="col-md-12">
-                    <std-form-group label="Password" label-for="password" :errors="form_errors.password">
-                        <fld-input
-                                name="password"
-                                v-model="form_data.password"
-                        />
-                    </std-form-group>
-                </div>
-            </div>
-        
 
-                            <div class="row">
-                <div class="col-md-12">
-                    <std-form-group label="Remember Token" label-for="remember_token" :errors="form_errors.remember_token">
-                        <fld-input
-                                name="remember_token"
-                                v-model="form_data.remember_token"
-                        />
-                    </std-form-group>
-                </div>
+        <div class="row">
+            <div class="col-md-12">
+                <std-form-group
+                    label="Organization"
+                    label-for="organization_id"
+                    :errors="form_errors.organization_id">
+                    <ui-select-pick-one
+                        url="/api-organization/options"
+                        v-model="form_data.organization_id"
+                        :selected_id="form_data.organization_id"
+                        name="organization_id"
+                        :blank_value="0"
+                    blank_text="Access to ALL Organizations">
+                    </ui-select-pick-one>
+                </std-form-group>
             </div>
-        
+        </div>
+
+
+
+
 
         <div class="form-group mt-4">
             <div class="row">
@@ -99,9 +92,11 @@
 
 <script>
     import axios from 'axios';
+    import UiSelectPickOne from "../SS/UiSelectPickOne";
 
     export default {
         name: "user-form",
+        components: { UiSelectPickOne },
         props: {
             record: {
                 type: [Boolean, Object],
@@ -111,30 +106,34 @@
                 type: String,
                 default: ''
             },
+            roles: {
+                type: [Array],
+                default() {
+                    return [];
+                }
+            },
         },
         data() {
             return {
                 form_data: {
                     // _method: 'patch',
                     _token: this.csrf_token,
-                      id: 0,
-                                    organization_id: 0,
-                              name: '',
-                                email: '',
-                                  active: 0,
-                                    email_verified_at: '',
-                          password: '',
-                                remember_token: '',
-                        },
+                    id: 0,
+                    organization_id: 0,
+                    name: '',
+                    email: '',
+                    selected_roles: ""
+                },
                 form_errors: {
-                id: false,
-                organization_id: false,
-                name: false,
-                email: false,
-                active: false,
-                email_verified_at: false,
-                password: false,
-                remember_token: false,
+                    id: false,
+                    organization_id: false,
+                    name: false,
+                    email: false,
+                    active: false,
+                    email_verified_at: false,
+                    password: false,
+                    remember_token: false,
+                    selected_roles: false
                 },
                 server_message: false,
                 try_logging_in: false,
@@ -150,6 +149,8 @@
             } else {
                 // this.form_data._method = 'post';
             }
+
+            this.form_data["selected_roles"] = this.roles;
 
         },
         methods: {
@@ -188,13 +189,13 @@
                                 Object.keys(error.response.data.errors).forEach(
                                     i => (this.$set(this.form_errors, i, error.response.data.errors[i]))
                                 );
-                            } else  if (error.response.status === 404) {  // Record not found
+                            } else if (error.response.status === 404) {  // Record not found
                                 this.server_message = 'Record not found';
                                 window.location = '/user';
-                            } else  if (error.response.status === 419) {  // Unknown status
+                            } else if (error.response.status === 419) {  // Unknown status
                                 this.server_message = 'Unknown Status, please try to ';
                                 this.try_logging_in = true;
-                            } else  if (error.response.status === 500) {  // Unknown status
+                            } else if (error.response.status === 500) {  // Unknown status
                                 this.server_message = 'Server Error, please try to ';
                                 this.try_logging_in = true;
                             } else {

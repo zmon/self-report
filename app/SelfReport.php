@@ -2,6 +2,7 @@
 
 namespace App;
 
+use DB;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 //use Illuminate\Database\Eloquent\SoftDeletes;
@@ -107,6 +108,27 @@ class SelfReport extends Model
         return true;
     }
 
+    static function summaryData() {
+
+        $query = SelfReport::select(
+            'organizations.name AS organization_name',
+            DB::raw("COUNT(*) AS cnt")
+
+        )
+            ->leftJoin('organizations', 'organizations.id', '=', 'self_reports.organization_id')
+            ->groupBy('organizations.name')
+            ->orderBy('organizations.name');
+
+        $organization_id = \Auth::user()->organization_id;
+
+        if ($organization_id) {
+            $query->where('organizations.id', '=', $organization_id);
+        }
+
+
+        return $query->get();
+    }
+
 
     /**
      * Get Grid/index data PAGINATED
@@ -177,6 +199,12 @@ class SelfReport extends Model
 
         if ($keyword) {
             $query->where('name', 'like', '%' . $keyword . '%');
+        }
+
+        $organization_id = \Auth::user()->organization_id;
+
+        if ($organization_id) {
+            $query->where('organizations.id', '=', $organization_id);
         }
         return $query;
     }

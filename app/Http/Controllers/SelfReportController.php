@@ -49,7 +49,9 @@ class SelfReportController extends Controller
         $can_excel = Auth::user()->can('self_report excel');
         $can_pdf = Auth::user()->can('self_report pdf');
 
-        return view('self-report.index', compact('page', 'column', 'direction', 'search', 'can_add', 'can_edit', 'can_delete', 'can_show', 'can_excel', 'can_pdf'));
+        $access = \Auth::user()->organization_id;
+
+        return view('self-report.index', compact('page', 'column', 'direction', 'search', 'can_add', 'can_edit', 'can_delete', 'can_show', 'can_excel', 'can_pdf', 'access'));
 
     }
 

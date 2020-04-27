@@ -50,6 +50,16 @@ class UserApi extends Controller
     }
 
     /**
+     * Returns "options" from Sital permissions for HTML select
+     * @return array
+     */
+    public function getRoleOptions()
+    {
+
+        return User::getRoleOptions();
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

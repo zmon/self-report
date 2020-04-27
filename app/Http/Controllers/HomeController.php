@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Organization;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
+use App\SelfReport;
 
 class HomeController extends Controller
 {
@@ -24,6 +26,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $organization_summary = SelfReport::summaryData();
+
+        return view('home', compact('organization_summary'));
     }
 }

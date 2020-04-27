@@ -97,16 +97,16 @@ class InitialPermissions
 //        Permission::findOrCreate('contractor');
 
 
-        $role = Role::findOrCreate('cant');
-
-        $role->givePermissionTo(['always fail']);
-
-
-        $role = Role::findOrCreate('only index');
-        // For Testing
-//        $role->givePermissionTo(['department index']);
-//        $role->givePermissionTo(['department index']);
-//        $role->givePermissionTo(['service_type index']);
+//        $role = Role::findOrCreate('cant');
+//
+//        $role->givePermissionTo(['always fail']);
+//
+//
+//        $role = Role::findOrCreate('only index');
+//        // For Testing
+////        $role->givePermissionTo(['department index']);
+////        $role->givePermissionTo(['department index']);
+////        $role->givePermissionTo(['service_type index']);
 
 
         $role = Role::findOrCreate('Client Admin');
@@ -182,24 +182,24 @@ class InitialPermissions
 
 
 
-        $role = Role::findOrCreate('read-only');
-
-        $role->givePermissionTo([
-            'organization index',
-            'organization view',
-
-            'preexisting_condition index',
-            'preexisting_condition view',
-
-            'race_ethnicity index',
-            'race_ethnicity view',
-
-            'self_report index',
-            'self_report view',
-
-            'symptom index',
-            'symptom view',
-        ]);
+//        $role = Role::findOrCreate('read-only');
+//
+//        $role->givePermissionTo([
+//            'organization index',
+//            'organization view',
+//
+//            'preexisting_condition index',
+//            'preexisting_condition view',
+//
+//            'race_ethnicity index',
+//            'race_ethnicity view',
+//
+//            'self_report index',
+//            'self_report view',
+//
+//            'symptom index',
+//            'symptom view',
+//        ]);
 
 
     }

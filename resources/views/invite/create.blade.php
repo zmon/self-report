@@ -45,6 +45,24 @@
             </div>
         </div>
 
+
+        <div class="row">
+            <div class="col-md-9">
+                @component('../components/std-form-group', ['fld' => 'organization_id', 'label' => 'Organization Access'])
+                    <select class="form-control" name="organization_id">
+
+                        @foreach($organization_options as $option)
+                            @if ( $option['id'] == ( old('organization_id') ? old('organization_id') : $organization_id) )
+                                <option value="{{$option['id']}}" SELECTED>{{$option['name']}}</option>
+                            @else
+                                <option value="{{$option['id']}}">{{$option['name']}}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                @endcomponent
+            </div>
+        </div>
+
         <div class="form-group">
             <div class="row mt-4">
                 <div class="col-md-6">

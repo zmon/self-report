@@ -38,7 +38,7 @@ class UserFormRequest extends FormRequest
 
 
             'id' => 'numeric',
-            'organization_id' => 'nullable|numeric',
+            'organization_id' => 'required|numeric|exists_or_null:organizations,id',
             'email' => 'nullable|string|max:255',
             'active' => 'nullable|numeric',
             'email_verified_at' => 'nullable|string',

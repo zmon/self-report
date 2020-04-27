@@ -192,4 +192,5 @@ Vue.component('organization-show', () => import(/* webpackChunkName:"organizatio
 Vue.component('self-report-grid', () => import(/* webpackChunkName:"self-report-grid" */ './components/self_reports/SelfReportGrid.vue'));
 Vue.component('self-report-form', () => import(/* webpackChunkName:"self-report-form" */ './components/self_reports/SelfReportForm.vue'));
 Vue.component('self-report-show', () => import(/* webpackChunkName:"self-report-show" */ './components/self_reports/SelfReportShow.vue'));
+Vue.component('self-report-summary', () => import(/* webpackChunkName:"self-report-summary" */ './components/self_reports/SelfReportSummary.vue'));
 

@@ -26,6 +26,7 @@ class InviteStoreRequest extends FormRequest
         return [
 
             'id' => 'numeric',
+            'organization_id' => 'required|numeric|exists_or_null:organizations,id',
             'email' => 'required|string|email|unique:invites|unique:users|max:191',
             'name' => 'required|string|max:191',
             'role' => 'required|string|max:42|not_in:0',

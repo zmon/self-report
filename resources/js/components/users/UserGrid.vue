@@ -10,20 +10,21 @@
         <div class="grid-top row mb-0 align-items-center">
             <div class="col-lg-8 mb-2">
                 <form class="form-inline mb-0">
-                    <a v-if="params.CanAdd" href="#" @click.default="goToNew" class="btn btn-primary mb-3 mb-sm-2 mr-3">Add Users</a>
+                    <a v-if="params.CanAdd" href="#" @click.default="goToNew" class="btn btn-primary mb-3 mb-sm-2 mr-3">Add
+                        Users</a>
                     <search-form-group
-                            class="mb-0"
-                            :errors="form_errors.keyword"
-                            label="Name"
-                            labelFor="keyword">
+                        class="mb-0"
+                        :errors="form_errors.keyword"
+                        label="Name"
+                        labelFor="keyword">
                         <input
-                                name="keyword"
-                                id="field_keyword"
-                                v-model="query"
-                                @keyup="getData(1)"
-                                class="form-control mb-2"
-                                type="text"
-                                placeholder="Filter by name">
+                            name="keyword"
+                            id="field_keyword"
+                            v-model="query"
+                            @keyup="getData(1)"
+                            class="form-control mb-2"
+                            type="text"
+                            placeholder="Filter by name">
                     </search-form-group>
                 </form>
             </div>
@@ -37,37 +38,38 @@
             <table class="table table-striped table-hover mb-0">
                 <thead>
                 <tr>
-                                        <ss-grid-column-header
-                            v-on:selectedSort="sortColumn"
-                            v-bind:selectedKey="sortKey"
-                            title="Sort by Name"
-                            :params="{
+                    <ss-grid-column-header
+                        v-on:selectedSort="sortColumn"
+                        v-bind:selectedKey="sortKey"
+                        title="Sort by Name"
+                        :params="{
                             sortField: 'name',
                             InitialSortOrder: 'asc',
                         }">
                         Name
                     </ss-grid-column-header>
-                                        <ss-grid-column-header
-                            v-on:selectedSort="sortColumn"
-                            v-bind:selectedKey="sortKey"
-                            title="Sort by Email"
-                            :params="{
+                    <ss-grid-column-header
+                        v-on:selectedSort="sortColumn"
+                        v-bind:selectedKey="sortKey"
+                        title="Sort by Email"
+                        :params="{
                             sortField: 'email',
                             InitialSortOrder: 'asc',
                         }">
                         Email
                     </ss-grid-column-header>
-                                        <ss-grid-column-header
-                            v-on:selectedSort="sortColumn"
-                            v-bind:selectedKey="sortKey"
-                            title="Sort by Active"
-                            :params="{
-                            sortField: 'active',
-                            InitialSortOrder: 'asc',
-                        }">
-                        Active
+                    <ss-grid-column-header
+                        v-on:selectedSort="sortColumn"
+                        v-bind:selectedKey="sortKey"
+                        title="Access"
+                        :params="{
+                                sortField: 'organizations.alias',
+                                InitialSortOrder: 'asc'
+                            }"
+                    >
+                        Access
                     </ss-grid-column-header>
-                                        <th style="width:20%;" class="text-lg-center">Actions</th>
+                    <th style="width:20%;" class="text-lg-center">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -95,7 +97,7 @@
                 </tr>
 
                 <tr v-else v-for="row in this.gridData" :key="row.id">
-                                                            <td data-title="Name">
+                    <td data-title="Name">
                         <a v-bind:href="'/user/' + row.id"
                            v-if="(params.CanShow == '1')">
                             {{ row.name }}
@@ -104,9 +106,12 @@
                                         {{ row.name }}
                         </span>
                     </td>
-                                                                                                                        <td data-title="Email">{{ row.email }}</td>
-                                                                                                    <td data-title="Active">{{ row.active }}</td>
-                                                            <td data-title="Actions" class="text-lg-center text-nowrap">
+                    <td data-title="Email">{{ row.email }}</td>
+                    <td data-title="Access">
+                        <span v-if="row.organization_id">{{ row.organization_alias }}</span>
+                        <span v-else>Access to ALL Organizations</span>
+                    </td>
+                    <td data-title="Actions" class="text-lg-center text-nowrap">
                         <a v-bind:href="'/user/' + row.id + '/edit'"
                            v-if="(params.CanEdit)"
                            class="grid-action-item">
@@ -229,29 +234,29 @@
                             }
                             this.gridState = 'good';
                         }).catch(error => {
-                            if (error.response) {
-                                this.gridState = 'error';
-                                if (error.response.status === 422) {
-                                    // Clear errors out
-                                    Object.keys(this.form_errors).forEach(i => this.form_errors[i] = false);
-                                    // Set current errors
-                                    Object.keys(error.response.data.errors).forEach(i => this.form_errors[i] = error.response.data.errors[i]);
-                                } else if (error.response.status === 404) {  // Record not found
-                                    this.server_message = 'Record not found';
-                                    window.location = '/user';
-                                } else if (error.response.status === 419) {  // Unknown status
-                                    this.server_message = 'Unknown Status, please try to ';
-                                    this.try_logging_in = true;
-                                } else if (error.response.status === 500) {  // Unknown status
-                                    this.server_message = 'Server Error, please try to ';
-                                    this.try_logging_in = true;
-                                } else {
-                                    this.server_message = error.response.data.message;
-                                }
+                        if (error.response) {
+                            this.gridState = 'error';
+                            if (error.response.status === 422) {
+                                // Clear errors out
+                                Object.keys(this.form_errors).forEach(i => this.form_errors[i] = false);
+                                // Set current errors
+                                Object.keys(error.response.data.errors).forEach(i => this.form_errors[i] = error.response.data.errors[i]);
+                            } else if (error.response.status === 404) {  // Record not found
+                                this.server_message = 'Record not found';
+                                window.location = '/user';
+                            } else if (error.response.status === 419) {  // Unknown status
+                                this.server_message = 'Unknown Status, please try to ';
+                                this.try_logging_in = true;
+                            } else if (error.response.status === 500) {  // Unknown status
+                                this.server_message = 'Server Error, please try to ';
+                                this.try_logging_in = true;
                             } else {
-                                console.log(error.response);
-                                this.server_message = error;
+                                this.server_message = error.response.data.message;
                             }
+                        } else {
+                            console.log(error.response);
+                            this.server_message = error;
+                        }
                     });
                 }
             },

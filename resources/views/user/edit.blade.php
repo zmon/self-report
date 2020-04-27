@@ -15,5 +15,5 @@
     </ol>
 @endsection
 @section('content')
-    <user-form csrf_token="{{ csrf_token() }}" :record='@json($user)'></user-form>
+    <user-form csrf_token="{{ csrf_token() }}" :record='@json($user)' :roles="{{ $role_name }}"></user-form>
 @endsection
