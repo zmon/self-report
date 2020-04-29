@@ -35,7 +35,6 @@ class User extends Authenticatable
         ];
 
     protected $hidden = [
-        'active',
         'created_by',
         'modified_by',
         'purged_by',

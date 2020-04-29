@@ -31,7 +31,6 @@ class Organization extends Model
         ];
 
     protected $hidden = [
-        'active',
         'created_by',
         'modified_by',
         'purged_by',

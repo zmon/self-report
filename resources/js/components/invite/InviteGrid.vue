@@ -94,14 +94,14 @@
                 </thead>
                 <tbody>
                 <tr v-if="gridState == 'wait'">
-                    <td colspan="4" class="grid-alert">
+                    <td colspan="6" class="grid-alert">
                         <div class="alert alert-info" role="alert">
                             Please wait.
                         </div>
                     </td>
                 </tr>
                 <tr v-if="gridState == 'error'">
-                    <td colspan="4" class="grid-alert">
+                    <td colspan="6" class="grid-alert">
                         <div class="alert alert-warning" role="alert">
                             No matching records were found.
                         </div>
@@ -109,7 +109,7 @@
                 </tr>
 
                 <tr v-if="gridState != 'good'">
-                    <td colspan="4" class="grid-alert">
+                    <td colspan="6" class="grid-alert">
                         <div class="alert alert-danger" role="alert">
                             Error please try again.
                         </div>
@@ -117,7 +117,7 @@
                 </tr>
 
                 <tr v-if="gridState == 'good' && !gridData.length">
-                    <td colspan="4" class="grid-alert">
+                    <td colspan="6" class="grid-alert">
                         <div class="alert alert-warning" role="alert">
                             No matching records found.
                         </div>

@@ -22,7 +22,7 @@ class InitialPermissions
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
 
-        Role::findOrCreate('super-admin');
+
 
         Permission::findOrCreate('invite index');
         Permission::findOrCreate('invite view');
@@ -91,26 +91,11 @@ class InitialPermissions
         Permission::findOrCreate('user_role delete');
 
 
-        Permission::findOrCreate('always fail');
-
-//        Permission::findOrCreate('client');
-//        Permission::findOrCreate('contractor');
+        Role::findOrCreate('super-admin');
 
 
-//        $role = Role::findOrCreate('cant');
-//
-//        $role->givePermissionTo(['always fail']);
-//
-//
-//        $role = Role::findOrCreate('only index');
-//        // For Testing
-////        $role->givePermissionTo(['department index']);
-////        $role->givePermissionTo(['department index']);
-////        $role->givePermissionTo(['service_type index']);
-
-
-        $role = Role::findOrCreate('Client Admin');
-//        $role->update(['can_assign' => true]);
+        $role = Role::findOrCreate('Admin');
+        $role->update(['can_assign' => true]);
         $role->givePermissionTo([
 
             'invite index',
@@ -148,8 +133,6 @@ class InitialPermissions
             'symptom export-pdf',
             'symptom export-excel',
 
-
-
             'user index',
             'user add',
             'user edit',
@@ -170,7 +153,7 @@ class InitialPermissions
         ]);
 
         $role = Role::findOrCreate('Health Athority');
-//        $role->update(['can_assign' => true]);
+
         $role->givePermissionTo([
 
             'self_report index',
@@ -179,27 +162,6 @@ class InitialPermissions
             'self_report export-excel',
 
         ]);
-
-
-
-//        $role = Role::findOrCreate('read-only');
-//
-//        $role->givePermissionTo([
-//            'organization index',
-//            'organization view',
-//
-//            'preexisting_condition index',
-//            'preexisting_condition view',
-//
-//            'race_ethnicity index',
-//            'race_ethnicity view',
-//
-//            'self_report index',
-//            'self_report view',
-//
-//            'symptom index',
-//            'symptom view',
-//        ]);
 
 
     }

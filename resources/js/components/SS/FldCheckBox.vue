@@ -32,17 +32,17 @@
                 type: String
             },
             modelValue: {
-                default: false
+                default: 0
             },
             // We set `true-value` and `false-value` to the default true and false so
             // we can always use them instead of checking whether or not they are set.
             // Also can use camelCase here, but hyphen-separating the attribute name
             // when using the component will still work
             trueValue: {
-                default: true
+                default: 1
             },
             falseValue: {
-                default: false
+                default: 0
             },
             name: {
                 type: String,

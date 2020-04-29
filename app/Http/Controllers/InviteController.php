@@ -152,10 +152,10 @@ class InviteController extends Controller
         } //check if the token already exists and if it does, try again
         while (Invite::where('token', $token)->first());
 
-
+info(print_r($request->all(),true));
         //create a new invite record
         $invite = Invite::create([
-            'organization_id' => $request->get('organiztion_id'),
+            'organization_id' => $request->get('organization_id'),
             'email' => $request->get('email'),
             'name' => $request->get('name'),
             'role' => $request->get('role'),  //FIX  Roles on Invite screen are not valid roles #242

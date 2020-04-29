@@ -106,13 +106,20 @@
 
 
         <div class="row">
-            {{ form_data.active }}
             <div class="col-md-12">
-                <std-form-group label="Active" label-for="active" :errors="form_errors.active">
+                <std-form-group
+                    display="inline"
+                    label="Active"
+                    label-for="active"
+                    :errors="form_errors.active"
+                >
                     <fld-checkbox
                         name="active"
                         v-model="form_data.active"
                     />
+                    <template slot="help">
+                        Organization is active or not.
+                    </template>
                 </std-form-group>
             </div>
         </div>
