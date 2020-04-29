@@ -138,6 +138,12 @@ class Organization extends Model
             $query->where('name', 'like', '%' . $keyword . '%');
         }
 
+        $organization_id = \Auth::user()->organization_id;
+
+        if ($organization_id) {
+            $query->where('organizations.id', '=', $organization_id);
+        }
+
         return $query;
     }
 

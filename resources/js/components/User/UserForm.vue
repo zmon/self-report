@@ -92,6 +92,23 @@
                             </std-form-group>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <std-form-group
+                                label="Organization"
+                                label-for="organization_id"
+                                :errors="form_errors.organization_id">
+                                <ui-select-pick-one
+                                    url="/api-organization/options"
+                                    v-model="form_data.organization_id"
+                                    :selected_id="form_data.organization_id"
+                                    name="organization_id"
+                                    :blank_value="0"
+                                    blank_text="Access to ALL Organizations">
+                                </ui-select-pick-one>
+                            </std-form-group>
+                        </div>
+                    </div>
                 </div>
                 <!-- End Column 1 -->
             </div>
@@ -274,6 +291,7 @@ export default {
                 // _method: 'patch',
                 _token: this.csrf_token,
                 id: 0,
+                organization_id: 0,
                 name: "",
                 email: "",
                 active: 1,
@@ -285,6 +303,7 @@ export default {
             },
             form_errors: {
                 id: false,
+                organization_id: false,
                 name: false,
                 email: false,
                 active: false,
