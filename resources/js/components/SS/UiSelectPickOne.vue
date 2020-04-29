@@ -4,7 +4,8 @@
 
 To remove --Select-- or not have a blank value/text, set blank_text to false
 
-:blank_text=false
+     :blank_text=false
+
 
 
 <ui-select-pick-one
@@ -45,109 +46,109 @@ To remove --Select-- or not have a blank value/text, set blank_text to false
 </template>
 
 <script>
-    export default {
-        name: "ui-select-pick-one",
+export default {
+    name: "ui-select-pick-one",
 
-        props: {
-            url: [String, Number],
-            selected_id: [String, Number, Array],
-            name: {
-                type: String,
-                default: ""
-            },
-            blank_text: {
-                type: [String, Boolean],
-                default: "- Select -"
-            },
-            blank_value: {
-                type: [String, Number],
-                default: ""
-            },
-            additional_classes: {
-                type: String,
-                default: ""
-            },
-            styleAttr: {
-                type: String,
-                default: ""
-            },
-            optionsListData: {
-                type: Array,
-                default: null
-            }
+    props: {
+        url: [String, Number],
+        selected_id: [String, Number, Array],
+        name: {
+            type: String,
+            default: ""
+        },
+        blank_text: {
+            type: [String,Boolean],
+            default: "- Select -"
+        },
+        blank_value: {
+            type: [String, Number],
+            default: ""
+        },
+        additional_classes: {
+            type: String,
+            default: ""
+        },
+        styleAttr: {
+            type: String,
+            default: ""
+        },
+        optionsListData: {
+            type: Array,
+            default: null
+        }
+    },
+
+    mounted: function() {
+        this.getOptions();
+    },
+
+    data: function() {
+        return {
+            optionsList: [],
+            optionGroupsList: [],
+            initval: null
+        };
+    },
+
+    methods: {
+        updateValue: function(value) {
+            this.$emit("input", value);
         },
 
-        mounted: function () {
-            this.getOptions();
-        },
+        getOptions: function() {
+            var self = this;
 
-        data: function () {
-            return {
-                optionsList: [],
-                optionGroupsList: [],
-                initval: null
-            };
-        },
+            // Get cycles data from API
+            var url = this.url;
+            if (self.optionsListData) {
+                // Clear lists
+                self.optionsList = self.optionsListData;
+                self.optionGroupsList = [];
 
-        methods: {
-            updateValue: function (value) {
-                this.$emit("input", value);
-            },
-
-            getOptions: function () {
-                var self = this;
-
-                // Get cycles data from API
-                var url = this.url;
-                if (self.optionsListData) {
+                // Set value
+                this.initval = this.selected_id;
+            } else {
+            $.getJSON(
+                url,
+                function(data) {
                     // Clear lists
-                    self.optionsList = self.optionsListData;
+                    self.optionsList = [];
                     self.optionGroupsList = [];
 
-                    // Set value
-                    this.initval = this.selected_id;
-                } else {
-                    $.getJSON(
-                        url,
-                        function (data) {
-                            // Clear lists
-                            self.optionsList = [];
-                            self.optionGroupsList = [];
-
-                            if (data[0] && data[0].optgroup) {
-                                // Returned values are grouped in optgroups
-                                var keys = Object.keys(data);
-                                for (var i = 0; i < keys.length; i++) {
-                                    var options = [];
-                                    var keys2 = Object.keys(data[i].options);
-                                    for (var j = 0; j < keys2.length; j++) {
-                                        options.push({
-                                            text: data[i].options[j].name,
-                                            value: data[i].options[j].id
-                                        });
-                                    }
-                                    self.optionGroupsList.push({
-                                        label: data[i].name,
-                                        options: options
-                                    });
-                                }
-                            } else {
-                                // Returned values are a straight list of options
-                                var keys = Object.keys(data);
-                                for (var i = 0; i < keys.length; i++) {
-                                    self.optionsList.push({
-                                        text: data[i].name,
-                                        value: data[i].id
-                                    });
-                                }
+                    if (data[0] && data[0].optgroup) {
+                        // Returned values are grouped in optgroups
+                        var keys = Object.keys(data);
+                        for (var i = 0; i < keys.length; i++) {
+                            var options = [];
+                            var keys2 = Object.keys(data[i].options);
+                            for (var j = 0; j < keys2.length; j++) {
+                                options.push({
+                                    text: data[i].options[j].name,
+                                    value: data[i].options[j].id
+                                });
                             }
+                            self.optionGroupsList.push({
+                                label: data[i].name,
+                                options: options
+                            });
+                        }
+                    } else {
+                        // Returned values are a straight list of options
+                        var keys = Object.keys(data);
+                        for (var i = 0; i < keys.length; i++) {
+                            self.optionsList.push({
+                                text: data[i].name,
+                                value: data[i].id
+                            });
+                        }
+                    }
 
-                            // Set value after data comes back
-                            this.initval = this.selected_id;
-                        }.bind(this)
-                    );
-                }
-            }
+                    // Set value after data comes back
+                    this.initval = this.selected_id;
+                }.bind(this)
+            );
         }
-    };
+    }
+    }
+};
 </script>

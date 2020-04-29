@@ -217,6 +217,4 @@ class Invite extends Model
     {
         return true;
     }
-
-
 }

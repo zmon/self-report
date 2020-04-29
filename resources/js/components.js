@@ -6,12 +6,6 @@ import VuePassword from "vue-password";
 // Password strength library
 Vue.component("VuePassword", () => import("vue-password"));
 
-/*
-    Users
- */
-Vue.component('user-grid', () => import(/* webpackChunkName:"user-grid" */ './components/users/UserGrid.vue'));
-Vue.component('user-form', () => import(/* webpackChunkName:"user-form" */ './components/users/UserForm.vue'));
-Vue.component('user-show', () => import(/* webpackChunkName:"user-show" */ './components/users/UserShow.vue'));
 
 /*
     Passport
@@ -45,6 +39,15 @@ Vue.component("invite-grid", () =>
 Vue.component("create-password-form", () =>
     import(/* webpackChunkName:"create-password-form" */ "./components/invite/CreatePasswordForm.vue")
 );
+
+/*
+    Users
+ */
+//Vue.component('user-grid',       require('./components/UserGrid.vue'));    // May need to add .default);
+//Vue.component('user-form',       require('./components/UserForm.vue'));    // May need to add .default);
+Vue.component('user-grid', () => import(/* webpackChunkName:"user-grid" */ './components/User/UserGrid.vue'));
+Vue.component('user-form', () => import(/* webpackChunkName:"user-form" */ './components/User/UserForm.vue'));
+Vue.component('user-show', () => import(/* webpackChunkName:"user-Show" */ './components/User/UserShow.vue'));
 
 /*
      Roles

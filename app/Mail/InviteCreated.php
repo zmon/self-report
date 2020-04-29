@@ -39,7 +39,6 @@ class InviteCreated extends Mailable
     public function build()
     {
         return $this->subject('Invitation to use ' . config('app.name'))
-            ->from('captain@codeforkc.org')
             ->markdown('emails.invite-user');
     }
 }

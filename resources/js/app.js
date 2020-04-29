@@ -16,12 +16,24 @@ window.Vue = require('vue');
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 
+// Vue.component('example-component', require('./components/ExampleComponent.vue'));
+
 // const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key)))
 
-require("./components");
+/**
+ * Configuration for components
+ */
 
-require("./mixins");
+
+require('./components');
+
+require('./app-mixins');
+
+import moment from 'moment'
+
+Vue.prototype.moment = moment;
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -29,5 +41,5 @@ require("./mixins");
  */
 
 const app = new Vue({
-    el: '#app',
+    el: '#app'
 });

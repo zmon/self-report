@@ -2,8 +2,9 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
 
 class ExampleTest extends TestCase
 {
@@ -14,7 +15,10 @@ class ExampleTest extends TestCase
      */
     public function testBasicTest()
     {
-        $response = $this->get('/');
+
+//        $user = factory(\App\User::class)->create();
+//        $this->actingAs($user);
+        $response = $this->get('http://cms.apskc.ldev/login');
 
         $response->assertStatus(200);
     }

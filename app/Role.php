@@ -212,7 +212,7 @@ class Role extends \Spatie\Permission\Models\Role
         } else {
             $data = [];
 
-            foreach ($records as $rec) {
+            foreach ($records AS $rec) {
                 $data[] = ['id' => $rec['id'], 'name' => $rec['name']];
             }
 

@@ -1,17 +1,17 @@
 @extends('layouts.crud-master')
 @php $nav_path = ['user']; @endphp
 @section('page-title')
-View {{$user->name}}
+    View {{$user->name}}
 @endsection
 @section('page-header-title')
-View {{$user->name}}
+    View {{$user->name}}
 @endsection
 @section('page-header-breadcrumbs')
-<ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-    <li class="breadcrumb-item"><a href="{{ route('user.index') }}">Users</a></li>
-    <li class="breadcrumb-item active" aria-current="location">View {{$user->name}}</li>
-</ol>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('user.index') }}">Users</a></li>
+        <li class="breadcrumb-item active" aria-current="location">View {{$user->name}}</li>
+    </ol>
 @endsection
 @section('content')
 
@@ -22,7 +22,7 @@ View {{$user->name}}
             <div class="row mt-4">
                 <div class="col-md-4">
                     @if ($can_edit)
-                        <a href="/user/{{ $user->id }}/edit" class="btn btn-primary">Edit Users</a>
+                        <a href="/user/{{ $user->id }}/edit" class="btn btn-primary">Edit User</a>
                     @endif
                 </div>
                 <div class="col-md-4 text-md-center mt-2 mt-md-0">
@@ -31,7 +31,8 @@ View {{$user->name}}
                             <input type="hidden" name="_method" value="delete">
                             {{ csrf_field() }}
 
-                            <input class="btn btn-danger" Onclick="return ConfirmDelete();" type="submit" value="Delete Users">
+                            <input class="btn btn-danger" Onclick="return ConfirmDelete();" type="submit"
+                                   value="Delete User">
 
                         </form>
                     @endif
@@ -42,16 +43,16 @@ View {{$user->name}}
             </div>
         </div>
     </div>
-</div>
+    </div>
 @endsection
 @section('scripts')
-<script>
-    function ConfirmDelete() {
-        var x = confirm("Are you sure you want to delete this Users?");
-        if (x)
-            return true;
-        else
-            return false;
-    }
-</script>
+    <script>
+        function ConfirmDelete() {
+            var x = confirm("Are you sure you want to delete this User?");
+            if (x)
+                return true;
+            else
+                return false;
+        }
+    </script>
 @endsection

@@ -141,14 +141,15 @@
 
 <script>
     import axios from "axios";
-    import {VuePassword, VuePasswordAuto} from "vue-password";
+    import { VuePassword, VuePasswordAuto } from "vue-password";
 
     export default {
         name: "change-password-form",
         components: {
             VuePassword,
             VuePasswordAuto
-        }, props: {
+        },
+        props: {
             /*record: {
                     type: [Boolean, Object],
                     default: false,

@@ -1,10 +1,17 @@
-/** For text editor =====================
+/**
 
-<fld-text-editor name="description" v-model="form_data.description"/>
+For text editor
+=====================
+
+<fld-text-editor
+    name="description"
+    v-model="form_data.description"
+/>
 
 */
 
 <template>
+
     <!-- <textarea
             v-bind:value="value"
             v-on:input="$emit('input', $event.target.value)">
@@ -19,16 +26,17 @@
         tag-name="textarea"
         v-on:input="$emit('input', editorData)"
     ></ckeditor>
+
 </template>
 
 <script>
     // Documentation at https://ckeditor.com/docs/ckeditor5/latest/builds/guides/integration/frameworks/vuejs.html
-    import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+    import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
     export default {
-        name: "fld-text-editor",
+        name: 'fld-text-editor',
         props: {
-            params: {
+            'params': {
                 type: Object,
                 default: function () {
                 }
@@ -38,7 +46,7 @@
             },
             name: {
                 type: String,
-                default: ""
+                default: ''
             }
         },
         data() {
@@ -65,19 +73,19 @@
                         //"mergeTableCells",
                         // TODO: turn this on later: "mediaEmbed",
                         "undo",
-                        "redo"
+                        "redo",
                     ]
                 }
-            };
+            }
         }
-    };
+    }
 
     /*
-                    // For development/reference, to get the list of available toolbar items:
-                    var editor = ClassicEditor
-                        .create(document.querySelector('input[name="name"]'))
-                        .then(function(editor){
-                            console.log(Array.from(editor.ui.componentFactory.names()));
-                        });
-                     */
+    // For development/reference, to get the list of available toolbar items:
+    var editor = ClassicEditor
+        .create(document.querySelector('input[name="name"]'))
+        .then(function(editor){
+            console.log(Array.from(editor.ui.componentFactory.names()));
+        });
+     */
 </script>

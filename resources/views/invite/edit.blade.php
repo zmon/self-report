@@ -1,4 +1,4 @@
-@extends('layouts.crud-master')
+@extends('layouts.master')
 @php $nav_path = ['admin', 'invite'] @endphp
 @section('page-title')
     Edit {{$invite->name}}

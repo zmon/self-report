@@ -2,22 +2,21 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Auth;
+use Exception;
+use Illuminate\Database\QueryException;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
-//use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 use App\Traits\HistoryTrait;
 use App\Traits\RecordSignature;
 
 class User extends Authenticatable
 {
+    use HasApiTokens, Notifiable, HasRoles;
 
-//    use SoftDeletes;
-    use Notifiable, HasApiTokens, Notifiable, HasRoles;
     use RecordSignature;
     use HistoryTrait;
 
@@ -64,13 +63,19 @@ class User extends Authenticatable
     {
 
         try {
-            $this->fill($attributes)->save();
-        } catch (\Exception $e) {
+            $this->fill($attributes);
+
+            // Hash the pw
+            $this->password = bcrypt($this->password);
+
+            $this->save();
+            $this->syncRoles($selected_roles);
+        } catch (Exception $e) {
             info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
-            throw new \Exception($e->getMessage());
-        } catch (\Illuminate\Database\QueryException $e) {
+            throw new Exception($e->getMessage());
+        } catch (QueryException $e) {
             info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
-            throw new \Exception($e->getMessage());
+            throw new Exception($e->getMessage());
         }
 
         return true;
@@ -98,15 +103,13 @@ class User extends Authenticatable
         $keyword = '')
     {
         return self::buildBaseGridQuery($column, $direction, $keyword,
-            [ 'id',
-                    'name',
-                    'email',
-                    'active',
+            ['id',
+                'name',
+                'email',
+                'active',
             ])
-        ->paginate($per_page);
+            ->paginate($per_page);
     }
-
-
 
 
     /**
@@ -146,20 +149,23 @@ class User extends Authenticatable
         ->orderBy($column, $direction);
 
         if ($keyword) {
-            $query->where('users.name', 'like', '%' . $keyword . '%');
+            $query->where(function ($query) use ($keyword) {
+                $query->where('name', 'like', '%' . $keyword . '%')
+                    ->orWhere('email', 'like', '%' . $keyword . '%');
+            });
         }
         return $query;
     }
 
-        /**
-         * Get export/Excel/download data query to send to Excel download library
-         *
-         * @param $per_page
-         * @param $column
-         * @param $direction
-         * @param string $keyword
-         * @return mixed
-         */
+    /**
+     * Get export/Excel/download data query to send to Excel download library
+     *
+     * @param $per_page
+     * @param $column
+     * @param $direction
+     * @param string $keyword
+     * @return mixed
+     */
 
     static function exportDataQuery(
         $column,
@@ -174,18 +180,18 @@ class User extends Authenticatable
 
     }
 
-        static function pdfDataQuery(
-            $column,
-            $direction,
-            $keyword = '',
-            $columns = '*')
-        {
+    static function pdfDataQuery(
+        $column,
+        $direction,
+        $keyword = '',
+        $columns = '*')
+    {
 
-            info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
 
-            return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
+        return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
 
-        }
+    }
 
 
     /**
@@ -273,7 +279,6 @@ class User extends Authenticatable
         }
         return $roles_is_dirty;
     }
-
 
 
 }

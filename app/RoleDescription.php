@@ -58,7 +58,6 @@ class RoleDescription extends Model
             throw new Exception($e->getMessage());
         }
 
-
         return true;
     }
 
@@ -108,6 +107,7 @@ class RoleDescription extends Model
      * @param string|array $columns
      * @return mixed
      */
+
     static function buildBaseGridQuery(
         $column,
         $direction,
@@ -136,7 +136,6 @@ class RoleDescription extends Model
         return $query;
     }
 
-
     /**
      * Get export/Excel/download data query to send to Excel download library
      *
@@ -146,6 +145,7 @@ class RoleDescription extends Model
      * @param unknown $columns (optional)
      * @return mixed
      */
+
     static function exportDataQuery(
         $column,
         $direction,
@@ -206,7 +206,7 @@ class RoleDescription extends Model
         } else {
             $data = [];
 
-            foreach ($records as $rec) {
+            foreach ($records AS $rec) {
                 $data[] = ['id' => $rec['id'], 'name' => $rec['name']];
             }
 
@@ -214,6 +214,5 @@ class RoleDescription extends Model
         }
 
     }
-
 
 }

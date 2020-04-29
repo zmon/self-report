@@ -3,26 +3,19 @@
     url="/api-user/role-options"
     v-model="form_data.selected_roles"
     :selected_roles="roles"
-    name="user"
->
+    name="user">
 </ui-pick-roles>
 
 */
 <template>
     <div>
-        <div
-            class="indented-block checkbox-item"
-            v-for="c in optionsList"
-            v-bind:key="c.value"
-        >
-            <input
-                type="checkbox"
-                :id="'checkbox_value_' + c.value"
-                :value="c.value"
-                @change="updateValue"
-                v-model="checkedRoles"
-            />
-            <label v-bind:for="'checkbox_value_' + c.value">{{ c.text }}</label>
+        <div class="indented-block checkbox-item" v-for="c in optionsList" v-bind:key="c.value">
+            <input type="checkbox"
+                   :id="'checkbox_value_' + c.value"
+                   :value="c.value"
+                   @change="updateValue"
+                   v-model="checkedRoles">
+            <label v-bind:for="'checkbox_value_' + c.value">{{c.text}}</label>
         </div>
     </div>
 </template>
@@ -31,8 +24,8 @@
     export default {
         name: "ui-pick-roles",
         model: {
-            prop: "selected_roles",
-            event: "change"
+            prop: 'selected_roles',
+            event: 'change'
         },
 
         props: {
@@ -41,12 +34,12 @@
 
             additional_classes: {
                 type: String,
-                default: ""
+                default: ''
             },
             styleAttr: {
                 type: String,
-                default: ""
-            }
+                default: ''
+            },
         },
 
         mounted: function () {
@@ -87,8 +80,8 @@
                                 var keys2 = Object.keys(data[i].options);
                                 for (var j = 0; j < keys2.length; j++) {
                                     options.push({
-                                        text: data[i].options[j].name,
-                                        value: data[i].options[j].id
+                                    text: data[i].options[j].name,
+                                    value: data[i].options[j].id
                                     });
                                 }
                                 self.optionGroupsList.push({

@@ -15,9 +15,6 @@ class AddActiveToUsers extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->boolean('active')->default(true)->after('email');
-            $table->integer('created_by')->default(0);
-            $table->integer('modified_by')->default(0);
-            $table->integer('purged_by')->default(0);
         });
     }
 
@@ -30,9 +27,6 @@ class AddActiveToUsers extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('active');
-            $table->dropColumn('created_by');
-            $table->dropColumn('modified_by');
-            $table->dropColumn('purged_by');
         });
     }
 }

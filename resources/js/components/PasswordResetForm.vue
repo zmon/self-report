@@ -41,6 +41,7 @@
                     classes="form-control"
                     :disable-toggle="false"
                     name="password"
+                    style="width:20em;"
                     :score="score"
                     v-model="form_data.password"
                     @input="updateScore"
@@ -48,7 +49,7 @@
                     :required="true"
                     autocomplete="off"
                 >
-                    >
+
                     <!--The following two slots were added since I could not get the JS score to be the same as the PHP API's -->
                     <!--https://github.com/skegel13/vue-password/blob/master/src/components/VuePasswordCustom.vue-->
                     <template v-slot:strength-meter>
@@ -128,9 +129,14 @@
 
 <script>
     import axios from "axios";
+    import { VuePassword, VuePasswordAuto } from "vue-password";
 
     export default {
         name: "password-reset-form",
+        components: {
+            VuePassword,
+            VuePasswordAuto
+        },
         props: {
             record: {
                 type: [Boolean, Object],

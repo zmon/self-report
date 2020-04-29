@@ -1,20 +1,27 @@
-/** For text area =====================
+/**
+
+For text area
+=====================
 
 <dsp-textarea v-model="PostData.description"/>
 
 */
 
 <template>
-    <span class="trim-last-p" v-html="value"> </span>
+
+        <span class="trim-last-p" v-html="value">
+
+        </span>
+
 </template>
 
 <script>
     export default {
-        name: "dsp-textarea",
+        name: 'dsp-textarea',
         props: {
             value: {
                 default: null
             }
         }
-    };
+    }
 </script>

@@ -63,75 +63,76 @@
 </template>
 
 <script>
-    export default {
-        name: "ss-grid-pagination",
+export default {
+    name: "ss-grid-pagination",
 
-        props: {
-            current_page: [String, Number],
-            last_page: [String, Number],
-            total: [String, Number]
+    props: {
+        current_page: [String, Number],
+        last_page: [String, Number],
+        total: [String, Number]
+    },
+
+    data: function() {
+        return {
+            pages: [],
+            first_page_number: 1
+        };
+    },
+
+    watch: {
+        current_page: function() {
+            this.resetPageNumbers();
         },
-
-        data: function () {
-            return {
-                pages: [],
-                first_page_number: 1
-            };
+        last_page: function() {
+            this.resetPageNumbers();
         },
-
-        watch: {
-            current_page: function () {
-                this.resetPageNumbers();
-            },
-            last_page: function () {
-                this.resetPageNumbers();
-            },
-            total: function () {
-                this.resetPageNumbers();
-            }
-        },
-
-        computed: {
-            next_page_number() {
-                return this.current_page < this.last_page
-                    ? this.current_page + 1
-                    : null;
-            },
-            prev_page_number() {
-                return this.current_page > 1 ? this.current_page - 1 : null;
-            },
-            isCurrentPageFirst() {
-                return this.current_page == 1;
-            },
-            isCurrentPageLast() {
-                return this.current_page == this.last_page;
-            }
-        },
-
-        methods: {
-            resetPageNumbers: function () {
-                this.pages = [];
-
-                for (var i = 1; i <= this.last_page; i++) {
-                    this.pages.push(i);
-                }
-            },
-
-            gotoPage: function (page) {
-                this.$emit("goto-page", page);
-            },
-
-            isCurrentPage: function (page) {
-                return page == this.current_page;
-            },
-
-            checkUrlNotNull: function (url) {
-                return url != null;
-            },
-
-            pageInRange: function () {
-                return this.go_to_page <= parseInt(this.last_page);
-            }
+        total: function() {
+            this.resetPageNumbers();
         }
-    };
+    },
+
+    computed: {
+        next_page_number() {
+            return this.current_page < this.last_page
+                ? this.current_page + 1
+                : null;
+        },
+        prev_page_number() {
+            return this.current_page > 1 ? this.current_page - 1 : null;
+        },
+        isCurrentPageFirst() {
+            return this.current_page == 1;
+        },
+        isCurrentPageLast() {
+            return this.current_page == this.last_page;
+        }
+    },
+
+    methods: {
+        resetPageNumbers: function() {
+            this.pages = [];
+
+            for (var i = 1; i <= this.last_page; i++) {
+                this.pages.push(i);
+            }
+        },
+
+        gotoPage: function(page) {
+            this.$emit("goto-page", page);
+            this.scrollToTop();
+        },
+
+        isCurrentPage: function(page) {
+            return page == this.current_page;
+        },
+
+        checkUrlNotNull: function(url) {
+            return url != null;
+        },
+
+        pageInRange: function() {
+            return this.go_to_page <= parseInt(this.last_page);
+        }
+    }
+};
 </script>

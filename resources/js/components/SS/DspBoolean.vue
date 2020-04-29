@@ -15,21 +15,22 @@
         name: "dsp-boolean",
         props: {
             value: {
-                type: [Boolean, Number, String]
+                type: [Boolean, Number, String],
             },
             trueDisplay: {
                 type: [Boolean, Number, String],
-                default: "X"
+                default: 'X'
             },
             falseDisplay: {
                 type: [Boolean, Number, String],
-                default: ""
-            }
+                default: ''
+            },
         },
         computed: {
             isTrue() {
                 return this.getBoolean(this.value) == true;
             }
         }
-    };
+    }
 </script>
+

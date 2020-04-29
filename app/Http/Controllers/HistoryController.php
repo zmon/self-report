@@ -16,5 +16,5 @@ class HistoryController extends Controller
             $q->with(['user']);
         }]);
         return $history;
-    }
+        }
 }

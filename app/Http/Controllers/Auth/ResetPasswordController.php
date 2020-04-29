@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use ZxcvbnPhp\Zxcvbn;
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Support\Facades\Validator;
 
 class ResetPasswordController extends Controller
 {
@@ -26,5 +29,58 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/home';
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->redirectTo = env('PASSWORD_RESET_REDIRECT', '/role');
+        $this->middleware('guest');
+
+    }
+
+
+    /**
+     * Get the password reset validation rules.
+     *
+     * @return array
+     */
+    protected function rules()
+    {
+
+        return [
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => [
+                'required',
+                'confirmed',
+                function ($attribute, $value, $fail) {
+
+                    $zxcvbn = new Zxcvbn();
+
+                    $user_inputs = [];
+
+                    $users_email = request()->email;
+
+                    if ($users_email) {
+                        $user_inputs[] = $users_email;
+                    }
+
+                    $strength = $zxcvbn->passwordStrength($value, $user_inputs);
+
+                    if (intval($strength['score']) < 3) {
+                        $fail($attribute . ' is to weak.');
+                    } else {
+                        return true;
+                    }
+                },
+            ],
+        ];
+    }
+
+
 }

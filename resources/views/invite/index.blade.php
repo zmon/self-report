@@ -10,7 +10,6 @@
     </ol>
 @endsection
 @section('content')
-
     <invite-grid :params="{
         Page: '{{ $page }}',
         Search: '{{ $search }}',

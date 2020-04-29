@@ -11,15 +11,17 @@ USAGE:
  @include('helpers.select-pick-one', ['fld' => 'owner_id', 'selected_id' => $property->owner_id, 'first_option' => 'Select a Owner', 'options' => $owner_options])
 
 --}}
+
 <select class="form-control" name="{{$fld}}">
 
     <option value="0">{{$first_option}}</option>
 
     @foreach($options as $option)
-        @if ( $option->id == ( old('$fld') ? old('$fld') : $selected_id) )
+        @if ( $option->id == ( old($fld) ? old($fld) : $selected_id) )
             <option value="{{$option->id}}" SELECTED>{{$option->name}}</option>
         @else
             <option value="{{$option->id}}">{{$option->name}}</option>
         @endif
     @endforeach
 </select>
+
