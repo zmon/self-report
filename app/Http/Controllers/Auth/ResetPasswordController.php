@@ -29,7 +29,7 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/login';
 
     /**
      * Create a new controller instance.
@@ -38,7 +38,7 @@ class ResetPasswordController extends Controller
      */
     public function __construct()
     {
-        $this->redirectTo = env('PASSWORD_RESET_REDIRECT', '/role');
+        $this->redirectTo = env('PASSWORD_RESET_REDIRECT', '/login');
         $this->middleware('guest');
 
     }
@@ -54,7 +54,7 @@ class ResetPasswordController extends Controller
 
         return [
             'token' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|exists:users,email,active,1',
             'password' => [
                 'required',
                 'confirmed',
