@@ -38,7 +38,6 @@ class InitialPermissions
         Permission::findOrCreate('organization export-excel');
         Permission::findOrCreate('organization add');
         Permission::findOrCreate('organization edit');
-        Permission::findOrCreate('organization delete');
 
         Permission::findOrCreate('preexisting_condition index');
         Permission::findOrCreate('preexisting_condition view');
@@ -112,7 +111,6 @@ class InitialPermissions
             'organization export-excel',
             'organization add',
             'organization edit',
-            'organization delete',
 
             'preexisting_condition index',
             'preexisting_condition view',

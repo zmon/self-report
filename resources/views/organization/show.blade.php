@@ -26,15 +26,7 @@ View {{$organization->name}}
                     @endif
                 </div>
                 <div class="col-md-4 text-md-center mt-2 mt-md-0">
-                    @if ($can_delete)
-                        <form class="form" role="form" method="POST" action="/organization/{{ $organization->id }}">
-                            <input type="hidden" name="_method" value="delete">
-                            {{ csrf_field() }}
 
-                            <input class="btn btn-danger" Onclick="return ConfirmDelete();" type="submit" value="Delete Organizations">
-
-                        </form>
-                    @endif
                 </div>
                 <div class="col-md-4 text-md-right mt-2 mt-md-0">
                     <a href="{{ url('/organization') }}" class="btn btn-default">Return to List</a>
