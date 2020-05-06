@@ -15,7 +15,7 @@ View {{$organization->name}}
 @endsection
 @section('content')
 
-    <organization-show :record='@json($organization)'></organization-show>
+    <organization-show :record='@json($organization)' url="{{ $url }}" header1="{{ $header1 }}" header2="{{ $header2 }}"></organization-show>
 
     <div class="row">
         <div class="col-md-12">

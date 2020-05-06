@@ -96,7 +96,8 @@ class OrganizationController extends Controller
         \Session::flash('flash_success_message', 'Organizations ' . $organization->name . ' was added.');
 
         return response()->json([
-            'message' => 'Added record'
+            'message' => 'Added record',
+            'id' => $organization->id
         ], 200);
 
     }
@@ -122,7 +123,10 @@ class OrganizationController extends Controller
         if ($organization = $this->sanitizeAndFind($id)) {
             $can_edit = Auth::user()->can('organization edit');
             $can_delete = (Auth::user()->can('organization delete') && $organization->canDelete());
-            return view('organization.show', compact('organization','can_edit', 'can_delete'));
+            $url = url('api/self-reports/') . '/' . $organization->url_code;
+            $header1 = "Accept: application/json";
+            $header2 = "Authorization: " . env('TEST_API_TOKEN');
+            return view('organization.show', compact('organization','can_edit', 'can_delete', 'url', 'header1', 'header2'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Organizations to display.');
             return Redirect::route('organization.index');

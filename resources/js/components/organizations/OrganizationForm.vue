@@ -41,7 +41,10 @@
                         v-model="form_data.url_code"
                     />
                     <template slot="help">
-                        Alias must be unique and 16 characters or less.
+                        URL code must be unique and 16 characters or less.
+
+                        You will use the URL code to identify that you want the
+                        data to be saved to this organization when setting up your form.
                     </template>
                 </std-form-group>
             </div>
@@ -221,7 +224,8 @@
                 })
                     .then((res) => {
                         if (res.status === 200) {
-                            window.location = '/organization';
+                            console.log(res);
+                            window.location = '/organization/' + res.data.id;
                         } else {
                             this.server_message = res.status;
                         }
