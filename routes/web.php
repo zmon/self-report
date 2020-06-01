@@ -63,23 +63,22 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/user/print', 'UserController@print')->name('user.print');
     Route::resource('/user', 'UserController');
 
-Route::get('/api-role', 'RoleApi@index');
-Route::get('/api-role/options', 'RoleApi@getOptions');
-Route::get('/role/download', 'RoleController@download')->name('role.download');
-Route::get('/role/print', 'RoleController@print')->name('role.print');
-Route::resource('/role', 'RoleController');
-
+    Route::get('/api-role', 'RoleApi@index');
+    Route::get('/api-role/options', 'RoleApi@getOptions');
+    Route::get('/role/download', 'RoleController@download')->name('role.download');
+    Route::get('/role/print', 'RoleController@print')->name('role.print');
+    Route::resource('/role', 'RoleController');
 
 
     ///////////////////////////////////////////////////////////////////////////////
     // Application Routes
     ///////////////////////////////////////////////////////////////////////////////
 
-Route::get('/api-organization', 'OrganizationApi@index');
-Route::get('/api-organization/options', 'OrganizationApi@getOptions');
-Route::get('/organization/download', 'OrganizationController@download')->name('organization.download');
-Route::get('/organization/print', 'OrganizationController@print')->name('organization.print');
-Route::resource('/organization', 'OrganizationController');
+    Route::get('/api-organization', 'OrganizationApi@index');
+    Route::get('/api-organization/options', 'OrganizationApi@getOptions');
+    Route::get('/organization/download', 'OrganizationController@download')->name('organization.download');
+    Route::get('/organization/print', 'OrganizationController@print')->name('organization.print');
+    Route::resource('/organization', 'OrganizationController');
 
     Route::get('/api-self-report', 'SelfReportApi@index');
     Route::get('/api-self-report/options', 'SelfReportApi@getOptions');

@@ -74,6 +74,10 @@ class InviteController extends Controller
     public function index(Request $request)
     {
 
+                info(__METHOD__);
+
+        $x = Auth::user()->can('invite index');
+
         if (!Auth::user()->can('invite index')) {
             \Session::flash('flash_error_message', 'You do not have access to Users.');
             return Redirect::route('home');

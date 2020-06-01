@@ -77,10 +77,16 @@ class UserController extends Controller
      *
      * @return Response
      */
-    public function index(UserIndexRequest $request)
+    public function index(Request $request)
     {
 
-        if (!Auth::user()->can('user index')) {
+//        info(__METHOD__);
+//
+//        $x = Auth::user()->can('userx index');
+//        dump(Auth::user());
+//        dd($x);
+
+        if (!Auth::user()->can('users zindex')) {
             \Session::flash('flash_error_message', 'You do not have access to Users.');
             return Redirect::route('home');
         }

@@ -154,10 +154,14 @@ class InitialPermissions
 
         $role->givePermissionTo([
 
+            'organization view',
+
             'self_report index',
             'self_report view',
             'self_report export-pdf',
             'self_report export-excel',
+
+
 
         ]);
 
