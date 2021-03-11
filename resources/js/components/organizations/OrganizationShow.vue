@@ -124,9 +124,11 @@
                         </li>
                         <li>How long to wait before timing out: <span class="form-input">30</span></li>
                         <li>Version of code to use: <span class="form-input">Version 2</span></li>
-                        <li>Custom headers to send (this is two lines):<br>
+                        <li>Custom headers to send (the second line is very long):<br>
                             <code>{{ header1 }}</code>
-                            <code>{{ header2 }}</code>
+                            <br>
+                            <pre style="color:red">{{ header2 }}</pre>
+                            <br>
                         </li>
                         <li>When an error occurs: <span class="form-input">Allow the user to continue</span></li>
                         <li>Error message to display: <span class="form-input">We had a small issue, you can continue</span></li>

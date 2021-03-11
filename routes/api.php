@@ -18,7 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::post('/self-reports', 'API\SelfReportController@store')->name('self-reports.store');
+    Route::post('/self-reports/{org}', 'API\SelfReportController@store')->name('self-reports.store');
 });
 
 

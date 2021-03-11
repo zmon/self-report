@@ -80,13 +80,19 @@ class UserController extends Controller
     public function index(Request $request)
     {
 
-//        info(__METHOD__);
-//
-//        $x = Auth::user()->can('userx index');
-//        dump(Auth::user());
-//        dd($x);
+        info(__METHOD__);
 
-        if (!Auth::user()->can('users zindex')) {
+//        $x = Auth::user()->can('user index');
+//        dump(Auth::user());
+//        dump($x);
+
+//        if (!Auth::user()->can('users index')) {
+//            print "<h1> can user index</h1>";
+//        } else {
+//            print "<h1> can NOT user index</h1>";
+//        }
+
+        if (!Auth::user()->can('users index')) {
             \Session::flash('flash_error_message', 'You do not have access to Users.');
             return Redirect::route('home');
         }

@@ -28,7 +28,7 @@ class SelfReportController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function store(SelfReportApiRequest $request)
+    public function store(SelfReportApiRequest $request, $org)
     {
 
         $self_report = new SelfReport;
@@ -37,12 +37,15 @@ class SelfReportController extends Controller
 
         info(print_r($incomming, true));
 
+       $r = $request->all();
+        info(print_r($r,true));
+
         $data = $this->setFieldNames($incomming);
         $data2 = $this->setFieldNames($incomming['SendFields']);
 
         $data = array_merge($data, $data2);
 
-        $organization_id = Organization::where('url_code', $incomming['org'])->first()->id;
+        $organization_id = Organization::where('url_code', $org)->first()->id;
 
         $data['organization_id'] = $organization_id;
 
@@ -78,6 +81,7 @@ class SelfReportController extends Controller
 
     private function addSymptoms($self_report, $records)
     {
+        if($records)
         foreach ($records AS $i => $value) {
             $symptom = Symptom::firstOrCreate(['name' => $value]);
             $self_report->symptoms()->attach($symptom->id);
@@ -86,6 +90,7 @@ class SelfReportController extends Controller
 
     private function addPreexistingCondition($self_report, $records)
     {
+        if($records)
         foreach ($records AS $i => $value) {
             $symptom = PreexistingCondition::firstOrCreate(['name' => $value]);
             $self_report->preexisting_conditions()->attach($symptom->id);
@@ -94,6 +99,7 @@ class SelfReportController extends Controller
 
     private function addRaceEthnicity($self_report, $records)
     {
+        if($records)
         foreach ($records AS $i => $value) {
             $symptom = RaceEthnicity::firstOrCreate(['name' => $value]);
             $self_report->race_ethnicities()->attach($symptom->id);
@@ -105,6 +111,7 @@ class SelfReportController extends Controller
 
         info(__METHOD__);
         $data = [];
+        if($a)
         foreach ($a AS $i => $v) {
             if (!is_array($v)) {
                 if ($f = $this->lookupFieldName($i)) {

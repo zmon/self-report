@@ -125,7 +125,7 @@ class OrganizationController extends Controller
             $can_delete = (Auth::user()->can('organization delete') && $organization->canDelete());
             $url = url('api/self-reports/') . '/' . $organization->url_code;
             $header1 = "Accept: application/json";
-            $header2 = "Authorization: " . env('TEST_API_TOKEN');
+            $header2 = "Authorization: Bearer " . env('TEST_API_TOKEN');
             return view('organization.show', compact('organization','can_edit', 'can_delete', 'url', 'header1', 'header2'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Organizations to display.');
