@@ -34,7 +34,7 @@ class PreexistingCondition extends Model
 
     public function self_reports()
     {
-        return $this->belongsToMany('App\SelfReport');
+        return $this->belongsToMany(\App\SelfReport::class);
     }
 
     public function add($attributes)

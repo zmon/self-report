@@ -39,12 +39,12 @@ class Organization extends Model
 
     public function self_reports()
     {
-        return $this->hasMany('App\SelfReport');
+        return $this->hasMany(\App\SelfReport::class);
     }
 
     public function users()
     {
-        return $this->hasMany('App\User');
+        return $this->hasMany(\App\User::class);
     }
 
     public function add($attributes)

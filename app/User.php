@@ -53,7 +53,7 @@ class User extends Authenticatable
 
     public function organization()
     {
-        return $this->belongsTo('App\Organization');
+        return $this->belongsTo(\App\Organization::class);
     }
 
     public function add($attributes)

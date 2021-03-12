@@ -68,22 +68,22 @@ class SelfReport extends Model
 
     public function organizations()
     {
-        return $this->belongsTo('App\Organization');
+        return $this->belongsTo(\App\Organization::class);
     }
 
     public function preexisting_conditions()
     {
-        return $this->belongsToMany('App\PreexistingCondition');
+        return $this->belongsToMany(\App\PreexistingCondition::class);
     }
 
     public function race_ethnicities()
     {
-        return $this->belongsToMany('App\RaceEthnicity');
+        return $this->belongsToMany(\App\RaceEthnicity::class);
     }
 
     public function symptoms()
     {
-        return $this->belongsToMany('App\Symptom');
+        return $this->belongsToMany(\App\Symptom::class);
     }
 
     public function add($attributes)
