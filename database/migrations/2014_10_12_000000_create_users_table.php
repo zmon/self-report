@@ -26,7 +26,6 @@ class CreateUsersTable extends Migration
             $table->integer('purged_by')->default(0)->nullable();
 
             $table->timestamps();
-
         });
     }
 

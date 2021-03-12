@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use ZxcvbnPhp\Zxcvbn;
 use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Facades\Validator;
+use ZxcvbnPhp\Zxcvbn;
 
 class ResetPasswordController extends Controller
 {
@@ -40,9 +40,7 @@ class ResetPasswordController extends Controller
     {
         $this->redirectTo = env('PASSWORD_RESET_REDIRECT', '/login');
         $this->middleware('guest');
-
     }
-
 
     /**
      * Get the password reset validation rules.
@@ -51,7 +49,6 @@ class ResetPasswordController extends Controller
      */
     protected function rules()
     {
-
         return [
             'token' => 'required',
             'email' => 'required|email|exists:users,email,active,1',
@@ -59,7 +56,6 @@ class ResetPasswordController extends Controller
                 'required',
                 'confirmed',
                 function ($attribute, $value, $fail) {
-
                     $zxcvbn = new Zxcvbn();
 
                     $user_inputs = [];
@@ -73,7 +69,7 @@ class ResetPasswordController extends Controller
                     $strength = $zxcvbn->passwordStrength($value, $user_inputs);
 
                     if (intval($strength['score']) < 3) {
-                        $fail($attribute . ' is to weak.');
+                        $fail($attribute.' is to weak.');
                     } else {
                         return true;
                     }
@@ -81,6 +77,4 @@ class ResetPasswordController extends Controller
             ],
         ];
     }
-
-
 }

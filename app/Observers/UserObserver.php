@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Observers;
 
 use App\User;
@@ -52,7 +51,6 @@ class UserObserver
 //            $model->purged_by = -1;
 //        }
 //        $model->save();
-
     }
 
     /**

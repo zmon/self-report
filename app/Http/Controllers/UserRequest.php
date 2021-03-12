@@ -4,7 +4,6 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-
 class UserRequest extends FormRequest
 {
     /**
@@ -33,8 +32,8 @@ class UserRequest extends FormRequest
     {
         return [
 
-            'name' => 'required|string|max:20|unique:users,name,' . $this->user,
-            'email' => 'required|email|unique:users,email,' . $this->user,
+            'name' => 'required|string|max:20|unique:users,name,'.$this->user,
+            'email' => 'required|email|unique:users,email,'.$this->user,
         ];
     }
 }

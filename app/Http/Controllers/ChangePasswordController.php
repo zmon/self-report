@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangePasswordRequest;
 use App\User;
 use DB;
-use App\Http\Requests\ChangePasswordRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +22,7 @@ class ChangePasswordController extends Controller
         // To check for similarities in new pw in these fields:
         $current_user = Auth::user();
         $user_inputs = [
-            $current_user->email // Email
+            $current_user->email, // Email
         ];
         $names = explode(' ', $current_user->name);
         $user_inputs = array_merge($user_inputs, $names); // First/last name
@@ -41,10 +41,10 @@ class ChangePasswordController extends Controller
     {
         $current_user = Auth::user();
 
-        if (!$user = $this->sanitizeAndFind($current_user->id)) {
+        if (! $user = $this->sanitizeAndFind($current_user->id)) {
             //\Session::flash('flash_error_message', 'Unable to find User to edit');
             return response()->json([
-                'message' => 'Not Found'
+                'message' => 'Not Found',
             ], 404);
         }
 
@@ -59,7 +59,7 @@ class ChangePasswordController extends Controller
 
         //return Redirect::route('change_password'); // Don't redirect here or we'll lose the session message we just set
         return response()->json([
-            'message' => 'Changed record'
+            'message' => 'Changed record',
         ], 200);
     }
 

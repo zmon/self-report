@@ -2,31 +2,26 @@
 
 namespace App\Http\Controllers;
 
-
 use App;
+use App\Exports\RaceEthnicityExport;
 use App\Http\Middleware\TrimStrings;
+use App\Http\Requests\RaceEthnicityFormRequest;
+use App\Http\Requests\RaceEthnicityIndexRequest;
 use App\RaceEthnicity;
 use DateTime;
 use DateTimeZone;
 use Exception;
 use Illuminate\Http\Request;
-
-use App\Http\Requests\RaceEthnicityFormRequest;
-use App\Http\Requests\RaceEthnicityIndexRequest;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-
-use App\Exports\RaceEthnicityExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 //use PDF; // TCPDF, not currently in use
 
 class RaceEthnicityController extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -34,9 +29,9 @@ class RaceEthnicityController extends Controller
      */
     public function index(RaceEthnicityIndexRequest $request)
     {
-
-        if (!Auth::user()->can('race_ethnicity index')) {
+        if (! Auth::user()->can('race_ethnicity index')) {
             \Session::flash('flash_error_message', 'You do not have access to Rax Ethnicity.');
+
             return Redirect::route('home');
         }
 
@@ -54,7 +49,6 @@ class RaceEthnicityController extends Controller
         $can_pdf = Auth::user()->can('race_ethnicity pdf');
 
         return view('race-ethnicity.index', compact('page', 'column', 'direction', 'search', 'can_add', 'can_edit', 'can_delete', 'can_show', 'can_excel', 'can_pdf'));
-
     }
 
     /**
@@ -64,8 +58,7 @@ class RaceEthnicityController extends Controller
      */
     public function create()
     {
-
-        if (!Auth::user()->can('race_ethnicity add')) {  // TODO: add -> create
+        if (! Auth::user()->can('race_ethnicity add')) {  // TODO: add -> create
             \Session::flash('flash_error_message', 'You do not have access to add a Rax Ethnicity.');
             if (Auth::user()->can('race_ethnicity index')) {
                 return Redirect::route('race-ethnicity.index');
@@ -77,7 +70,6 @@ class RaceEthnicityController extends Controller
         return view('race-ethnicity.create');
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
@@ -86,35 +78,32 @@ class RaceEthnicityController extends Controller
      */
     public function store(RaceEthnicityFormRequest $request)
     {
-
         $race_ethnicity = new RaceEthnicity;
 
         try {
             $race_ethnicity->add($request->validated());
         } catch (Exception $e) {
             return response()->json([
-                'message' => 'Unable to process request'
+                'message' => 'Unable to process request',
             ], 400);
         }
 
-        \Session::flash('flash_success_message', 'Rax Ethnicity ' . $race_ethnicity->name . ' was added.');
+        \Session::flash('flash_success_message', 'Rax Ethnicity '.$race_ethnicity->name.' was added.');
 
         return response()->json([
-            'message' => 'Added record'
+            'message' => 'Added record',
         ], 200);
-
     }
 
     /**
      * Display the specified resource.
      *
-     * @param integer $id
+     * @param int $id
      * @return Response
      */
     public function show($id)
     {
-
-        if (!Auth::user()->can('race_ethnicity view')) {
+        if (! Auth::user()->can('race_ethnicity view')) {
             \Session::flash('flash_error_message', 'You do not have access to view a Rax Ethnicity.');
             if (Auth::user()->can('race_ethnicity index')) {
                 return Redirect::route('race-ethnicity.index');
@@ -126,9 +115,11 @@ class RaceEthnicityController extends Controller
         if ($race_ethnicity = $this->sanitizeAndFind($id)) {
             $can_edit = Auth::user()->can('race_ethnicity edit');
             $can_delete = (Auth::user()->can('race_ethnicity delete') && $race_ethnicity->canDelete());
+
             return view('race-ethnicity.show', compact('race_ethnicity', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Rax Ethnicity to display.');
+
             return Redirect::route('race-ethnicity.index');
         }
     }
@@ -136,12 +127,12 @@ class RaceEthnicityController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param integer $id
+     * @param int $id
      * @return Response
      */
     public function edit($id)
     {
-        if (!Auth::user()->can('race_ethnicity edit')) {
+        if (! Auth::user()->can('race_ethnicity edit')) {
             \Session::flash('flash_error_message', 'You do not have access to edit a Rax Ethnicity.');
             if (Auth::user()->can('race_ethnicity index')) {
                 return Redirect::route('race-ethnicity.index');
@@ -154,9 +145,9 @@ class RaceEthnicityController extends Controller
             return view('race-ethnicity.edit', compact('race_ethnicity'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Rax Ethnicity to edit.');
+
             return Redirect::route('race-ethnicity.index');
         }
-
     }
 
     /**
@@ -177,32 +168,31 @@ class RaceEthnicityController extends Controller
 //            }
 //        }
 
-        if (!$race_ethnicity = $this->sanitizeAndFind($id)) {
+        if (! $race_ethnicity = $this->sanitizeAndFind($id)) {
             //     \Session::flash('flash_error_message', 'Unable to find Rax Ethnicity to edit.');
             return response()->json([
-                'message' => 'Not Found'
+                'message' => 'Not Found',
             ], 404);
         }
 
         $race_ethnicity->fill($request->all());
 
         if ($race_ethnicity->isDirty()) {
-
             try {
                 $race_ethnicity->save();
             } catch (Exception $e) {
                 return response()->json([
-                    'message' => 'Unable to process request'
+                    'message' => 'Unable to process request',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Rax Ethnicity ' . $race_ethnicity->name . ' was changed.');
+            \Session::flash('flash_success_message', 'Rax Ethnicity '.$race_ethnicity->name.' was changed.');
         } else {
             \Session::flash('flash_info_message', 'No changes were made.');
         }
 
         return response()->json([
-            'message' => 'Changed record'
+            'message' => 'Changed record',
         ], 200);
     }
 
@@ -213,8 +203,7 @@ class RaceEthnicityController extends Controller
      */
     public function destroy($id)
     {
-
-        if (!Auth::user()->can('race_ethnicity delete')) {
+        if (! Auth::user()->can('race_ethnicity delete')) {
             \Session::flash('flash_error_message', 'You do not have access to remove a Rax Ethnicity.');
             if (Auth::user()->can('race_ethnicity index')) {
                 return Redirect::route('race-ethnicity.index');
@@ -226,19 +215,17 @@ class RaceEthnicityController extends Controller
         $race_ethnicity = $this->sanitizeAndFind($id);
 
         if ($race_ethnicity && $race_ethnicity->canDelete()) {
-
             try {
                 $race_ethnicity->delete();
             } catch (Exception $e) {
                 return response()->json([
-                    'message' => 'Unable to process request.'
+                    'message' => 'Unable to process request.',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Rax Ethnicity ' . $race_ethnicity->name . ' was removed.');
+            \Session::flash('flash_success_message', 'Rax Ethnicity '.$race_ethnicity->name.' was removed.');
         } else {
             \Session::flash('flash_error_message', 'Unable to find Rax Ethnicity to delete.');
-
         }
 
         if (Auth::user()->can('race_ethnicity index')) {
@@ -246,8 +233,6 @@ class RaceEthnicityController extends Controller
         } else {
             return Redirect::route('home');
         }
-
-
     }
 
     /**
@@ -261,11 +246,9 @@ class RaceEthnicityController extends Controller
         return RaceEthnicity::find(intval($id));
     }
 
-
     public function download()
     {
-
-        if (!Auth::user()->can('race_ethnicity excel')) {
+        if (! Auth::user()->can('race_ethnicity excel')) {
             \Session::flash('flash_error_message', 'You do not have access to download Rax Ethnicities.');
             if (Auth::user()->can('race_ethnicity index')) {
                 return Redirect::route('race-ethnicity.index');
@@ -283,7 +266,7 @@ class RaceEthnicityController extends Controller
 
         // #TODO wrap in a try/catch and display english message on failuer.
 
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
 
         $dataQuery = RaceEthnicity::exportDataQuery($column, $direction, $search);
         //dump($data->toArray());
@@ -293,13 +276,11 @@ class RaceEthnicityController extends Controller
         return Excel::download(
             new RaceEthnicityExport($dataQuery),
             'race-ethnicity.xlsx');
-
     }
-
 
     public function print()
     {
-        if (!Auth::user()->can('race_ethnicity export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
+        if (! Auth::user()->can('race_ethnicity export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
             \Session::flash('flash_error_message', 'You do not have access to print Rax Ethnicities.');
             if (Auth::user()->can('race_ethnicity index')) {
                 return Redirect::route('race-ethnicity.index');
@@ -314,7 +295,7 @@ class RaceEthnicityController extends Controller
         $direction = session('race_ethnicity_direction', '-1');
         $column = $column ? $column : 'name';
 
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
 
         // Get query data
         $columns = [
@@ -329,10 +310,11 @@ class RaceEthnicityController extends Controller
         // Begin DOMPDF/laravel-dompdf
         $pdf = App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
-        $pdf->setOptions(['isPhpEnabled' => TRUE]);
+        $pdf->setOptions(['isPhpEnabled' => true]);
         $pdf->loadHTML($printHtml);
         $currentDate = new DateTime(null, new DateTimeZone('America/Chicago'));
-        return $pdf->stream('race-ethnicity-' . $currentDate->format('Ymd_Hi') . '.pdf');
+
+        return $pdf->stream('race-ethnicity-'.$currentDate->format('Ymd_Hi').'.pdf');
 
         /*
         ///////////////////////////////////////////////////////////////////////
@@ -361,5 +343,4 @@ class RaceEthnicityController extends Controller
         ///////////////////////////////////////////////////////////////////////
         */
     }
-
 }

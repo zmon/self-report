@@ -8,13 +8,12 @@ use Illuminate\Support\Facades\DB;
 
 class HistoryController extends Controller
 {
-
-
     public function department(Department $department)
     {
         $history = $department->load(['histories' => function ($q) {
             $q->with(['user']);
         }]);
+
         return $history;
-        }
+    }
 }

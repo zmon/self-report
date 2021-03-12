@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\UserRole;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRoleIndexRequest;
+use App\UserRole;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class UserRoleApi extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +17,6 @@ class UserRoleApi extends Controller
      */
     public function index(UserRoleIndexRequest $request)
     {
-
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
         $column = $request->get('column', 'Name');
@@ -32,7 +29,7 @@ class UserRoleApi extends Controller
             'user_role_page' => $page,
             'user_role_column' => $column,
             'user_role_direction' => $direction,
-            'user_role_keyword' => $keyword
+            'user_role_keyword' => $keyword,
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';

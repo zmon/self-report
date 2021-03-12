@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Laravel\Passport\Passport;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -31,20 +31,18 @@ class AuthServiceProvider extends ServiceProvider
 
         Route::post('oauth/token', [
             'middleware' => 'password-grant',
-            'uses' => '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken'
+            'uses' => '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken',
         ]);
         Route::post('oauth/token/refresh', [
             'middleware' => ['web', 'auth', 'password-grant'],
-            'uses' => '\Laravel\Passport\Http\Controllers\TransientTokenController@refresh'
+            'uses' => '\Laravel\Passport\Http\Controllers\TransientTokenController@refresh',
         ]);
 
         // Implicitly grant "Super Admin" role all permissions
         // This works in the app by using gate-related functions like auth()->user->can() and @can()
 
-
         // Give super-admin the ability to do anything
         //  From: https://github.com/spatie/laravel-permission/wiki/Global-%22Admin%22-role
-
 
         Gate::after(function ($user, $ability) {
             return true; //  $user->hasRole('super-admin'); // note this returns boolean

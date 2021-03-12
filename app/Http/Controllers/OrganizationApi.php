@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Organization;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OrganizationIndexRequest;
+use App\Organization;
+use Illuminate\Http\Request;
 
 class OrganizationApi extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +16,6 @@ class OrganizationApi extends Controller
      */
     public function index(OrganizationIndexRequest $request)
     {
-
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
         $column = $request->get('column', 'Name');
@@ -31,14 +28,15 @@ class OrganizationApi extends Controller
             'organization_page' => $page,
             'organization_column' => $column,
             'organization_direction' => $direction,
-            'organization_keyword' => $keyword
+            'organization_keyword' => $keyword,
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
         $column = $column ? mb_strtolower($column) : 'name';
 
         $data = Organization::indexData(10, $column, $direction, $keyword);
-        info(print_r($data,true));
+        info(print_r($data, true));
+
         return $data;
     }
 
@@ -46,8 +44,8 @@ class OrganizationApi extends Controller
      * Returns "options" for HTML select
      * @return array
      */
-    public function getOptions() {
-
+    public function getOptions()
+    {
         return Organization::getOptions();
     }
 

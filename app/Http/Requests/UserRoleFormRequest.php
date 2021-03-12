@@ -19,7 +19,6 @@ class UserRoleFormRequest extends FormRequest
         } else {  // If not we must be adding one
             return Auth::user()->can('user_role add');
         }
-
     }
 
     /**
@@ -29,13 +28,11 @@ class UserRoleFormRequest extends FormRequest
      */
     public function rules()
     {
-
         $id = $this->route('user_role');
 
         $rules = [
             //  Ignore duplicate email if it is this record
             //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
-
 
             'id' => 'numeric',
             'organization_id' => 'nullable|numeric',
@@ -46,16 +43,12 @@ class UserRoleFormRequest extends FormRequest
 
         ];
 
-
         if ($id) {
-            $rules['name'] = 'required|string|max:60|unique:user_roles,name,' . $id . ',id';
+            $rules['name'] = 'required|string|max:60|unique:user_roles,name,'.$id.',id';
         } else {
             $rules['name'] = 'required|string|max:60|unique:user_roles,name,NULL,id';
         }
 
-
         return $rules;
     }
 }
-
-

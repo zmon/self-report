@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\RaceEthnicity;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RaceEthnicityIndexRequest;
+use App\RaceEthnicity;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class RaceEthnicityApi extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +17,6 @@ class RaceEthnicityApi extends Controller
      */
     public function index(RaceEthnicityIndexRequest $request)
     {
-
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
         $column = $request->get('column', 'Name');
@@ -32,7 +29,7 @@ class RaceEthnicityApi extends Controller
             'race_ethnicity_page' => $page,
             'race_ethnicity_column' => $column,
             'race_ethnicity_direction' => $direction,
-            'race_ethnicity_keyword' => $keyword
+            'race_ethnicity_keyword' => $keyword,
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
@@ -47,7 +44,6 @@ class RaceEthnicityApi extends Controller
      */
     public function getOptions()
     {
-
         return RaceEthnicity::getOptions();
     }
 

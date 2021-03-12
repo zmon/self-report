@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests;
 
-
 use App\Invite;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 use ZxcvbnPhp\Zxcvbn;
-use Illuminate\Foundation\Http\FormRequest;
 
 class InvitePasswordRequest extends FormRequest
 {
@@ -35,7 +34,7 @@ class InvitePasswordRequest extends FormRequest
                     $zxcvbn = new Zxcvbn();
                     $strength = $zxcvbn->passwordStrength($value, []);
                     if (intval($strength['score']) < 3) {
-                        $fail($attribute . ' is to weak.');
+                        $fail($attribute.' is to weak.');
                     }
                 },
             ],
@@ -62,11 +61,9 @@ class InvitePasswordRequest extends FormRequest
         });
     }
 
-    function checkPasswordStrength()
+    public function checkPasswordStrength()
     {
-
-        if (!$invite = Invite::where('token', $this->token)->first()) {
-
+        if (! $invite = Invite::where('token', $this->token)->first()) {
             return true;
         }
 
@@ -78,6 +75,7 @@ class InvitePasswordRequest extends FormRequest
         if ($this->password) {
             $zxcvbn = new Zxcvbn();
             $strength = $zxcvbn->passwordStrength($this->password, $user_inputs);
+
             return $strength['score'] < 3;
         }
 
@@ -88,10 +86,9 @@ class InvitePasswordRequest extends FormRequest
      * Email entered must match, case-insensitive, the one in the invite.
      * @return bool
      */
-    function validEmail()
+    public function validEmail()
     {
-
-        if (!$invite = Invite::where('token', $this->token)->first()) {
+        if (! $invite = Invite::where('token', $this->token)->first()) {
             return true;
         }
 
@@ -100,8 +97,5 @@ class InvitePasswordRequest extends FormRequest
         }
 
         return true;
-
     }
 }
-
-

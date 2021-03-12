@@ -2,27 +2,21 @@
 
 namespace App\Http\Controllers;
 
-
-
+use App\Exports\OrganizationExport;
 use App\Http\Middleware\TrimStrings;
-use App\Organization;
-use Illuminate\Http\Request;
-
 use App\Http\Requests\OrganizationFormRequest;
 use App\Http\Requests\OrganizationIndexRequest;
-use Illuminate\Support\Facades\Redirect;
+use App\Organization;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-
-use App\Exports\OrganizationExport;
 use Maatwebsite\Excel\Facades\Excel;
+
 //use PDF; // TCPDF, not currently in use
 
 class OrganizationController extends Controller
 {
-
-
-
     /**
      * Display a listing of the resource.
      *
@@ -30,9 +24,9 @@ class OrganizationController extends Controller
      */
     public function index(OrganizationIndexRequest $request)
     {
-
-        if (!Auth::user()->can('organization index')) {
+        if (! Auth::user()->can('organization index')) {
             \Session::flash('flash_error_message', 'You do not have access to Organizations.');
+
             return Redirect::route('home');
         }
 
@@ -50,7 +44,6 @@ class OrganizationController extends Controller
         $can_pdf = Auth::user()->can('organization pdf');
 
         return view('organization.index', compact('page', 'column', 'direction', 'search', 'can_add', 'can_edit', 'can_delete', 'can_show', 'can_excel', 'can_pdf'));
-
     }
 
     /**
@@ -58,10 +51,9 @@ class OrganizationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-	public function create()
-	{
-
-        if (!Auth::user()->can('organization add')) {  // TODO: add -> create
+    public function create()
+    {
+        if (! Auth::user()->can('organization add')) {  // TODO: add -> create
             \Session::flash('flash_error_message', 'You do not have access to add a Organizations.');
             if (Auth::user()->can('organization index')) {
                 return Redirect::route('organization.index');
@@ -70,9 +62,8 @@ class OrganizationController extends Controller
             }
         }
 
-	    return view('organization.create');
-	}
-
+        return view('organization.create');
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -82,36 +73,33 @@ class OrganizationController extends Controller
      */
     public function store(OrganizationFormRequest $request)
     {
-
         $organization = new \App\Organization;
 
         try {
             $organization->add($request->validated());
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Unable to process request'
+                'message' => 'Unable to process request',
             ], 400);
         }
 
-        \Session::flash('flash_success_message', 'Organizations ' . $organization->name . ' was added.');
+        \Session::flash('flash_success_message', 'Organizations '.$organization->name.' was added.');
 
         return response()->json([
             'message' => 'Added record',
-            'id' => $organization->id
+            'id' => $organization->id,
         ], 200);
-
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  integer $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-
-        if (!Auth::user()->can('organization view')) {
+        if (! Auth::user()->can('organization view')) {
             \Session::flash('flash_error_message', 'You do not have access to view a Organizations.');
             if (Auth::user()->can('organization index')) {
                 return Redirect::route('organization.index');
@@ -123,12 +111,14 @@ class OrganizationController extends Controller
         if ($organization = $this->sanitizeAndFind($id)) {
             $can_edit = Auth::user()->can('organization edit');
             $can_delete = (Auth::user()->can('organization delete') && $organization->canDelete());
-            $url = url('api/self-reports/') . '/' . $organization->url_code;
-            $header1 = "Accept: application/json";
-            $header2 = "Authorization: Bearer " . env('TEST_API_TOKEN');
-            return view('organization.show', compact('organization','can_edit', 'can_delete', 'url', 'header1', 'header2'));
+            $url = url('api/self-reports/').'/'.$organization->url_code;
+            $header1 = 'Accept: application/json';
+            $header2 = 'Authorization: Bearer '.env('TEST_API_TOKEN');
+
+            return view('organization.show', compact('organization', 'can_edit', 'can_delete', 'url', 'header1', 'header2'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Organizations to display.');
+
             return Redirect::route('organization.index');
         }
     }
@@ -136,12 +126,12 @@ class OrganizationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  integer $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        if (!Auth::user()->can('organization edit')) {
+        if (! Auth::user()->can('organization edit')) {
             \Session::flash('flash_error_message', 'You do not have access to edit a Organizations.');
             if (Auth::user()->can('organization index')) {
                 return Redirect::route('organization.index');
@@ -151,14 +141,14 @@ class OrganizationController extends Controller
         }
 
         if ($organization = $this->sanitizeAndFind($id)) {
+            info(print_r($organization->toArray(), true));
 
-            info(print_r($organization->toArray(),true));
             return view('organization.edit', compact('organization'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Organizations to edit.');
+
             return Redirect::route('organization.index');
         }
-
     }
 
     /**
@@ -179,32 +169,31 @@ class OrganizationController extends Controller
 //            }
 //        }
 
-        if (!$organization = $this->sanitizeAndFind($id)) {
-       //     \Session::flash('flash_error_message', 'Unable to find Organizations to edit.');
+        if (! $organization = $this->sanitizeAndFind($id)) {
+            //     \Session::flash('flash_error_message', 'Unable to find Organizations to edit.');
             return response()->json([
-                'message' => 'Not Found'
+                'message' => 'Not Found',
             ], 404);
         }
 
         $organization->fill($request->all());
 
         if ($organization->isDirty()) {
-
             try {
                 $organization->save();
             } catch (\Exception $e) {
                 return response()->json([
-                    'message' => 'Unable to process request'
+                    'message' => 'Unable to process request',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Organizations ' . $organization->name . ' was changed.');
+            \Session::flash('flash_success_message', 'Organizations '.$organization->name.' was changed.');
         } else {
             \Session::flash('flash_info_message', 'No changes were made.');
         }
 
         return response()->json([
-            'message' => 'Changed record'
+            'message' => 'Changed record',
         ], 200);
     }
 
@@ -215,11 +204,10 @@ class OrganizationController extends Controller
      */
     public function destroy($id)
     {
-
-        if (!Auth::user()->can('organization delete')) {
+        if (! Auth::user()->can('organization delete')) {
             \Session::flash('flash_error_message', 'You do not have access to remove a Organizations.');
             if (Auth::user()->can('organization index')) {
-                 return Redirect::route('organization.index');
+                return Redirect::route('organization.index');
             } else {
                 return Redirect::route('home');
             }
@@ -227,29 +215,25 @@ class OrganizationController extends Controller
 
         $organization = $this->sanitizeAndFind($id);
 
-        if ( $organization  && $organization->canDelete()) {
-
+        if ($organization && $organization->canDelete()) {
             try {
                 $organization->delete();
             } catch (\Exception $e) {
                 return response()->json([
-                    'message' => 'Unable to process request.'
+                    'message' => 'Unable to process request.',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Organizations ' . $organization->name . ' was removed.');
+            \Session::flash('flash_success_message', 'Organizations '.$organization->name.' was removed.');
         } else {
             \Session::flash('flash_error_message', 'Unable to find Organizations to delete.');
-
         }
 
         if (Auth::user()->can('organization index')) {
-             return Redirect::route('organization.index');
+            return Redirect::route('organization.index');
         } else {
             return Redirect::route('home');
         }
-
-
     }
 
     /**
@@ -263,11 +247,9 @@ class OrganizationController extends Controller
         return \App\Organization::find(intval($id));
     }
 
-
     public function download()
     {
-
-        if (!Auth::user()->can('organization excel')) {
+        if (! Auth::user()->can('organization excel')) {
             \Session::flash('flash_error_message', 'You do not have access to download Organizations.');
             if (Auth::user()->can('organization index')) {
                 return Redirect::route('organization.index');
@@ -285,7 +267,7 @@ class OrganizationController extends Controller
 
         // #TODO wrap in a try/catch and display english message on failuer.
 
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
 
         $dataQuery = Organization::exportDataQuery($column, $direction, $search);
         //dump($data->toArray());
@@ -295,13 +277,11 @@ class OrganizationController extends Controller
         return Excel::download(
             new OrganizationExport($dataQuery),
             'organization.xlsx');
-
     }
 
-
-        public function print()
-{
-        if (!Auth::user()->can('organization export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
+    public function print()
+    {
+        if (! Auth::user()->can('organization export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
             \Session::flash('flash_error_message', 'You do not have access to print Organizations.');
             if (Auth::user()->can('organization index')) {
                 return Redirect::route('organization.index');
@@ -316,7 +296,7 @@ class OrganizationController extends Controller
         $direction = session('organization_direction', '-1');
         $column = $column ? $column : 'name';
 
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
 
         // Get query data
         $columns = [
@@ -329,15 +309,16 @@ class OrganizationController extends Controller
         $data = $dataQuery->get();
 
         // Pass it to the view for html formatting:
-        $printHtml = view('organization.print', compact( 'data' ) );
+        $printHtml = view('organization.print', compact('data'));
 
         // Begin DOMPDF/laravel-dompdf
         $pdf = \App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
-        $pdf->setOptions(['isPhpEnabled' => TRUE]);
+        $pdf->setOptions(['isPhpEnabled' => true]);
         $pdf->loadHTML($printHtml);
         $currentDate = new \DateTime(null, new \DateTimeZone('America/Chicago'));
-        return $pdf->stream('organization-' . $currentDate->format('Ymd_Hi') . '.pdf');
+
+        return $pdf->stream('organization-'.$currentDate->format('Ymd_Hi').'.pdf');
 
         /*
         ///////////////////////////////////////////////////////////////////////
@@ -366,5 +347,4 @@ class OrganizationController extends Controller
         ///////////////////////////////////////////////////////////////////////
         */
     }
-
 }

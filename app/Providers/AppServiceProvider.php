@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 
-
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -33,9 +32,10 @@ class AppServiceProvider extends ServiceProvider
                     return true;
                 } else {
                     $validator = Validator::make([$attribute => intval($value)], [
-                        $attribute => 'exists:' . implode(",", $parameters)
+                        $attribute => 'exists:'.implode(',', $parameters),
                     ]);
-                    return !$validator->fails();
+
+                    return ! $validator->fails();
                 }
             }
         );

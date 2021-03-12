@@ -1,30 +1,25 @@
 <?php
 /**
  * Invite.php
- *
- * @package default
  */
-
 
 namespace App;
 
-use DB;
+use App\Traits\RecordSignature;
 use Carbon\Carbon;
+use DB;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\RecordSignature;
 use Illuminate\Database\QueryException;
 
 class Invite extends Model
 {
-
     use RecordSignature;
 
     /**
      * fillable - attributes that can be mass-assigned
      */
-    protected
-        $fillable = [
+    protected $fillable = [
         'id',
         'organization_id',
         'email',
@@ -43,7 +38,7 @@ class Invite extends Model
      * @param string $keyword (optional)
      * @return mixed
      */
-    static function filteredData(
+    public static function filteredData(
         $per_page,
         $column,
         $direction,
@@ -53,29 +48,26 @@ class Invite extends Model
             ->paginate($per_page);
     }
 
-
     /**
-     *
      * @param unknown $attributes
      * @return unknown
      */
     public function add($attributes)
     {
-
         try {
             $this->fill($attributes)->save();
         } catch (Exception $e) {
-            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
+            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
+
             return false;
         } catch (QueryException $e) {
-            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
+            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
+
             return false;
         }
 
-
         return true;
     }
-
 
     /**
      * See if the invitation has expired
@@ -86,7 +78,6 @@ class Invite extends Model
     {
         return Carbon::now()->gte(Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['expires_at']));
     }
-
 
     /**
      * Create base query to be used by Grid, Download, and PDF
@@ -100,7 +91,7 @@ class Invite extends Model
      * @param unknown $columns (optional)
      * @return mixed
      */
-    static function buildBaseGridQuery(
+    public static function buildBaseGridQuery(
         $column,
         $direction,
         $keyword = '',
@@ -116,18 +107,18 @@ class Invite extends Model
                 break;
         }
 
-        $query = Invite::select(['invites.*','organizations.id AS organization_id','organizations.alias AS organization_alias','roles.name AS role_name'],
+        $query = self::select(['invites.*', 'organizations.id AS organization_id', 'organizations.alias AS organization_alias', 'roles.name AS role_name'],
             DB::raw("CASE WHEN expires_at < now() THEN 'Expired' ELSE '' END AS has_expired"))
             ->leftJoin('organizations', 'organizations.id', '=', 'invites.organization_id')
             ->leftJoin('roles', 'roles.id', '=', 'invites.role')
             ->orderBy($column, $direction);
 
         if ($keyword) {
-            $query->where('invites.name', 'like', '%' . $keyword . '%');
+            $query->where('invites.name', 'like', '%'.$keyword.'%');
         }
+
         return $query;
     }
-
 
     /**
      * Get export/Excel/download data query to send to Excel download library
@@ -138,41 +129,34 @@ class Invite extends Model
      * @param unknown $columns (optional)
      * @return mixed
      */
-    static function exportDataQuery(
+    public static function exportDataQuery(
         $column,
         $direction,
         $keyword = '',
         $columns = '*')
     {
-
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
-
     }
 
-
     /**
-     *
      * @param unknown $column
      * @param unknown $direction
      * @param unknown $keyword (optional)
      * @param unknown $columns (optional)
      * @return unknown
      */
-    static function pdfDataQuery(
+    public static function pdfDataQuery(
         $column,
         $direction,
         $keyword = '',
         $columns = '*')
     {
-
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
-
     }
-
 
     /**
      * Get "options" for HTML select tag
@@ -183,10 +167,9 @@ class Invite extends Model
      * @param unknown $flat (optional)
      * @return unknown
      */
-    static public function getOptions(
+    public static function getOptions(
         $flat = false)
     {
-
         $thisModel = new static;
 
         $records = $thisModel::select('id',
@@ -194,7 +177,7 @@ class Invite extends Model
             ->orderBy('name')
             ->get();
 
-        if (!$flat) {
+        if (! $flat) {
             return $records;
         } else {
             $data = [];
@@ -205,12 +188,9 @@ class Invite extends Model
 
             return $data;
         }
-
     }
 
-
     /**
-     *
      * @return unknown
      */
     public function canDelete()

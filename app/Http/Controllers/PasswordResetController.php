@@ -2,31 +2,26 @@
 
 namespace App\Http\Controllers;
 
-
 use App;
+use App\Exports\PasswordResetExport;
 use App\Http\Middleware\TrimStrings;
+use App\Http\Requests\PasswordResetFormRequest;
+use App\Http\Requests\PasswordResetIndexRequest;
 use App\PasswordReset;
 use DateTime;
 use DateTimeZone;
 use Exception;
 use Illuminate\Http\Request;
-
-use App\Http\Requests\PasswordResetFormRequest;
-use App\Http\Requests\PasswordResetIndexRequest;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-
-use App\Exports\PasswordResetExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 //use PDF; // TCPDF, not currently in use
 
 class PasswordResetController extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -34,9 +29,9 @@ class PasswordResetController extends Controller
      */
     public function index(PasswordResetIndexRequest $request)
     {
-
-        if (!Auth::user()->can('password_reset index')) {
+        if (! Auth::user()->can('password_reset index')) {
             \Session::flash('flash_error_message', 'You do not have access to password_resetss.');
+
             return Redirect::route('home');
         }
 
@@ -54,7 +49,6 @@ class PasswordResetController extends Controller
         $can_pdf = Auth::user()->can('password_reset pdf');
 
         return view('password-reset.index', compact('page', 'column', 'direction', 'search', 'can_add', 'can_edit', 'can_delete', 'can_show', 'can_excel', 'can_pdf'));
-
     }
 
     /**
@@ -64,8 +58,7 @@ class PasswordResetController extends Controller
      */
     public function create()
     {
-
-        if (!Auth::user()->can('password_reset add')) {  // TODO: add -> create
+        if (! Auth::user()->can('password_reset add')) {  // TODO: add -> create
             \Session::flash('flash_error_message', 'You do not have access to add a password_resets.');
             if (Auth::user()->can('password_reset index')) {
                 return Redirect::route('password-reset.index');
@@ -75,9 +68,9 @@ class PasswordResetController extends Controller
         }
 
         $cancel_url = Redirect::back()->getTargetUrl();
+
         return view('password-reset.create', compact('cancel_url'));
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -87,7 +80,6 @@ class PasswordResetController extends Controller
      */
     public function store(PasswordResetFormRequest $request)
     {
-
         $password_reset = new PasswordReset;
 
         try {
@@ -97,28 +89,26 @@ class PasswordResetController extends Controller
             $password_reset->add($attributes);
         } catch (Exception $e) {
             return response()->json([
-                'message' => 'Unable to process request'
+                'message' => 'Unable to process request',
             ], 400);
         }
 
-        \Session::flash('flash_success_message', 'password_resets ' . $password_reset->name . ' was added.');
+        \Session::flash('flash_success_message', 'password_resets '.$password_reset->name.' was added.');
 
         return response()->json([
-            'message' => 'Added record'
+            'message' => 'Added record',
         ], 200);
-
     }
 
     /**
      * Display the specified resource.
      *
-     * @param integer $id
+     * @param int $id
      * @return Response
      */
     public function show($id)
     {
-
-        if (!Auth::user()->can('password_reset view')) {
+        if (! Auth::user()->can('password_reset view')) {
             \Session::flash('flash_error_message', 'You do not have access to view a password_resets.');
             if (Auth::user()->can('password_reset index')) {
                 return Redirect::route('password-reset.index');
@@ -130,9 +120,11 @@ class PasswordResetController extends Controller
         if ($password_reset = $this->sanitizeAndFind($id)) {
             $can_edit = Auth::user()->can('password_reset edit');
             $can_delete = (Auth::user()->can('password_reset delete') && $password_reset->canDelete());
+
             return view('password-reset.show', compact('password_reset', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find password_resets to display.');
+
             return Redirect::route('password-reset.index');
         }
     }
@@ -140,12 +132,12 @@ class PasswordResetController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param integer $id
+     * @param int $id
      * @return Response
      */
     public function edit($id)
     {
-        if (!Auth::user()->can('password_reset edit')) {
+        if (! Auth::user()->can('password_reset edit')) {
             \Session::flash('flash_error_message', 'You do not have access to edit a password_resets.');
             if (Auth::user()->can('password_reset index')) {
                 return Redirect::route('password-reset.index');
@@ -156,12 +148,13 @@ class PasswordResetController extends Controller
 
         if ($password_reset = $this->sanitizeAndFind($id)) {
             $cancel_url = Redirect::back()->getTargetUrl();
+
             return view('password-reset.edit', compact('password_reset', 'cancel_url'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find password_resets to edit.');
+
             return Redirect::route('password-reset.index');
         }
-
     }
 
     /**
@@ -182,9 +175,9 @@ class PasswordResetController extends Controller
 //            }
 //        }
 
-        if (!$password_reset = $this->sanitizeAndFind($id)) {
+        if (! $password_reset = $this->sanitizeAndFind($id)) {
             return response()->json([
-                'message' => 'Not Found'
+                'message' => 'Not Found',
             ], 404);
         }
 
@@ -193,22 +186,21 @@ class PasswordResetController extends Controller
         $password_reset->fill($attributes);
 
         if ($password_reset->isDirty()) {
-
             try {
                 $password_reset->save();
             } catch (Exception $e) {
                 return response()->json([
-                    'message' => 'Unable to process request'
+                    'message' => 'Unable to process request',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'password_resets ' . $password_reset->name . ' was changed.');
+            \Session::flash('flash_success_message', 'password_resets '.$password_reset->name.' was changed.');
         } else {
             \Session::flash('flash_info_message', 'No changes were made.');
         }
 
         return response()->json([
-            'message' => 'Changed record'
+            'message' => 'Changed record',
         ], 200);
     }
 
@@ -219,8 +211,7 @@ class PasswordResetController extends Controller
      */
     public function destroy($id)
     {
-
-        if (!Auth::user()->can('password_reset delete')) {
+        if (! Auth::user()->can('password_reset delete')) {
             \Session::flash('flash_error_message', 'You do not have access to remove a password_resets.');
             if (Auth::user()->can('password_reset index')) {
                 return Redirect::route('password-reset.index');
@@ -232,19 +223,17 @@ class PasswordResetController extends Controller
         $password_reset = $this->sanitizeAndFind($id);
 
         if ($password_reset && $password_reset->canDelete()) {
-
             try {
                 $password_reset->delete();
             } catch (Exception $e) {
                 return response()->json([
-                    'message' => 'Unable to process request.'
+                    'message' => 'Unable to process request.',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'password_resets ' . $password_reset->name . ' was removed.');
+            \Session::flash('flash_success_message', 'password_resets '.$password_reset->name.' was removed.');
         } else {
             \Session::flash('flash_error_message', 'Unable to find password_resets to delete.');
-
         }
 
         if (Auth::user()->can('password_reset index')) {
@@ -252,8 +241,6 @@ class PasswordResetController extends Controller
         } else {
             return Redirect::route('home');
         }
-
-
     }
 
     /**
@@ -267,11 +254,9 @@ class PasswordResetController extends Controller
         return PasswordReset::find(intval($id));
     }
 
-
     public function download()
     {
-
-        if (!Auth::user()->can('password_reset export-excel')) {
+        if (! Auth::user()->can('password_reset export-excel')) {
             \Session::flash('flash_error_message', 'You do not have access to download password_resets.');
             if (Auth::user()->can('password_reset index')) {
                 return Redirect::route('password-reset.index');
@@ -289,7 +274,7 @@ class PasswordResetController extends Controller
 
         // #TODO wrap in a try/catch and display english message on failuer.
 
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
 
         $dataQuery = PasswordReset::exportDataQuery($column, $direction, $search);
         //dump($data->toArray());
@@ -299,13 +284,11 @@ class PasswordResetController extends Controller
         return Excel::download(
             new PasswordResetExport($dataQuery),
             'password-reset.xlsx');
-
     }
-
 
     public function print()
     {
-        if (!Auth::user()->can('password_reset export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
+        if (! Auth::user()->can('password_reset export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
             \Session::flash('flash_error_message', 'You do not have access to print password_resets.');
             if (Auth::user()->can('password_reset index')) {
                 return Redirect::route('password-reset.index');
@@ -320,7 +303,7 @@ class PasswordResetController extends Controller
         $direction = session('password_reset_direction', '-1');
         $column = $column ? $column : 'name';
 
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
 
         // Get query data
         $columns = [
@@ -334,10 +317,11 @@ class PasswordResetController extends Controller
         // Begin DOMPDF/laravel-dompdf
         $pdf = App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
-        $pdf->setOptions(['isPhpEnabled' => TRUE]);
+        $pdf->setOptions(['isPhpEnabled' => true]);
         $pdf->loadHTML($printHtml);
         $currentDate = new DateTime(null, new DateTimeZone('America/Chicago'));
-        return $pdf->stream('password-reset-' . $currentDate->format('Ymd_Hi') . '.pdf');
+
+        return $pdf->stream('password-reset-'.$currentDate->format('Ymd_Hi').'.pdf');
 
         /*
         ///////////////////////////////////////////////////////////////////////
@@ -366,5 +350,4 @@ class PasswordResetController extends Controller
         ///////////////////////////////////////////////////////////////////////
         */
     }
-
 }

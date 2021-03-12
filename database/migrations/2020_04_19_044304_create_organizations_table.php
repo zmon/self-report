@@ -22,7 +22,6 @@ class CreateOrganizationsTable extends Migration
             $table->string('contact_name', 42)->nullable();
             $table->string('title')->nullable();
 
-
             $table->string('phone_1')->nullable();
             $table->string('email')->nullable();
 

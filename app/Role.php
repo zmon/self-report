@@ -1,23 +1,18 @@
 <?php
 /**
  * Role.php
- *
- * @package default
  */
-
 
 namespace App;
 
+use App\Traits\RecordSignature;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\RecordSignature;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
 
-
 class Role extends \Spatie\Permission\Models\Role
 {
-
     use RecordSignature;
 
     /**
@@ -41,37 +36,31 @@ class Role extends \Spatie\Permission\Models\Role
     ];
 
     /**
-     *
      * @param unknown $attributes
      * @return unknown
      */
     public function add($attributes)
     {
-
         try {
             $this->fill($attributes)->save();
         } catch (Exception $e) {
-            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
+            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
             throw new Exception($e->getMessage());
         } catch (QueryException $e) {
-            info(__METHOD__ . ' line: ' . __LINE__ . ':  ' . $e->getMessage());
+            info(__METHOD__.' line: '.__LINE__.':  '.$e->getMessage());
             throw new Exception($e->getMessage());
         }
-
 
         return true;
     }
 
-
     /**
-     *
      * @return unknown
      */
     public function canDelete()
     {
         return true;
     }
-
 
     /**
      * Get Grid/index data PAGINATED
@@ -82,7 +71,7 @@ class Role extends \Spatie\Permission\Models\Role
      * @param string $keyword (optional)
      * @return mixed
      */
-    static function indexData(
+    public static function indexData(
         $per_page,
         $column,
         $direction,
@@ -96,7 +85,6 @@ class Role extends \Spatie\Permission\Models\Role
             ->paginate($per_page);
     }
 
-
     /**
      * Create base query to be used by Grid, Download, and PDF
      *
@@ -109,7 +97,7 @@ class Role extends \Spatie\Permission\Models\Role
      * @param string|array $columns
      * @return mixed
      */
-    static function buildBaseGridQuery(
+    public static function buildBaseGridQuery(
         $column,
         $direction,
         $keyword = '',
@@ -128,15 +116,15 @@ class Role extends \Spatie\Permission\Models\Role
                 break;
         }
 
-        $query = Role::select($columns)
+        $query = self::select($columns)
             ->orderBy($column, $direction);
 
         if ($keyword) {
-            $query->where('name', 'like', '%' . $keyword . '%');
+            $query->where('name', 'like', '%'.$keyword.'%');
         }
+
         return $query;
     }
-
 
     /**
      * Get export/Excel/download data query to send to Excel download library
@@ -147,41 +135,34 @@ class Role extends \Spatie\Permission\Models\Role
      * @param unknown $columns (optional)
      * @return mixed
      */
-    static function exportDataQuery(
+    public static function exportDataQuery(
         $column,
         $direction,
         $keyword = '',
         $columns = '*')
     {
-
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
-
     }
 
-
     /**
-     *
      * @param unknown $column
      * @param unknown $direction
      * @param unknown $keyword (optional)
      * @param unknown $columns (optional)
      * @return unknown
      */
-    static function pdfDataQuery(
+    public static function pdfDataQuery(
         $column,
         $direction,
         $keyword = '',
         $columns = '*')
     {
-
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $keyword");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $keyword");
 
         return self::buildBaseGridQuery($column, $direction, $keyword, $columns);
-
     }
-
 
     /**
      * Get "options" for HTML select tag
@@ -192,34 +173,30 @@ class Role extends \Spatie\Permission\Models\Role
      * @param unknown $flat (optional)
      * @return unknown
      */
-    static public function getOptions($flat = false)
+    public static function getOptions($flat = false)
     {
-
         $thisModel = new static;
 
         $query = $thisModel::select('id',
             'name')
             ->orderBy('name');
 
-        if (!Auth::user()->hasRole('super-admin')) {
+        if (! Auth::user()->hasRole('super-admin')) {
             $query->where('can_assign', 1);
         }
 
         $records = $query->get();
 
-        if (!$flat) {
+        if (! $flat) {
             return $records;
         } else {
             $data = [];
 
-            foreach ($records AS $rec) {
+            foreach ($records as $rec) {
                 $data[] = ['id' => $rec['id'], 'name' => $rec['name']];
             }
 
             return $data;
         }
-
     }
-
-
 }

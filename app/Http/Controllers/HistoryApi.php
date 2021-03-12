@@ -3,15 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\History;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\HistoryIndexRequest;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class HistoryApi extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +17,6 @@ class HistoryApi extends Controller
      */
     public function index(HistoryIndexRequest $request)
     {
-
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
         $column = $request->get('column', 'Name');
@@ -32,7 +29,7 @@ class HistoryApi extends Controller
             'history_page' => $page,
             'history_column' => $column,
             'history_direction' => $direction,
-            'history_keyword' => $keyword
+            'history_keyword' => $keyword,
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
@@ -47,7 +44,6 @@ class HistoryApi extends Controller
      */
     public function getOptions()
     {
-
         return History::getOptions(false, session('organization_id', 0));
     }
 

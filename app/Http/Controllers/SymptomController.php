@@ -2,31 +2,26 @@
 
 namespace App\Http\Controllers;
 
-
 use App;
+use App\Exports\SymptomExport;
 use App\Http\Middleware\TrimStrings;
+use App\Http\Requests\SymptomFormRequest;
+use App\Http\Requests\SymptomIndexRequest;
 use App\Symptom;
 use DateTime;
 use DateTimeZone;
 use Exception;
 use Illuminate\Http\Request;
-
-use App\Http\Requests\SymptomFormRequest;
-use App\Http\Requests\SymptomIndexRequest;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-
-use App\Exports\SymptomExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 //use PDF; // TCPDF, not currently in use
 
 class SymptomController extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -34,9 +29,9 @@ class SymptomController extends Controller
      */
     public function index(SymptomIndexRequest $request)
     {
-
-        if (!Auth::user()->can('symptom index')) {
+        if (! Auth::user()->can('symptom index')) {
             \Session::flash('flash_error_message', 'You do not have access to Symptoms.');
+
             return Redirect::route('home');
         }
 
@@ -54,7 +49,6 @@ class SymptomController extends Controller
         $can_pdf = Auth::user()->can('symptom pdf');
 
         return view('symptom.index', compact('page', 'column', 'direction', 'search', 'can_add', 'can_edit', 'can_delete', 'can_show', 'can_excel', 'can_pdf'));
-
     }
 
     /**
@@ -64,8 +58,7 @@ class SymptomController extends Controller
      */
     public function create()
     {
-
-        if (!Auth::user()->can('symptom add')) {  // TODO: add -> create
+        if (! Auth::user()->can('symptom add')) {  // TODO: add -> create
             \Session::flash('flash_error_message', 'You do not have access to add a Symptoms.');
             if (Auth::user()->can('symptom index')) {
                 return Redirect::route('symptom.index');
@@ -77,7 +70,6 @@ class SymptomController extends Controller
         return view('symptom.create');
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
@@ -86,35 +78,32 @@ class SymptomController extends Controller
      */
     public function store(SymptomFormRequest $request)
     {
-
         $symptom = new Symptom;
 
         try {
             $symptom->add($request->validated());
         } catch (Exception $e) {
             return response()->json([
-                'message' => 'Unable to process request'
+                'message' => 'Unable to process request',
             ], 400);
         }
 
-        \Session::flash('flash_success_message', 'Symptoms ' . $symptom->name . ' was added.');
+        \Session::flash('flash_success_message', 'Symptoms '.$symptom->name.' was added.');
 
         return response()->json([
-            'message' => 'Added record'
+            'message' => 'Added record',
         ], 200);
-
     }
 
     /**
      * Display the specified resource.
      *
-     * @param integer $id
+     * @param int $id
      * @return Response
      */
     public function show($id)
     {
-
-        if (!Auth::user()->can('symptom view')) {
+        if (! Auth::user()->can('symptom view')) {
             \Session::flash('flash_error_message', 'You do not have access to view a Symptoms.');
             if (Auth::user()->can('symptom index')) {
                 return Redirect::route('symptom.index');
@@ -126,9 +115,11 @@ class SymptomController extends Controller
         if ($symptom = $this->sanitizeAndFind($id)) {
             $can_edit = Auth::user()->can('symptom edit');
             $can_delete = (Auth::user()->can('symptom delete') && $symptom->canDelete());
+
             return view('symptom.show', compact('symptom', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Symptoms to display.');
+
             return Redirect::route('symptom.index');
         }
     }
@@ -136,12 +127,12 @@ class SymptomController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param integer $id
+     * @param int $id
      * @return Response
      */
     public function edit($id)
     {
-        if (!Auth::user()->can('symptom edit')) {
+        if (! Auth::user()->can('symptom edit')) {
             \Session::flash('flash_error_message', 'You do not have access to edit a Symptoms.');
             if (Auth::user()->can('symptom index')) {
                 return Redirect::route('symptom.index');
@@ -154,9 +145,9 @@ class SymptomController extends Controller
             return view('symptom.edit', compact('symptom'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Symptoms to edit.');
+
             return Redirect::route('symptom.index');
         }
-
     }
 
     /**
@@ -177,32 +168,31 @@ class SymptomController extends Controller
 //            }
 //        }
 
-        if (!$symptom = $this->sanitizeAndFind($id)) {
+        if (! $symptom = $this->sanitizeAndFind($id)) {
             //     \Session::flash('flash_error_message', 'Unable to find Symptoms to edit.');
             return response()->json([
-                'message' => 'Not Found'
+                'message' => 'Not Found',
             ], 404);
         }
 
         $symptom->fill($request->all());
 
         if ($symptom->isDirty()) {
-
             try {
                 $symptom->save();
             } catch (Exception $e) {
                 return response()->json([
-                    'message' => 'Unable to process request'
+                    'message' => 'Unable to process request',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Symptoms ' . $symptom->name . ' was changed.');
+            \Session::flash('flash_success_message', 'Symptoms '.$symptom->name.' was changed.');
         } else {
             \Session::flash('flash_info_message', 'No changes were made.');
         }
 
         return response()->json([
-            'message' => 'Changed record'
+            'message' => 'Changed record',
         ], 200);
     }
 
@@ -213,8 +203,7 @@ class SymptomController extends Controller
      */
     public function destroy($id)
     {
-
-        if (!Auth::user()->can('symptom delete')) {
+        if (! Auth::user()->can('symptom delete')) {
             \Session::flash('flash_error_message', 'You do not have access to remove a Symptoms.');
             if (Auth::user()->can('symptom index')) {
                 return Redirect::route('symptom.index');
@@ -226,19 +215,17 @@ class SymptomController extends Controller
         $symptom = $this->sanitizeAndFind($id);
 
         if ($symptom && $symptom->canDelete()) {
-
             try {
                 $symptom->delete();
             } catch (Exception $e) {
                 return response()->json([
-                    'message' => 'Unable to process request.'
+                    'message' => 'Unable to process request.',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Symptoms ' . $symptom->name . ' was removed.');
+            \Session::flash('flash_success_message', 'Symptoms '.$symptom->name.' was removed.');
         } else {
             \Session::flash('flash_error_message', 'Unable to find Symptoms to delete.');
-
         }
 
         if (Auth::user()->can('symptom index')) {
@@ -246,8 +233,6 @@ class SymptomController extends Controller
         } else {
             return Redirect::route('home');
         }
-
-
     }
 
     /**
@@ -261,11 +246,9 @@ class SymptomController extends Controller
         return Symptom::find(intval($id));
     }
 
-
     public function download()
     {
-
-        if (!Auth::user()->can('symptom excel')) {
+        if (! Auth::user()->can('symptom excel')) {
             \Session::flash('flash_error_message', 'You do not have access to download Symptoms.');
             if (Auth::user()->can('symptom index')) {
                 return Redirect::route('symptom.index');
@@ -283,7 +266,7 @@ class SymptomController extends Controller
 
         // #TODO wrap in a try/catch and display english message on failuer.
 
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
 
         $dataQuery = Symptom::exportDataQuery($column, $direction, $search);
         //dump($data->toArray());
@@ -293,13 +276,11 @@ class SymptomController extends Controller
         return Excel::download(
             new SymptomExport($dataQuery),
             'symptom.xlsx');
-
     }
-
 
     public function print()
     {
-        if (!Auth::user()->can('symptom export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
+        if (! Auth::user()->can('symptom export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
             \Session::flash('flash_error_message', 'You do not have access to print Symptoms.');
             if (Auth::user()->can('symptom index')) {
                 return Redirect::route('symptom.index');
@@ -314,7 +295,7 @@ class SymptomController extends Controller
         $direction = session('symptom_direction', '-1');
         $column = $column ? $column : 'name';
 
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
 
         // Get query data
         $columns = [
@@ -329,10 +310,11 @@ class SymptomController extends Controller
         // Begin DOMPDF/laravel-dompdf
         $pdf = App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
-        $pdf->setOptions(['isPhpEnabled' => TRUE]);
+        $pdf->setOptions(['isPhpEnabled' => true]);
         $pdf->loadHTML($printHtml);
         $currentDate = new DateTime(null, new DateTimeZone('America/Chicago'));
-        return $pdf->stream('symptom-' . $currentDate->format('Ymd_Hi') . '.pdf');
+
+        return $pdf->stream('symptom-'.$currentDate->format('Ymd_Hi').'.pdf');
 
         /*
         ///////////////////////////////////////////////////////////////////////
@@ -361,5 +343,4 @@ class SymptomController extends Controller
         ///////////////////////////////////////////////////////////////////////
         */
     }
-
 }

@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\PreexistingCondition;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PreexistingConditionIndexRequest;
+use App\PreexistingCondition;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class PreexistingConditionApi extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +17,6 @@ class PreexistingConditionApi extends Controller
      */
     public function index(PreexistingConditionIndexRequest $request)
     {
-
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
         $column = $request->get('column', 'Name');
@@ -32,7 +29,7 @@ class PreexistingConditionApi extends Controller
             'preexisting_condition_page' => $page,
             'preexisting_condition_column' => $column,
             'preexisting_condition_direction' => $direction,
-            'preexisting_condition_keyword' => $keyword
+            'preexisting_condition_keyword' => $keyword,
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
@@ -47,7 +44,6 @@ class PreexistingConditionApi extends Controller
      */
     public function getOptions()
     {
-
         return PreexistingCondition::getOptions();
     }
 

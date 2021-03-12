@@ -2,13 +2,11 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Lib\InitialRoles;
+use Illuminate\Console\Command;
 
 class SetUserRoles extends Command
 {
-
-
     /**
      * The name and signature of the console command.
      *

@@ -28,6 +28,7 @@ use App\Lib\Import\ImportOrganizationMedAssetsProgram;
 use App\Lib\Import\ImportOrganizationNote;
 use App\Lib\Import\ImportOrganizationNoteType;
 use App\Lib\Import\ImportOrganizationRelationshipType;
+use App\Lib\Import\ImportOrganizations;
 use App\Lib\Import\ImportOrganizationType;
 use App\Lib\Import\ImportParticipant;
 use App\Lib\Import\ImportPerson;
@@ -39,7 +40,6 @@ use App\Lib\Import\ImportRegion;
 use App\Lib\Import\ImportTypeOfDid;
 use App\Lib\Import\ImportTypeOfEmail;
 use Illuminate\Console\Command;
-use App\Lib\Import\ImportOrganizations;
 
 class ImportProduction extends Command
 {
@@ -76,12 +76,8 @@ class ImportProduction extends Command
     {
 //        $Organizations = new ImportOrganizations();
 //        $Organizations->import();
-
-
     }
 }
-
-
 
 //        $User = new \App\Lib\Import\ImportUser();
 //        $User->import('proddb', 'users');

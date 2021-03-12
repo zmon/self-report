@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Symptom;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SymptomIndexRequest;
+use App\Symptom;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class SymptomApi extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +17,6 @@ class SymptomApi extends Controller
      */
     public function index(SymptomIndexRequest $request)
     {
-
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
         $column = $request->get('column', 'Name');
@@ -32,7 +29,7 @@ class SymptomApi extends Controller
             'symptom_page' => $page,
             'symptom_column' => $column,
             'symptom_direction' => $direction,
-            'symptom_keyword' => $keyword
+            'symptom_keyword' => $keyword,
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
@@ -47,7 +44,6 @@ class SymptomApi extends Controller
      */
     public function getOptions()
     {
-
         return Symptom::getOptions();
     }
 

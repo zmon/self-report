@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\SelfReportIndexRequest;
 use App\SelfReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\SelfReportIndexRequest;
 
 class SelfReportApi extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +17,6 @@ class SelfReportApi extends Controller
      */
     public function index(SelfReportIndexRequest $request)
     {
-
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
         $column = $request->get('column', 'Name');
@@ -32,7 +29,7 @@ class SelfReportApi extends Controller
             'self_report_page' => $page,
             'self_report_column' => $column,
             'self_report_direction' => $direction,
-            'self_report_keyword' => $keyword
+            'self_report_keyword' => $keyword,
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
@@ -45,8 +42,8 @@ class SelfReportApi extends Controller
      * Returns "options" for HTML select
      * @return array
      */
-    public function getOptions() {
-
+    public function getOptions()
+    {
         return SelfReport::getOptions();
     }
 

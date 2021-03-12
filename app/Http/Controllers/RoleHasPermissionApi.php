@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\RoleHasPermission;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RoleHasPermissionIndexRequest;
+use App\RoleHasPermission;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class RoleHasPermissionApi extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +17,6 @@ class RoleHasPermissionApi extends Controller
      */
     public function index(RoleHasPermissionIndexRequest $request)
     {
-
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
         $column = $request->get('column', 'Name');
@@ -32,7 +29,7 @@ class RoleHasPermissionApi extends Controller
             'role_has_permission_page' => $page,
             'role_has_permission_column' => $column,
             'role_has_permission_direction' => $direction,
-            'role_has_permission_keyword' => $keyword
+            'role_has_permission_keyword' => $keyword,
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
@@ -47,7 +44,6 @@ class RoleHasPermissionApi extends Controller
      */
     public function getOptions()
     {
-
         return RoleHasPermission::getOptions(false, session('organization_id', 0));
     }
 

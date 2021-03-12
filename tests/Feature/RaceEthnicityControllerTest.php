@@ -2,32 +2,25 @@
 
 namespace Tests\Feature;
 
-use function MongoDB\BSON\toJSON;
-use Tests\TestCase;
-
 use App\RaceEthnicity;
+use App\User;
+use DB;
 use Faker;
-
 //use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-
-
-use DB;
-use App\User;
-use Spatie\Permission\Models\Role;
+use function MongoDB\BSON\toJSON;
 use Spatie\Permission\Exceptions\RoleDoesNotExist;
+use Spatie\Permission\Models\Role;
+use Tests\TestCase;
 
 /**
  * Class RaceEthnicityControllerTest
  *
  * 1. Test that you must be logged in to access any of the controller functions.
- *
- * @package Tests\Feature
  */
 class RaceEthnicityControllerTest extends TestCase
 {
-
     //use RefreshDatabase;
     //------------------------------------------------------------------------------
     // Test that you must be logged in to access any of the controller functions.
@@ -90,7 +83,6 @@ class RaceEthnicityControllerTest extends TestCase
         $response->assertRedirect('login');
     }
 
-
     /**
      * @test
      */
@@ -101,7 +93,6 @@ class RaceEthnicityControllerTest extends TestCase
         $this->withoutMiddleware();
         $response->assertRedirect('login');
     }
-
 
     /**
      * @test
@@ -120,13 +111,11 @@ class RaceEthnicityControllerTest extends TestCase
     // Test that you must have access any of the controller functions.
     //------------------------------------------------------------------------------
 
-
     /**
      * @test
      */
     public function prevent_users_without_permissions_from_seeing_race_ethnicity_index()
     {
-
         $user = $this->getRandomUser('cant');
 
         $response = $this->actingAs($user)->get('/race-ethnicity');
@@ -141,7 +130,6 @@ class RaceEthnicityControllerTest extends TestCase
      */
     public function prevent_users_without_permissions_from_creating_race_ethnicity()
     {
-
         $user = $this->getRandomUser('cant');
 
         $response = $this->actingAs($user)->get(route('race-ethnicity.create'));
@@ -149,19 +137,16 @@ class RaceEthnicityControllerTest extends TestCase
         $response->assertRedirect('home');
     }
 
-
     /**
      * @test
      */
     public function prevent_users_without_permissions_from_storing_race_ethnicity()
     {
-
         $user = $this->getRandomUser('cant');
 
         $response = $this->actingAs($user)->post(route('race-ethnicity.store'));
 
         $response->assertStatus(403);  // Form Request::authorized() returns 403 when user is not authorized
-
     }
 
     /**
@@ -169,7 +154,6 @@ class RaceEthnicityControllerTest extends TestCase
      */
     public function prevent_users_without_permissions_from_showing_race_ethnicity()
     {
-
         $user = $this->getRandomUser('cant');
 
         // Should check for permisson before checking to see if record exists
@@ -183,7 +167,6 @@ class RaceEthnicityControllerTest extends TestCase
      */
     public function prevent_users_without_permissions_from_editing_race_ethnicity()
     {
-
         $user = $this->getRandomUser('cant');
 
         $response = $this->actingAs($user)->get(route('race-ethnicity.edit', ['id' => 1]));
@@ -191,28 +174,23 @@ class RaceEthnicityControllerTest extends TestCase
         $response->assertRedirect('home');
     }
 
-
     /**
      * @test
      */
     public function prevent_users_without_permissions_from_updateing_race_ethnicity()
     {
-
         $user = $this->getRandomUser('cant');
 
         $response = $this->actingAs($user)->put(route('race-ethnicity.update', ['id' => 1]));
 
         $response->assertStatus(403);  // Form Request::authorized() returns 403 when user is not authorized
-
     }
-
 
     /**
      * @test
      */
     public function prevent_users_without_permissions_from_destroying_race_ethnicity()
     {
-
         $user = $this->getRandomUser('cant');
 
         // Should check for permisson before checking to see if record exists
@@ -228,13 +206,11 @@ class RaceEthnicityControllerTest extends TestCase
     //   user does have access to index
     //------------------------------------------------------------------------------
 
-
     /**
      * @test
      */
     public function prevent_users_withonly_index_permissions_from_creating_race_ethnicity()
     {
-
         $user = $this->getRandomUser('only index');
 
         $response = $this->actingAs($user)->get(route('race-ethnicity.create'));
@@ -242,19 +218,16 @@ class RaceEthnicityControllerTest extends TestCase
         $response->assertRedirect('race-ethnicity');
     }
 
-
     /**
      * @test
      */
     public function prevent_users_withonly_index_permissions_from_storing_race_ethnicity()
     {
-
         $user = $this->getRandomUser('only index');
 
         $response = $this->actingAs($user)->post(route('race-ethnicity.store'));
 
         $response->assertStatus(403);  // Form Request::authorized() returns 403 when user is not authorized
-
     }
 
     /**
@@ -262,7 +235,6 @@ class RaceEthnicityControllerTest extends TestCase
      */
     public function prevent_users_withonly_index_permissions_from_showing_race_ethnicity()
     {
-
         $user = $this->getRandomUser('only index');
 
         // Should check for permisson before checking to see if record exists
@@ -276,7 +248,6 @@ class RaceEthnicityControllerTest extends TestCase
      */
     public function prevent_users_withonly_index_permissions_from_editing_race_ethnicity()
     {
-
         $user = $this->getRandomUser('only index');
 
         $response = $this->actingAs($user)->get(route('race-ethnicity.edit', ['id' => 1]));
@@ -284,28 +255,23 @@ class RaceEthnicityControllerTest extends TestCase
         $response->assertRedirect('race-ethnicity');
     }
 
-
     /**
      * @test
      */
     public function prevent_users_withonly_index_permissions_from_updating_race_ethnicity()
     {
-
         $user = $this->getRandomUser('only index');
 
         $response = $this->actingAs($user)->put(route('race-ethnicity.update', ['id' => 1]));
 
         $response->assertStatus(403);  // Form Request::authorized() returns 403 when user is not authorized
-
     }
-
 
     /**
      * @test
      */
     public function prevent_users_withonly_index_permissions_from_destroying_race_ethnicity()
     {
-
         $user = $this->getRandomUser('only index');
 
         // Should check for permisson before checking to see if record exists
@@ -320,6 +286,7 @@ class RaceEthnicityControllerTest extends TestCase
     // Now lets test that we have the functionality to add, change, delete, and
     //   catch validation errors
     //------------------------------------------------------------------------------
+
     /**
      * @test
      */
@@ -329,10 +296,9 @@ class RaceEthnicityControllerTest extends TestCase
         $user = $this->getRandomUser('super-admin');
 
         // act as the user we got and request the create_new_article route
-        $response = $this->actingAs($user)->get(route('race-ethnicity.show',['id' => 100]));
+        $response = $this->actingAs($user)->get(route('race-ethnicity.show', ['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find Rax Ethnicity to display.');
-
+        $response->assertSessionHas('flash_error_message', 'Unable to find Rax Ethnicity to display.');
     }
 
     /**
@@ -344,14 +310,10 @@ class RaceEthnicityControllerTest extends TestCase
         $user = $this->getRandomUser('super-admin');
 
         // act as the user we got and request the create_new_article route
-        $response = $this->actingAs($user)->get(route('race-ethnicity.edit',['id' => 100]));
+        $response = $this->actingAs($user)->get(route('race-ethnicity.edit', ['id' => 100]));
 
-        $response->assertSessionHas('flash_error_message','Unable to find Rax Ethnicity to edit.');
-
+        $response->assertSessionHas('flash_error_message', 'Unable to find Rax Ethnicity to edit.');
     }
-
-
-
 
     /**
      * @test
@@ -367,7 +329,6 @@ class RaceEthnicityControllerTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('race-ethnicity.create');
         $response->assertSee('race-ethnicity-form');
-
     }
 
     /**
@@ -379,8 +340,8 @@ class RaceEthnicityControllerTest extends TestCase
         $user = $this->getRandomUser('super-admin');
 
         $data = [
-            'id' => "",
-            'name' => "",
+            'id' => '',
+            'name' => '',
         ];
 
         $totalNumberOfRaceEthnicitiesBefore = RaceEthnicity::count();
@@ -388,11 +349,10 @@ class RaceEthnicityControllerTest extends TestCase
         $response = $this->actingAs($user)->post(route('race-ethnicity.store'), $data);
 
         $totalNumberOfRaceEthnicitiesAfter = RaceEthnicity::count();
-        $this->assertEquals($totalNumberOfRaceEthnicitiesAfter, $totalNumberOfRaceEthnicitiesBefore, "the number of total article is supposed to be the same ");
+        $this->assertEquals($totalNumberOfRaceEthnicitiesAfter, $totalNumberOfRaceEthnicitiesBefore, 'the number of total article is supposed to be the same ');
 
         $errors = session('errors');
-        $this->assertEquals($errors->get('name')[0],"The name field is required.");
-
+        $this->assertEquals($errors->get('name')[0], 'The name field is required.');
     }
 
     /**
@@ -406,8 +366,8 @@ class RaceEthnicityControllerTest extends TestCase
         $user = $this->getRandomUser('super-admin');
 
         $data = [
-            'id' => "",
-            'name' => "a",
+            'id' => '',
+            'name' => 'a',
         ];
 
         $totalNumberOfRaceEthnicitiesBefore = RaceEthnicity::count();
@@ -415,12 +375,11 @@ class RaceEthnicityControllerTest extends TestCase
         $response = $this->actingAs($user)->post(route('race-ethnicity.store'), $data);
 
         $totalNumberOfRaceEthnicitiesAfter = RaceEthnicity::count();
-        $this->assertEquals($totalNumberOfRaceEthnicitiesAfter, $totalNumberOfRaceEthnicitiesBefore, "the number of total article is supposed to be the same ");
+        $this->assertEquals($totalNumberOfRaceEthnicitiesAfter, $totalNumberOfRaceEthnicitiesBefore, 'the number of total article is supposed to be the same ');
 
         $errors = session('errors');
 
-        $this->assertEquals($errors->get('name')[0],"The name must be at least 3 characters.");
-
+        $this->assertEquals($errors->get('name')[0], 'The name must be at least 3 characters.');
     }
 
     /**
@@ -430,7 +389,6 @@ class RaceEthnicityControllerTest extends TestCase
      */
     public function create_a_race_ethnicity()
     {
-
         $faker = Faker\Factory::create();
         // get a random user
         $user = $this->getRandomUser('super-admin');
@@ -440,8 +398,8 @@ class RaceEthnicityControllerTest extends TestCase
         ];
 
         info('--  RaceEthnicity  --');
-         info(print_r($data,true));
-          info('----');
+        info(print_r($data, true));
+        info('----');
 
         $totalNumberOfRaceEthnicitiesBefore = RaceEthnicity::count();
 
@@ -449,19 +407,15 @@ class RaceEthnicityControllerTest extends TestCase
 
         $totalNumberOfRaceEthnicitiesAfter = RaceEthnicity::count();
 
-
         $errors = session('errors');
 
-        info(print_r($errors,true));
+        info(print_r($errors, true));
 
-        $this->assertEquals($totalNumberOfRaceEthnicitiesAfter, $totalNumberOfRaceEthnicitiesBefore + 1, "the number of total race_ethnicity is supposed to be one more ");
+        $this->assertEquals($totalNumberOfRaceEthnicitiesAfter, $totalNumberOfRaceEthnicitiesBefore + 1, 'the number of total race_ethnicity is supposed to be one more ');
 
         $lastInsertedInTheDB = RaceEthnicity::orderBy('id', 'desc')->first();
 
-
-        $this->assertEquals($lastInsertedInTheDB->name, $data['name'], "the name of the saved race_ethnicity is different from the input data");
-
-
+        $this->assertEquals($lastInsertedInTheDB->name, $data['name'], 'the name of the saved race_ethnicity is different from the input data');
     }
 
     /**
@@ -471,18 +425,16 @@ class RaceEthnicityControllerTest extends TestCase
      */
     public function prevent_creating_a_duplicate_race_ethnicity()
     {
-
         $faker = Faker\Factory::create();
 
         // get a random user
         $user = $this->getRandomUser('super-admin');
 
-
         $totalNumberOfRaceEthnicitiesBefore = RaceEthnicity::count();
 
         $race_ethnicity = RaceEthnicity::get()->random();
         $data = [
-            'id' => "",
+            'id' => '',
             'name' => $race_ethnicity->name,
         ];
 
@@ -490,11 +442,10 @@ class RaceEthnicityControllerTest extends TestCase
         $response->assertStatus(302);
 
         $errors = session('errors');
-        $this->assertEquals($errors->get('name')[0],"The name has already been taken.");
+        $this->assertEquals($errors->get('name')[0], 'The name has already been taken.');
 
         $totalNumberOfRaceEthnicitiesAfter = RaceEthnicity::count();
-        $this->assertEquals($totalNumberOfRaceEthnicitiesAfter, $totalNumberOfRaceEthnicitiesBefore, "the number of total race_ethnicity should be the same ");
-
+        $this->assertEquals($totalNumberOfRaceEthnicitiesAfter, $totalNumberOfRaceEthnicitiesBefore, 'the number of total race_ethnicity should be the same ');
     }
 
     /**
@@ -504,7 +455,6 @@ class RaceEthnicityControllerTest extends TestCase
      */
     public function allow_changing_race_ethnicity()
     {
-
         $faker = Faker\Factory::create();
 
         // get a random user
@@ -512,20 +462,17 @@ class RaceEthnicityControllerTest extends TestCase
 
         $data = RaceEthnicity::get()->random()->toArray();
 
-        $data['name'] = $data['name'] . '1';
+        $data['name'] = $data['name'].'1';
 
         $totalNumberOfRaceEthnicitiesBefore = RaceEthnicity::count();
 
-        $response = $this->actingAs($user)->json('PATCH', 'race-ethnicity/' . $data['id'], $data);
+        $response = $this->actingAs($user)->json('PATCH', 'race-ethnicity/'.$data['id'], $data);
 
         $response->assertStatus(200);
 
         $totalNumberOfRaceEthnicitiesAfter = RaceEthnicity::count();
-        $this->assertEquals($totalNumberOfRaceEthnicitiesAfter, $totalNumberOfRaceEthnicitiesBefore, "the number of total race_ethnicity should be the same ");
-
+        $this->assertEquals($totalNumberOfRaceEthnicitiesAfter, $totalNumberOfRaceEthnicitiesBefore, 'the number of total race_ethnicity should be the same ');
     }
-
-
 
     /**
      * @test
@@ -534,15 +481,12 @@ class RaceEthnicityControllerTest extends TestCase
      */
     public function prevent_creating_a_duplicate_by_changing_race_ethnicity()
     {
-
         $faker = Faker\Factory::create();
 
         // get a random user
         $user = $this->getRandomUser('super-admin');
 
         $data = RaceEthnicity::get()->random()->toArray();
-
-
 
         // Create one that we can duplicate the name for, at this point we only have one race_ethnicity record
         $race_ethnicity_dup = [
@@ -552,29 +496,27 @@ class RaceEthnicityControllerTest extends TestCase
 
         $response = $this->actingAs($user)->post(route('race-ethnicity.store'), $race_ethnicity_dup);
 
-
         $data['name'] = $race_ethnicity_dup['name'];
 
         $totalNumberOfRaceEthnicitiesBefore = RaceEthnicity::count();
 
-        $response = $this->actingAs($user)->json('PATCH', 'race-ethnicity/' . $data['id'], $data);
+        $response = $this->actingAs($user)->json('PATCH', 'race-ethnicity/'.$data['id'], $data);
         $response->assertStatus(422);  // From web page we get a 422
 
         $errors = session('errors');
 
-        info(print_r($errors,true));
+        info(print_r($errors, true));
 
         $response
             ->assertStatus(422)
             ->assertJson([
-                'message' => 'The given data was invalid.'
+                'message' => 'The given data was invalid.',
             ]);
 
         $response->assertJsonValidationErrors(['name']);
 
         $totalNumberOfRaceEthnicitiesAfter = RaceEthnicity::count();
-        $this->assertEquals($totalNumberOfRaceEthnicitiesAfter, $totalNumberOfRaceEthnicitiesBefore, "the number of total race_ethnicity should be the same ");
-
+        $this->assertEquals($totalNumberOfRaceEthnicitiesAfter, $totalNumberOfRaceEthnicitiesBefore, 'the number of total race_ethnicity should be the same ');
     }
 
     /**
@@ -584,7 +526,6 @@ class RaceEthnicityControllerTest extends TestCase
      */
     public function allow_deleting_race_ethnicity()
     {
-
         $faker = Faker\Factory::create();
 
         // get a random user
@@ -592,14 +533,12 @@ class RaceEthnicityControllerTest extends TestCase
 
         $data = RaceEthnicity::get()->random()->toArray();
 
-
         $totalNumberOfRaceEthnicitiesBefore = RaceEthnicity::count();
 
-        $response = $this->actingAs($user)->json('DELETE', 'race-ethnicity/' . $data['id'], $data);
+        $response = $this->actingAs($user)->json('DELETE', 'race-ethnicity/'.$data['id'], $data);
 
         $totalNumberOfRaceEthnicitiesAfter = RaceEthnicity::count();
-        $this->assertEquals($totalNumberOfRaceEthnicitiesAfter, $totalNumberOfRaceEthnicitiesBefore - 1, "the number of total race_ethnicity should be the same ");
-
+        $this->assertEquals($totalNumberOfRaceEthnicitiesAfter, $totalNumberOfRaceEthnicitiesBefore - 1, 'the number of total race_ethnicity should be the same ');
     }
 
     /**
@@ -611,11 +550,10 @@ class RaceEthnicityControllerTest extends TestCase
      */
     public function getRandomUser($role = null, $guard = 'web')
     {
-
         if ($role) {
 
             // This should work but throws a 'Spatie\Permission\Exceptions\RoleDoesNotExist: There is no role named `super-admin`.
-            $role_id = Role::findByName($role,'web')->id;
+            $role_id = Role::findByName($role, 'web')->id;
 
             $sql = "SELECT model_id FROM model_has_roles WHERE model_type = 'App\\\User' AND role_id = $role_id ORDER BY RAND() LIMIT 1";
             $ret = DB::select($sql);
@@ -628,6 +566,4 @@ class RaceEthnicityControllerTest extends TestCase
 
         return $this->user;
     }
-
-
 }

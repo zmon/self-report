@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\PasswordStrengthRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use ZxcvbnPhp\Zxcvbn;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\PasswordStrengthRequest;
 
 class PasswordStrengthApi extends Controller
 {
@@ -25,9 +25,10 @@ class PasswordStrengthApi extends Controller
                 $request->password,
                 $request->password_user_inputs
             );
+
             return $strength['score'];
         }
-        return 0;
 
+        return 0;
     }
 }

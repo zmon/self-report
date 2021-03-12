@@ -7,21 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 
 trait RecordSignature
 {
-
-
     protected static function boot()
     {
         parent::boot();
 
         static::creating(function ($model) {
-            if(empty($model->created_by)) {
-            $model->fillable[] = 'created_by';
-            $user = Auth::User();
-            if ($user) {
-                $model->created_by = $user->id;
-            } else {
-                $model->created_by = -1;
-            }
+            if (empty($model->created_by)) {
+                $model->fillable[] = 'created_by';
+                $user = Auth::User();
+                if ($user) {
+                    $model->created_by = $user->id;
+                } else {
+                    $model->created_by = -1;
+                }
             }
         });
 
@@ -47,7 +45,5 @@ trait RecordSignature
 
             $model->save();
         });
-
     }
-
 }

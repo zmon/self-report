@@ -1,15 +1,11 @@
 <?php
 
-
 namespace App\Traits;
-
 
 use App\History;
 
-
 trait HistoryTrait
 {
-
     /**
      * Auditable boot logic.
      *
@@ -17,10 +13,8 @@ trait HistoryTrait
      */
     public static function bootHistoryTrait()
     {
-
-        $name = '\App\Observers' . substr(static::class, 3) . "Observer";
+        $name = '\App\Observers'.substr(static::class, 3).'Observer';
         static::observe(new $name());
-
     }
 
     public function histories()
@@ -30,11 +24,10 @@ trait HistoryTrait
 
     public function saveHistory($request, $action = 'updated')
     {
-
         $data = [
             'user_id' => auth()->user()->id ?? 1,
             //         'reason_for_change' => $request->reason_for_change ?? null,
-            'action' => $action
+            'action' => $action,
         ];
 
         /*
