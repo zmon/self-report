@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Traits\HistoryTrait;
 use App\Traits\RecordSignature;
 use Exception;
@@ -14,6 +15,8 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
+    use HasFactory;
+
     use HasApiTokens, Notifiable, HasRoles;
     use RecordSignature;
     use HistoryTrait;
