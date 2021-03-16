@@ -18,19 +18,15 @@ mix.webpackConfig({
         // Chunks in webpack
         publicPath: '/',
         chunkFilename: 'js/components/[name].js',
-    },
-});
+    }
+}).vue();
 
-
-mix.js('resources/js/app.js', 'public/js');
+mix.js('resources/js/app.js', 'public/js').vue();
 mix.sass('resources/sass/app.scss', 'public/css');
-
 mix.sass('resources/sass/crud-app.scss', 'public/css');
 mix.sass('resources/sass/main.scss', 'public/css');
-
-
-mix.copyDirectoryWatched('resources/img/**/*', 'public/img', { base: 'resources/img' });
-mix.copyDirectoryWatched('resources/css/**/*', 'public/css', { base: 'resources/css' });
+mix.copyDirectoryWatched('resources/img/**/*', 'public/img', {base: 'resources/img'});
+mix.copyDirectoryWatched('resources/css/**/*', 'public/css', {base: 'resources/css'});
 
 if (mix.inProduction()) {
     mix.version();

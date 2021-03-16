@@ -17,6 +17,12 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);  // https://laravel-news.com/laravel-5-4-key-too-long-error
 
+        /*
+         * The paginator now uses Tailwind for its default styling in Laravel
+         * The following changes it back to Bootstrap
+         */
+        \Illuminate\Pagination\Paginator::useBootstrap();
+
         /**
          * Validate ExistsInDatabase or 0/null
          * From: https://laracasts.com/discuss/channels/laravel/validator-ignoring-field-if-value-is-0-for-exists-rule
