@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Observers;
 
 use App\Symptom;
@@ -52,7 +51,6 @@ class SymptomObserver
 //            $model->purged_by = -1;
 //        }
 //        $model->save();
-
     }
 
     /**

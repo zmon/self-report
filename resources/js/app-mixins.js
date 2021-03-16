@@ -1,3 +1,6 @@
+
+import Vue from 'vue';
+
 // Custom js
 
 Vue.mixin({

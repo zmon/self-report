@@ -14,9 +14,9 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
-        'App\Console\Commands\SetInitialPermissions',
-        'App\Console\Commands\SetUserRoles',
-        'App\Console\Commands\ImportProduction',
+        \App\Console\Commands\SetInitialPermissions::class,
+        \App\Console\Commands\SetUserRoles::class,
+        \App\Console\Commands\ImportProduction::class,
     ];
 
     /**

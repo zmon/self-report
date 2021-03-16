@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\PasswordReset;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PasswordResetIndexRequest;
+use App\PasswordReset;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class PasswordResetApi extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +17,6 @@ class PasswordResetApi extends Controller
      */
     public function index(PasswordResetIndexRequest $request)
     {
-
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
         $column = $request->get('column', 'Name');
@@ -32,7 +29,7 @@ class PasswordResetApi extends Controller
             'password_reset_page' => $page,
             'password_reset_column' => $column,
             'password_reset_direction' => $direction,
-            'password_reset_keyword' => $keyword
+            'password_reset_keyword' => $keyword,
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
@@ -47,7 +44,6 @@ class PasswordResetApi extends Controller
      */
     public function getOptions()
     {
-
         return PasswordReset::getOptions(false, session('organization_id', 0));
     }
 

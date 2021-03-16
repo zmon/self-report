@@ -2,14 +2,13 @@
 
 namespace App\Exports;
 
-use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
 /**
  * Class SelfReportExport - Export to Excel Spreadsheet
- * @package App\Exports
  */
 class SelfReportExport implements FromQuery, WithHeadings, WithMapping
 {

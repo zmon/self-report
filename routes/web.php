@@ -19,7 +19,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-
 /**
  * Routes for the invite system
  * See https://laravel-news.com/user-invitation-system
@@ -30,10 +29,7 @@ Route::post('create_password', 'InviteController@createPassword')->name('create_
 Route::post('/password-strength', 'PasswordStrengthApi@calc');
 
 Route::group(['middleware' => 'auth'], function () {
-
-
     Route::get('/home', 'HomeController@index')->name('home');
-
 
     Route::group(['prefix' => 'history'], function () {
         Route::get('department/{department}', 'HistoryController@department');
@@ -68,7 +64,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/role/download', 'RoleController@download')->name('role.download');
     Route::get('/role/print', 'RoleController@print')->name('role.print');
     Route::resource('/role', 'RoleController');
-
 
     ///////////////////////////////////////////////////////////////////////////////
     // Application Routes

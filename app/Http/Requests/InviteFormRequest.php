@@ -19,7 +19,6 @@ class InviteFormRequest extends FormRequest
         } else {  // If not we must be adding one
             return Auth::user()->can('invite add');
         }
-
     }
 
     /**
@@ -29,13 +28,11 @@ class InviteFormRequest extends FormRequest
      */
     public function rules()
     {
-
         $id = $this->route('invite');
 
         $rules = [
             //  Ignore duplicate email if it is this record
             //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
-
 
             'id' => 'numeric',
             'organization_id' => 'required|numeric|exists_or_null:organizations,id',
@@ -50,13 +47,11 @@ class InviteFormRequest extends FormRequest
         $organization_id = session('organization_id', 0);
 
         if ($this->route('invite')) {  // If ID we must be changing an existing record
-            $rules['name'] = 'required|string|max:60|unique:invites,name,' . $id . ',id,organization_id,' . $organization_id;
+            $rules['name'] = 'required|string|max:60|unique:invites,name,'.$id.',id,organization_id,'.$organization_id;
         } else {  // If not we must be adding one
-            $rules['name'] = 'required|string|max:60|unique:invites,name,NULL,id,organization_id,' . $organization_id;
+            $rules['name'] = 'required|string|max:60|unique:invites,name,NULL,id,organization_id,'.$organization_id;
         }
 
         return $rules;
     }
 }
-
-

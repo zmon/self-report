@@ -2,31 +2,26 @@
 
 namespace App\Http\Controllers;
 
-
 use App;
+use App\Exports\PreexistingConditionExport;
 use App\Http\Middleware\TrimStrings;
+use App\Http\Requests\PreexistingConditionFormRequest;
+use App\Http\Requests\PreexistingConditionIndexRequest;
 use App\PreexistingCondition;
 use DateTime;
 use DateTimeZone;
 use Exception;
 use Illuminate\Http\Request;
-
-use App\Http\Requests\PreexistingConditionFormRequest;
-use App\Http\Requests\PreexistingConditionIndexRequest;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-
-use App\Exports\PreexistingConditionExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 //use PDF; // TCPDF, not currently in use
 
 class PreexistingConditionController extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -34,9 +29,9 @@ class PreexistingConditionController extends Controller
      */
     public function index(PreexistingConditionIndexRequest $request)
     {
-
-        if (!Auth::user()->can('preexisting_condition index')) {
+        if (! Auth::user()->can('preexisting_condition index')) {
             \Session::flash('flash_error_message', 'You do not have access to Preexisting Conditions.');
+
             return Redirect::route('home');
         }
 
@@ -54,7 +49,6 @@ class PreexistingConditionController extends Controller
         $can_pdf = Auth::user()->can('preexisting_condition pdf');
 
         return view('preexisting-condition.index', compact('page', 'column', 'direction', 'search', 'can_add', 'can_edit', 'can_delete', 'can_show', 'can_excel', 'can_pdf'));
-
     }
 
     /**
@@ -64,8 +58,7 @@ class PreexistingConditionController extends Controller
      */
     public function create()
     {
-
-        if (!Auth::user()->can('preexisting_condition add')) {  // TODO: add -> create
+        if (! Auth::user()->can('preexisting_condition add')) {  // TODO: add -> create
             \Session::flash('flash_error_message', 'You do not have access to add a Preexisting Conditions.');
             if (Auth::user()->can('preexisting_condition index')) {
                 return Redirect::route('preexisting-condition.index');
@@ -77,7 +70,6 @@ class PreexistingConditionController extends Controller
         return view('preexisting-condition.create');
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
@@ -86,35 +78,32 @@ class PreexistingConditionController extends Controller
      */
     public function store(PreexistingConditionFormRequest $request)
     {
-
         $preexisting_condition = new PreexistingCondition;
 
         try {
             $preexisting_condition->add($request->validated());
         } catch (Exception $e) {
             return response()->json([
-                'message' => 'Unable to process request'
+                'message' => 'Unable to process request',
             ], 400);
         }
 
-        \Session::flash('flash_success_message', 'Preexisting Conditions ' . $preexisting_condition->name . ' was added.');
+        \Session::flash('flash_success_message', 'Preexisting Conditions '.$preexisting_condition->name.' was added.');
 
         return response()->json([
-            'message' => 'Added record'
+            'message' => 'Added record',
         ], 200);
-
     }
 
     /**
      * Display the specified resource.
      *
-     * @param integer $id
+     * @param int $id
      * @return Response
      */
     public function show($id)
     {
-
-        if (!Auth::user()->can('preexisting_condition view')) {
+        if (! Auth::user()->can('preexisting_condition view')) {
             \Session::flash('flash_error_message', 'You do not have access to view a Preexisting Conditions.');
             if (Auth::user()->can('preexisting_condition index')) {
                 return Redirect::route('preexisting-condition.index');
@@ -126,9 +115,11 @@ class PreexistingConditionController extends Controller
         if ($preexisting_condition = $this->sanitizeAndFind($id)) {
             $can_edit = Auth::user()->can('preexisting_condition edit');
             $can_delete = (Auth::user()->can('preexisting_condition delete') && $preexisting_condition->canDelete());
+
             return view('preexisting-condition.show', compact('preexisting_condition', 'can_edit', 'can_delete'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Preexisting Conditions to display.');
+
             return Redirect::route('preexisting-condition.index');
         }
     }
@@ -136,12 +127,12 @@ class PreexistingConditionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param integer $id
+     * @param int $id
      * @return Response
      */
     public function edit($id)
     {
-        if (!Auth::user()->can('preexisting_condition edit')) {
+        if (! Auth::user()->can('preexisting_condition edit')) {
             \Session::flash('flash_error_message', 'You do not have access to edit a Preexisting Conditions.');
             if (Auth::user()->can('preexisting_condition index')) {
                 return Redirect::route('preexisting-condition.index');
@@ -154,9 +145,9 @@ class PreexistingConditionController extends Controller
             return view('preexisting-condition.edit', compact('preexisting_condition'));
         } else {
             \Session::flash('flash_error_message', 'Unable to find Preexisting Conditions to edit.');
+
             return Redirect::route('preexisting-condition.index');
         }
-
     }
 
     /**
@@ -177,32 +168,31 @@ class PreexistingConditionController extends Controller
 //            }
 //        }
 
-        if (!$preexisting_condition = $this->sanitizeAndFind($id)) {
+        if (! $preexisting_condition = $this->sanitizeAndFind($id)) {
             //     \Session::flash('flash_error_message', 'Unable to find Preexisting Conditions to edit.');
             return response()->json([
-                'message' => 'Not Found'
+                'message' => 'Not Found',
             ], 404);
         }
 
         $preexisting_condition->fill($request->all());
 
         if ($preexisting_condition->isDirty()) {
-
             try {
                 $preexisting_condition->save();
             } catch (Exception $e) {
                 return response()->json([
-                    'message' => 'Unable to process request'
+                    'message' => 'Unable to process request',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Preexisting Conditions ' . $preexisting_condition->name . ' was changed.');
+            \Session::flash('flash_success_message', 'Preexisting Conditions '.$preexisting_condition->name.' was changed.');
         } else {
             \Session::flash('flash_info_message', 'No changes were made.');
         }
 
         return response()->json([
-            'message' => 'Changed record'
+            'message' => 'Changed record',
         ], 200);
     }
 
@@ -213,8 +203,7 @@ class PreexistingConditionController extends Controller
      */
     public function destroy($id)
     {
-
-        if (!Auth::user()->can('preexisting_condition delete')) {
+        if (! Auth::user()->can('preexisting_condition delete')) {
             \Session::flash('flash_error_message', 'You do not have access to remove a Preexisting Conditions.');
             if (Auth::user()->can('preexisting_condition index')) {
                 return Redirect::route('preexisting-condition.index');
@@ -226,19 +215,17 @@ class PreexistingConditionController extends Controller
         $preexisting_condition = $this->sanitizeAndFind($id);
 
         if ($preexisting_condition && $preexisting_condition->canDelete()) {
-
             try {
                 $preexisting_condition->delete();
             } catch (Exception $e) {
                 return response()->json([
-                    'message' => 'Unable to process request.'
+                    'message' => 'Unable to process request.',
                 ], 400);
             }
 
-            \Session::flash('flash_success_message', 'Preexisting Conditions ' . $preexisting_condition->name . ' was removed.');
+            \Session::flash('flash_success_message', 'Preexisting Conditions '.$preexisting_condition->name.' was removed.');
         } else {
             \Session::flash('flash_error_message', 'Unable to find Preexisting Conditions to delete.');
-
         }
 
         if (Auth::user()->can('preexisting_condition index')) {
@@ -246,8 +233,6 @@ class PreexistingConditionController extends Controller
         } else {
             return Redirect::route('home');
         }
-
-
     }
 
     /**
@@ -261,11 +246,9 @@ class PreexistingConditionController extends Controller
         return PreexistingCondition::find(intval($id));
     }
 
-
     public function download()
     {
-
-        if (!Auth::user()->can('preexisting_condition excel')) {
+        if (! Auth::user()->can('preexisting_condition excel')) {
             \Session::flash('flash_error_message', 'You do not have access to download Preexisting Conditions.');
             if (Auth::user()->can('preexisting_condition index')) {
                 return Redirect::route('preexisting-condition.index');
@@ -283,7 +266,7 @@ class PreexistingConditionController extends Controller
 
         // #TODO wrap in a try/catch and display english message on failuer.
 
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
 
         $dataQuery = PreexistingCondition::exportDataQuery($column, $direction, $search);
         //dump($data->toArray());
@@ -293,13 +276,11 @@ class PreexistingConditionController extends Controller
         return Excel::download(
             new PreexistingConditionExport($dataQuery),
             'preexisting-condition.xlsx');
-
     }
-
 
     public function print()
     {
-        if (!Auth::user()->can('preexisting_condition export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
+        if (! Auth::user()->can('preexisting_condition export-pdf')) { // TODO: i think these permissions may need to be updated to match initial permissions?
             \Session::flash('flash_error_message', 'You do not have access to print Preexisting Conditions.');
             if (Auth::user()->can('preexisting_condition index')) {
                 return Redirect::route('preexisting-condition.index');
@@ -314,7 +295,7 @@ class PreexistingConditionController extends Controller
         $direction = session('preexisting_condition_direction', '-1');
         $column = $column ? $column : 'name';
 
-        info(__METHOD__ . ' line: ' . __LINE__ . " $column, $direction, $search");
+        info(__METHOD__.' line: '.__LINE__." $column, $direction, $search");
 
         // Get query data
         $columns = [
@@ -329,10 +310,11 @@ class PreexistingConditionController extends Controller
         // Begin DOMPDF/laravel-dompdf
         $pdf = App::make('dompdf.wrapper');
         $pdf->setPaper('a4', 'landscape');
-        $pdf->setOptions(['isPhpEnabled' => TRUE]);
+        $pdf->setOptions(['isPhpEnabled' => true]);
         $pdf->loadHTML($printHtml);
         $currentDate = new DateTime(null, new DateTimeZone('America/Chicago'));
-        return $pdf->stream('preexisting-condition-' . $currentDate->format('Ymd_Hi') . '.pdf');
+
+        return $pdf->stream('preexisting-condition-'.$currentDate->format('Ymd_Hi').'.pdf');
 
         /*
         ///////////////////////////////////////////////////////////////////////
@@ -361,5 +343,4 @@ class PreexistingConditionController extends Controller
         ///////////////////////////////////////////////////////////////////////
         */
     }
-
 }

@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Role;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RoleIndexRequest;
+use App\Role;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class RoleApi extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +17,6 @@ class RoleApi extends Controller
      */
     public function index(RoleIndexRequest $request)
     {
-
         $page = $request->get('page', '1');                // Pagination looks at the request
         //    so not quite sure if we need this
         $column = $request->get('column', 'Name');
@@ -32,7 +29,7 @@ class RoleApi extends Controller
             'role_page' => $page,
             'role_column' => $column,
             'role_direction' => $direction,
-            'role_keyword' => $keyword
+            'role_keyword' => $keyword,
         ]);
 
         $keyword = $keyword != 'null' ? $keyword : '';
@@ -47,7 +44,6 @@ class RoleApi extends Controller
      */
     public function getOptions()
     {
-
         return Role::getOptions(false, session('organization_id', 0));
     }
 

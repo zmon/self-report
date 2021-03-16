@@ -19,7 +19,6 @@ class UserFormRequest extends FormRequest
         } else {  // If not we must be adding one
             return Auth::user()->can('user add');
         }
-
     }
 
     /**
@@ -29,13 +28,11 @@ class UserFormRequest extends FormRequest
      */
     public function rules()
     {
-
         $id = $this->route('user');
 
         $rules = [
          //  Ignore duplicate email if it is this record
          //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
-
 
             'id' => 'numeric',
             'organization_id' => 'required|numeric|exists_or_null:organizations,id',
@@ -47,14 +44,12 @@ class UserFormRequest extends FormRequest
 
         ];
 
-                if ($this->route('user')) {  // If ID we must be changing an existing record
-                    $rules['name'] = 'required|min:3|nullable|string|max:255|unique:users,name,' . $id;
-                } else {  // If not we must be adding one
-                    $rules['name'] = 'required|min:3|nullable|string|max:255|unique:users';
-                }
+        if ($this->route('user')) {  // If ID we must be changing an existing record
+            $rules['name'] = 'required|min:3|nullable|string|max:255|unique:users,name,'.$id;
+        } else {  // If not we must be adding one
+            $rules['name'] = 'required|min:3|nullable|string|max:255|unique:users';
+        }
 
         return $rules;
     }
 }
-
-

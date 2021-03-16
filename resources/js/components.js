@@ -1,3 +1,6 @@
+
+import Vue from 'vue';
+
 /*
      SUPPORT FUNCTIONS
  */

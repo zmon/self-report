@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddActiveToUsers extends Migration
+class AddUuidToFailedJobsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddActiveToUsers extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->boolean('active')->default(true)->after('email');
+        Schema::table('failed_jobs', function (Blueprint $table) {
+            //
         });
     }
 
@@ -25,8 +25,8 @@ class AddActiveToUsers extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('active');
+        Schema::table('failed_jobs', function (Blueprint $table) {
+            //
         });
     }
 }

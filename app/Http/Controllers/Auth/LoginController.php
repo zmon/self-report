@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
-use App\Providers\RouteServiceProvider;
 
 class LoginController extends Controller
 {
@@ -65,9 +65,8 @@ class LoginController extends Controller
         }
 
         if ($this->attemptLogin($request)) {
-
-            if (!$this->guard()->user()->active) {
-                info($this->guard()->user()->email . " is not a active user, tried to login");
+            if (! $this->guard()->user()->active) {
+                info($this->guard()->user()->email.' is not a active user, tried to login');
 
                 $this->guard()->logout();
                 $request->session()->flush();
@@ -76,7 +75,6 @@ class LoginController extends Controller
 
                 return $this->sendFailedLoginResponse($request);
             }
-
 
             return $this->sendLoginResponse($request);
         }

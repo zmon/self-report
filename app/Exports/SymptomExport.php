@@ -2,14 +2,13 @@
 
 namespace App\Exports;
 
-use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
 /**
  * Class SymptomExport - Export to Excel Spreadsheet
- * @package App\Exports
  */
 class SymptomExport implements FromQuery, WithHeadings, WithMapping
 {

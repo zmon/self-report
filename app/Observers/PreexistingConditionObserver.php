@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Observers;
 
 use App\PreexistingCondition;
@@ -52,7 +51,6 @@ class PreexistingConditionObserver
 //            $model->purged_by = -1;
 //        }
 //        $model->save();
-
     }
 
     /**

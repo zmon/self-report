@@ -9,20 +9,15 @@
 namespace App\Lib;
 
 use App\User;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
-
 
 class InitialPermissions
 {
-    function __construct()
+    public function __construct()
     {
-
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
-
-
-
 
         Permission::findOrCreate('invite index');
         Permission::findOrCreate('invite view');
@@ -54,8 +49,6 @@ class InitialPermissions
         Permission::findOrCreate('race_ethnicity add');
         Permission::findOrCreate('race_ethnicity edit');
         Permission::findOrCreate('race_ethnicity delete');
-
-
 
         Permission::findOrCreate('self_report index');
         Permission::findOrCreate('self_report view');
@@ -89,9 +82,7 @@ class InitialPermissions
         Permission::findOrCreate('user_role edit');
         Permission::findOrCreate('user_role delete');
 
-
         Role::findOrCreate('super-admin');
-
 
         $role = Role::findOrCreate('Admin');
         $role->update(['can_assign' => true]);
@@ -147,7 +138,6 @@ class InitialPermissions
             'user_role export-pdf',
             'user_role export-excel',
 
-
         ]);
 
         $role = Role::findOrCreate('Health Athority');
@@ -161,11 +151,6 @@ class InitialPermissions
             'self_report export-pdf',
             'self_report export-excel',
 
-
-
         ]);
-
-
     }
 }
-

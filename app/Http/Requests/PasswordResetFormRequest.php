@@ -19,7 +19,6 @@ class PasswordResetFormRequest extends FormRequest
         } else {  // If not we must be adding one
             return Auth::user()->can('password_reset add');
         }
-
     }
 
     /**
@@ -29,22 +28,17 @@ class PasswordResetFormRequest extends FormRequest
      */
     public function rules()
     {
-
         $id = $this->route('password_reset');
 
         $rules = [
             //  Ignore duplicate email if it is this record
             //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
 
-
             'email' => 'nullable|string',
             'token' => 'nullable|string',
 
         ];
 
-
         return $rules;
     }
 }
-
-

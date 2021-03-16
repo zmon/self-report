@@ -19,7 +19,6 @@ class PreexistingConditionFormRequest extends FormRequest
         } else {  // If not we must be adding one
             return Auth::user()->can('preexisting_condition add');
         }
-
     }
 
     /**
@@ -29,20 +28,18 @@ class PreexistingConditionFormRequest extends FormRequest
      */
     public function rules()
     {
-
         $id = $this->route('preexisting_condition');
 
         $rules = [
             //  Ignore duplicate email if it is this record
             //   'email' => 'required|string|email|unique:invites,email,' . $id . '|unique:users|max:191',
 
-
             'id' => 'numeric',
 
         ];
 
         if ($this->route('preexisting_condition')) {  // If ID we must be changing an existing record
-            $rules['name'] = 'required|min:3|nullable|string|max:100|unique:preexisting_conditions,name,' . $id;
+            $rules['name'] = 'required|min:3|nullable|string|max:100|unique:preexisting_conditions,name,'.$id;
         } else {  // If not we must be adding one
             $rules['name'] = 'required|min:3|nullable|string|max:100|unique:preexisting_conditions';
         }
@@ -50,5 +47,3 @@ class PreexistingConditionFormRequest extends FormRequest
         return $rules;
     }
 }
-
-

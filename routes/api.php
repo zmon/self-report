@@ -21,5 +21,4 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/self-reports/{org}', 'API\SelfReportController@store')->name('self-reports.store');
 });
 
-
 //Route::apiResource('self-reports', 'API\SelfReportController');

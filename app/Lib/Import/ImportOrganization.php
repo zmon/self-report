@@ -1,28 +1,26 @@
 <?php
 
-
 namespace App\Lib\Import;
-use App\Lib\Import\GetDbColumns;
 
+use App\Lib\Import\GetDbColumns;
 use App\Organization;
 use DB;
 
-class ImportOrganization{
+class ImportOrganization
+{
+    public $fields = [
 
+            'id' => ['name' => 'id'],
+            'name' => ['name' => 'name'],
+            'alias' => ['name' => 'alias'],
+            'url_code' => ['name' => 'url_code'],
+            'contact_name' => ['name' => 'contact_name'],
+            'title' => ['name' => 'title'],
+            'phone_1' => ['name' => 'phone_1'],
+            'email' => ['name' => 'email'],
+            'notes' => ['name' => 'notes'],
+            'active' => ['name' => 'active'],
 
-    var $fields = [
-
-            "id" => ["name" => "id"],
-            "name" => ["name" => "name"],
-            "alias" => ["name" => "alias"],
-            "url_code" => ["name" => "url_code"],
-            "contact_name" => ["name" => "contact_name"],
-            "title" => ["name" => "title"],
-            "phone_1" => ["name" => "phone_1"],
-            "email" => ["name" => "email"],
-            "notes" => ["name" => "notes"],
-            "active" => ["name" => "active"],
-    
 //        "created_at" => ["name" => "created_at"],
 //        "created_by" => ["name" => "created_by"],
 //        "updated_at" => ["name" => "updated_at"],
@@ -30,34 +28,30 @@ class ImportOrganization{
 //        "purged_by" => ["name" => "purged_by"],
     ];
 
-    function import($database, $tablename)
+    public function import($database, $tablename)
     {
+        echo "Importing $tablename\n";
 
-        print "Importing $tablename\n";
-
-        $records = DB::connection($database)->select("select * from " . $tablename);
+        $records = DB::connection($database)->select('select * from '.$tablename);
 
         $count = 0;
-        foreach ($records AS $record) {
+        foreach ($records as $record) {
             //if ($count++ > 5) die;
 
             $new_rec = $this->clean($record);
 
             $Org = new Organization();
             $Org->add($new_rec);
-
         }
-
     }
 
-    function clean($record) {
+    public function clean($record)
+    {
         $data = [];
-        foreach ($this->fields AS $org_name => $field) {
+        foreach ($this->fields as $org_name => $field) {
             $data[$field['name']] = $record->$org_name;
         }
 
         return $data;
     }
-
 }
-

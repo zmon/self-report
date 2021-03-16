@@ -15,7 +15,7 @@ class CreateRaceEthnicitiesTable extends Migration
     {
         Schema::create('race_ethnicities', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 100)->default("")->unique();
+            $table->string('name', 100)->default('')->unique();
             $table->timestamps();
             $table->integer('created_by')->default(0);
             $table->integer('modified_by')->default(0);

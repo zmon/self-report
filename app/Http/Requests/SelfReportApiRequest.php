@@ -14,7 +14,6 @@ class SelfReportApiRequest extends FormRequest
      */
     public function authorize()
     {
-
         return true;
 
         if ($this->route('self_report')) {  // If ID we must be changing an existing record
@@ -22,7 +21,6 @@ class SelfReportApiRequest extends FormRequest
         } else {  // If not we must be adding one
             return Auth::user()->can('self_report add');
         }
-
     }
 
     /**
@@ -65,8 +63,7 @@ class SelfReportApiRequest extends FormRequest
             '_DataConnectionId' => 'nullable|string|max:20',
             '_CallCounter' => 'nullable|string|max:20',
         ];
+
         return $rules;
     }
 }
-
-

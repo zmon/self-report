@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class UpdateRoles extends Migration
 {
@@ -16,8 +16,6 @@ class UpdateRoles extends Migration
         Schema::table('roles', function (Blueprint $table) {
             $table->integer('can_assign')->default(0)->after('name');
         });
-
-
     }
 
     /**
