@@ -1,13 +1,13 @@
 
 import Vue from 'vue';
 
+
 /*
      SUPPORT FUNCTIONS
  */
 
-import VuePassword from "vue-password";
 // Password strength library
-Vue.component("VuePassword", () => import("vue-password"));
+Vue.component("vue-password", () => require('vue-password').default);
 
 
 /*

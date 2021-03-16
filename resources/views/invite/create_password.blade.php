@@ -11,6 +11,8 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item active" aria-current="location">Accept Invitation {{$invite->name}}</li>
     </ol>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+
 @endsection
 @section('content')
     <create-password-form csrf_token="{{ csrf_token() }}"

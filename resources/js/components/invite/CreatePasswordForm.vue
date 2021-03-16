@@ -35,7 +35,6 @@
                 <std-form-group label="Password" :errors="form_errors.password">
                     <vue-password
                         classes="form-control"
-                        :disable-toggle="false"
                         name="password"
                         style="width:20em;"
                         :score="score"
